@@ -57,7 +57,7 @@ class Player(object):
 
     def moveLeft(self):
         """Move the player left."""
-        if self.x > 0 and not self.leftCol:
+        if self.x > 0 and not(self.leftCol):
             self.x -= self.velocity
         self.right = False
         self.left = True
@@ -65,7 +65,7 @@ class Player(object):
 
     def moveRight(self, max):
         """Move the player right."""
-        if self.x + self.width < max and not self.rightCol:
+        if self.x + self.width < max and not(self.rightCol):
             self.x += self.velocity
         self.right = True
         self.left = False
@@ -99,19 +99,12 @@ class Player(object):
                     if not(self.floor):
                         self.y -= (self.jumpCount ** 2) * 0.5 * -1
                     else:  # reset stuff if hits floor
-<<<<<<< HEAD
-                        self.isJump = False
-                        self.jumpCount = self.gravity
-                else:  # going upwards
-                    self.y -= (self.jumpCount ** 2) * 0.5 * 1
-=======
                         self.resetJump()
                 else: ## going upwards
                     if not(self.topCol):
                         self.y -= (self.jumpCount ** 2) * 0.5 * 1
                     else:
                         self.resetJump()
->>>>>>> ed4aa95e8c3cef0b492dc009e163ca0c0531997b
                 self.jumpCount -= 0.5
             else:
                 self.resetJump()

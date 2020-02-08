@@ -46,7 +46,7 @@ pistol = Weapon("Pistol", 20, col.BLACK.value, 6, 1)
 big_gun = Weapon("Big gun", 4, col.RED.value, 3, 3)
 
 # create the player object
-plyr = Player(100, 150, 64, 64, pistol)
+plyr = Player(100, 150, 50, 50, pistol)
 
 # create list to contain all sprites
 sprites = []
@@ -115,13 +115,10 @@ def check_keys():
         plyr.moveLeft()
     elif keys[pg.K_RIGHT]:
         plyr.moveRight(DISPLAY_SIZE[0])
-<<<<<<< HEAD
-=======
     else:
         plyr.standing = True
     if keys[pg.K_UP] or plyr.isJump:
         plyr.jump()
->>>>>>> ed4aa95e8c3cef0b492dc009e163ca0c0531997b
 
     # When space bar is pressed, the bullet is fired based on direction of Player
     if keys[pg.K_SPACE]:
@@ -177,6 +174,7 @@ def check_floor(tiles):
             if ((plyr.x >= tile.x and plyr.x <= tile.x + tile.width) or
                     (plyr.x + plyr.width >= tile.x and plyr.x + plyr.width <= tile.x + tile.width)):
                 floor = True
+                plyr.y = tile.y - plyr.height
 
     plyr.setFloor(floor)
 
@@ -198,8 +196,8 @@ def check_right(tiles):
     collision = False
     for tile in tiles:
         if plyr.x + plyr.width >= tile.x and plyr.x + plyr.width <= tile.x + tile.width:
-            if ((plyr.y >= tile.y and plyr.y <= tile.y + tile.height) or
-                    (plyr.y + plyr.height - 7 >= tile.y and plyr.y + plyr.height - 7 <= tile.y + tile.height)):
+            if ((plyr.y >= tile.y  and plyr.y <= tile.y + tile.height) or
+                    (plyr.y + plyr.height-7 >= tile.y and plyr.y + plyr.height-7 <= tile.y + tile.height)):
                 collision = True
 
     plyr.setRightCol(collision)
@@ -211,7 +209,7 @@ def check_left(tiles):
     for tile in tiles:
         if plyr.x >= tile.x and plyr.x <= tile.x + tile.width:
             if ((plyr.y >= tile.y and plyr.y <= tile.y + tile.height) or
-                    (plyr.y + plyr.height - 7 >= tile.y and plyr.y + plyr.height - 7 <= tile.y + tile.height)):
+                    (plyr.y + plyr.height >= tile.y and plyr.y + plyr.height<= tile.y + tile.height)):
                 collision = True
 
     plyr.setLeftCol(collision)
