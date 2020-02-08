@@ -9,22 +9,22 @@ class Enemies(object):
         self.height = height
         self.path = [x, end]
         self.walkCount = 0
-        self.speed = 5
+        self.velocity = 2
 
     def move(self):
-        if self.speed > 0:
-            if self.x < self.path[1] + self.speed:
-                self.x += self.speed
+        if self.velocity > 0:
+            if self.x < self.path[1] + self.velocity:
+                self.x += self.velocity
             else:
-                self.speed = self.speed * -1
-                self.x += self.speed
+                self.velocity = self.velocity * -1
+                self.x += self.velocity
                 self.walkCount = 0
         else:
-            if self.x > self.path[0] - self.speed:
-                self.x += self.speed
+            if self.x > self.path[0] - self.velocity:
+                self.x += self.velocity
             else:
-                self.speed = self.speed * -1
-                self.x += self.speed
+                self.velocity = self.velocity * -1
+                self.x += self.velocity
                 self.walkCount = 0
 
     def draw(self, display):
@@ -32,7 +32,7 @@ class Enemies(object):
         if self.walkCount + 1 >= 33:
             self.walkCount = 0
 
-        if self.speed > 0:
+        if self.velocity > 0:
             display.blit(self.walkRight[self.walkCount // 3], (self.x, self.y))
             self.walkCount += 1
         else:
