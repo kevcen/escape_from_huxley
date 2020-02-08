@@ -12,9 +12,16 @@ class Player(object):
         self.width = width
         self.height = height
         self.weapon = weapon
-        # set player's speed
+
+        # set player defaults
         self.velocity = 4
         self.floor = False
+        self.isJump = False
+        self.gravity = 9
+        self.jumpCount = self.gravity
+        self.topCol = False
+        self.leftCol = False
+        self.rightCol = False
 
     def draw(self, display, image):
         """Draw the player."""
@@ -35,11 +42,41 @@ class Player(object):
             self.x += self.velocity
 
     def setFloor(self, floor):
-        """Set floor to true or false"""
+        """Set floor to true or false."""
         self.floor = floor
+
+    def setTopCol(self, col):
+        """Set topCol."""
+        self.topCol = col
+
+    def setRightCol(self, col):
+        """Set rightCol."""
+        self.rightCol = col
+
+    def setLeftCol(self, col):
+        """Set leftCol."""
+        self.leftCol = col
 
     def fall(self, max, gravity):
         """Make the player fall."""
         if not self.floor:
-            if self.y + self.height < max:
-                self.y += gravity
+            self.y += 10
+
+    def jump(self):
+        if self.isJump:
+            if self.jumpCount >= -self.gravity:
+                if self.jumpCount < 0:  # going downwards
+                    if not(self.floor):
+                        self.y -= (self.jumpCount ** 2) * 0.5 * -1
+                    else:  # reset stuff if hits floor
+                        self.isJump = False
+                        self.jumpCount = self.gravity
+                else: ## going upwards
+                    self.y -= (self.jumpCount ** 2) * 0.5 * 1
+                self.jumpCount -= 0.5
+            else:
+                self.isJump = False
+                self.jumpCount = self.gravity
+        else:
+            self.isJump = True
+            # right, left walkcount sets
