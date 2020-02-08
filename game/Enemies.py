@@ -1,12 +1,24 @@
+import pygame as pg
+
 class Enemies(object):
-    walkRight = ['pygame.image.load('')']
-    walkLeft = ['pygame.image.load('')']
 
     def __init__(self, x, y, width, height, end):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
+        self.walkLeft = [pg.transform.scale(pg.image.load('images/Enemy_LeftJump1.png'), (self.width, self.height)),
+                          pg.transform.scale(pg.image.load('images/Enemy_LeftJump2.png'), (self.width, self.height)),
+                          pg.transform.scale(pg.image.load('images/Enemy_LeftStand1.png'), (self.width, self.height)),
+                          pg.transform.scale(pg.image.load('images/Enemy_LeftStand2.png'), (self.width, self.height)),
+                          pg.transform.scale(pg.image.load('images/Enemy_LeftWalk1.png'), (self.width, self.height)),
+                          pg.transform.scale(pg.image.load('images/Enemy_LeftWalk2.png'), (self.width, self.height))]
+        self.walkRight = [pg.transform.scale(pg.image.load('images/Enemy_RightJump1.png'), (self.width, self.height)),
+                          pg.transform.scale(pg.image.load('images/Enemy_RightJump2.png'), (self.width, self.height)),
+                          pg.transform.scale(pg.image.load('images/Enemy_RightStand1.png'), (self.width, self.height)),
+                          pg.transform.scale(pg.image.load('images/Enemy_RightStand2.png'), (self.width, self.height)),
+                          pg.transform.scale(pg.image.load('images/Enemy_RightWalk1.png'), (self.width, self.height)),
+                          pg.transform.scale(pg.image.load('images/Enemy_RightWalk2.png'), (self.width, self.height))]
         self.path = [x, end]
         self.walkCount = 0
         self.velocity = 2
