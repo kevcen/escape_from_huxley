@@ -21,7 +21,7 @@ pg.display.set_caption("ESCAPE FROM HUXLEY")
 clock = pg.time.Clock()
 
 # create the player object
-plyr = Player(100, 100, 50, 20)
+plyr = Player(100, 100, 20, 50)
 
 # create list to contain all sprites
 sprites = []
@@ -31,7 +31,7 @@ sprites = []
 # load player image
 player_image = pg.image.load("images/player.png").convert()
 # transform players size
-player_image = pg.transform.scale(player_image, (plyr.height, plyr.width))
+player_image = pg.transform.scale(player_image, (plyr.width, plyr.height))
 # set the pixels behind the player to white.
 player_image.set_colorkey((255, 255, 255))
 
@@ -107,16 +107,15 @@ def draw_tiles():
             x += 1
         y += 1
     pg.display.update()
-    # check_collisions(tiles)
+    check_collisions(tiles)
 
 
 def check_collisions(rects):
     """Check for collisions between sprites."""
     player_rect = pg.Rect(plyr.x, plyr.y, plyr.width, plyr.height)
-    # for rect in rects:
-    #    if player_rect.colliderect(rect):
-
-    # add collision checking logic here
+    for rect in rects:
+        if player_rect.colliderect(rect):
+            plyr.setFloor(True)
 
 
 run = True

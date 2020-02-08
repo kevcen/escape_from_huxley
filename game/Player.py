@@ -34,7 +34,12 @@ class Player(object):
         if self.x + self.width < max:
             self.x += self.velocity
 
+    def setFloor(self, floor):
+        """Set floor to true or false"""
+        self.floor = floor
+
     def fall(self, max, gravity):
         """Make the player fall."""
-        if self.y + self.height < max:
-            self.y += gravity
+        if not self.floor:
+            if self.y + self.height < max:
+                self.y += gravity
