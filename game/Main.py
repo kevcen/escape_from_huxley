@@ -98,7 +98,7 @@ for bullet in bullets:
 
 #When space bar is pressed, the bullet is fired based on direction of Player
 if keys[pygame.K_SPACE]:
-    if man.left:
+    if plyr.left:
         facing = -1
     else:
         facing = 1
@@ -108,10 +108,10 @@ if keys[pygame.K_SPACE]:
 
 #to draw the bullets
 def redrawGameWindow():
-    win.blit(bg, (0,0))
-    man.draw(win)
+    display.blit(bg, (0,0))
+    plyr.draw(display)
     for bullet in bullets:
-        bullet.draw(win)
+        bullet.draw(display)
 
     pygame.display.update()
 #---------------------------------------------------
