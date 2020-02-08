@@ -22,8 +22,8 @@ class Player(object):
         self.topCol = False
         self.leftCol = False
         self.rightCol = False
-        self.walkRight = [pg.transform.scale(pg.image.load('images/mainAvatar_Right1.png'), (self.width, self.height)),pg.transform.scale(pg.image.load('images/mainAvatar_Right2.png'), (self.width, self.height))]
-        self.walkLeft = [pg.transform.scale(pg.image.load('images/mainAvatar_Left1.png'), (self.width, self.height)),pg.transform.scale(pg.image.load('images/mainAvatar_Left2.png'), (self.width, self.height))]
+        self.walkRight = [pg.transform.scale(pg.image.load('images/mainAvatar_Right1.png'), (self.width, self.height)),pg.transform.scale(pg.image.load('images/mainAvatar_RightJump1.png'),(self.width, self.height)), pg.transform.scale(pg.image.load('images/mainAvatar_Right2.png'), (self.width, self.height)) ,pg.transform.scale(pg.image.load('images/mainAvatar_RightJump2.png'), (self.width, self.height))]
+        self.walkLeft = [pg.transform.scale(pg.image.load('images/mainAvatar_Left1.png'), (self.width, self.height)),pg.transform.scale(pg.image.load('images/mainAvatar_LeftJump1.png'), (self.width, self.height)),pg.transform.scale(pg.image.load('images/mainAvatar_Left2.png'), (self.width, self.height)),pg.transform.scale(pg.image.load('images/mainAvatar_LeftJump1.png'),(self.width, self.height))]
         self.walkCount = 0
         self.left = False
         self.right = False
@@ -33,22 +33,22 @@ class Player(object):
 
     def draw(self, display):
         """Draw the player."""
-        if self.walkCount + 1 >= 10:
+        if self.walkCount + 1 >= 40:
             self.walkCount = 0
 
         if not(self.standing):
             if self.left:
-                display.blit(self.walkLeft[self.walkCount//5], (self.x, self.y))
+                display.blit(self.walkLeft[self.walkCount//10], (self.x, self.y))
                 self.walkCount += 1
             elif self.right:
-                display.blit(self.walkRight[self.walkCount//5], (self.x, self.y))
+                display.blit(self.walkRight[self.walkCount//10], (self.x, self.y))
                 self.walkCount += 1
 
         else:
             if self.right:
-                display.blit(self.walkRight[self.walkCount//5], (self.x, self.y))
+                display.blit(self.walkRight[0], (self.x, self.y))
             else:
-                display.blit(self.walkLeft[self.walkCount//5], (self.x, self.y))
+                display.blit(self.walkLeft[0], (self.x, self.y))
 
 
     def setVelocity(self, velocity):

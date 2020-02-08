@@ -112,8 +112,10 @@ def check_keys():
 
     if keys[pg.K_LEFT]:
         plyr.moveLeft()
-    if keys[pg.K_RIGHT]:
+    elif keys[pg.K_RIGHT]:
         plyr.moveRight(DISPLAY_SIZE[0])
+    else:
+        plyr.standing = True
     if keys[pg.K_UP] or plyr.isJump:
         plyr.jump()
 
