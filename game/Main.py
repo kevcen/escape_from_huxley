@@ -155,20 +155,44 @@ def draw_tiles():
         y += 1
 
     check_floor(tiles)
+    check_top(tiles)
+    check_right(tiles)
+    check_left(tiles)
     pg.display.update()
 
 
 def check_floor(tiles):
-    """Check for collisions between sprites."""
+    """Check if the player is standing on the floor."""
     floor = False
     for tile in tiles:
         if plyr.y + plyr.height >= tile.y and plyr.y + plyr.height <= tile.y + tile.height:
             if ((plyr.x >= tile.x and plyr.x <= tile.x + tile.width) or
                     (plyr.x + plyr.width >= tile.x and plyr.x + plyr.width <= tile.x + tile.width)):
-
                 floor = True
 
     plyr.setFloor(floor)
+
+
+def check_top(tiles):
+    """Check if top of player is hitting tile."""
+    collision = False
+    for tile in tiles:
+        if plyr.y + plyr.height <= tile.y and plyr.y + plyr.height >= tile.y + tile.height:
+            if ((plyr.x >= tile.x and plyr.x <= tile.x + tile.width) or
+                    (plyr.x + plyr.width >= tile.x and plyr.x + plyr.width <= tile.x + tile.width)):
+                collision = True
+
+    plyr.setTopCol(collision)
+
+
+def check_right(tiles):
+    """Check if right of player is hitting tile."""
+    pass
+
+
+def check_left(tiles):
+    """Check if left of player is hitting tile."""
+    pass
 
 
 def move_bullets():

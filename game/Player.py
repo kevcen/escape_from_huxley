@@ -12,9 +12,13 @@ class Player(object):
         self.width = width
         self.height = height
         self.weapon = weapon
-        # set player's speed
+
+        # set player defaults
         self.velocity = 4
         self.floor = False
+        self.topCol = False
+        self.leftCol = False
+        self.rightCol = False
 
     def draw(self, display, image):
         """Draw the player."""
@@ -35,8 +39,20 @@ class Player(object):
             self.x += self.velocity
 
     def setFloor(self, floor):
-        """Set floor to true or false"""
+        """Set floor to true or false."""
         self.floor = floor
+
+    def setTopCol(self, col):
+        """Set topCol."""
+        self.topCol = col
+
+    def setRightCol(self, col):
+        """Set rightCol."""
+        self.rightCol = col
+
+    def setLeftCol(self, col):
+        """Set leftCol."""
+        self.leftCol = col
 
     def fall(self, max, gravity):
         """Make the player fall."""
