@@ -2,7 +2,7 @@
 import pygame as pg
 from Colours import col
 from Player import Player
-from Projectile import Projectile
+# from Projectile import Projectile
 
 # initialise pygame
 pg.init()
@@ -86,25 +86,8 @@ def draw_sprites():
     draw_tiles()
     for sprite in sprites:
         sprite.draw(display)
-    # Update the display
+        # Update the display
     pg.display.update()
-
-
-# in while loop
-for bullet in bullets:
-    if bullet.x < 500 and bullet.x > 0:
-        bullet.x += bullet.vel  # Moves the bullet by its vel
-    else:
-        bullets.pop(bullets.index(bullet))
-
-
-def redrawGameWindow():
-    display.blit(bg, (0, 0))
-    plyr.draw(display)
-    for bullet in bullets:
-        bullet.draw(display)
-
-    pygame.display.update()
 
 
 def check_keys():
@@ -116,14 +99,16 @@ def check_keys():
     if keys[pg.K_RIGHT]:
         plyr.moveRight(DISPLAY_SIZE[0])
 
-    # When space bar is pressed, the bullet is fired based on direction of Player
-    if keys[pg.K_SPACE]:
-        facing = 1
+    # # When space bar is pressed, the bullet is fired based on direction of Player
+    # if keys[pg.K_SPACE]:
+    #     facing = 1
+    #
+    #     if len(bullets) < 5:  # This will make sure we cannot exceed 5 bullets on the screen at once
+    #         bullets.append(
+    #             Projectile(round(plyr.x + plyr.width // 2), round(plyr.y + plyr.height // 2), round(plyr.weapon[0]), plyr.weapon[1],
+    #                        plyr.weapon[2], plyr.weapon[3], facing))
 
-        if len(bullets) < 5:  # This will make sure we cannot exceed 5 bullets on the screen at once
-            bullets.append(
-                Projectile(round(plyr.x + plyr.width // 2), round(plyr.y + plyr.height // 2), plyr.weapon[0], plyr.weapon[1],
-                           plyr.weapon[2], plyr.weapon[3], facing))
+        # sprites.extend(bullets)
 
 
 def draw_tiles():
@@ -153,13 +138,13 @@ def check_collisions(rects):
             plyr.setFloor(True)
 
 
-def move_bullets():
-    global bullets
-    for bullet in bullets:
-        if bullet.x < 500 and bullet.x > 0:
-            bullet.x += bullet.vel  # Moves the bullet by its vel
-        else:
-            bullets.pop(bullets.index(bullet))
+# def move_bullets():
+#     global bullets
+#     for bullet in bullets:
+#         if bullet.x < 500 and bullet.x > 0:
+#             bullet.x += bullet.vel  # Moves the bullet by its vel
+#         else:
+#             bullets.pop(bullets.index(bullet))
 
 
 run = True
@@ -175,7 +160,7 @@ while run:
     check_keys()
 
     # moves bullets
-    move_bullets()
+    # move_bullets()
 
     # code to exit the window.
     for event in pg.event.get():
