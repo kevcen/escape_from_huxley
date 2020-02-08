@@ -105,7 +105,8 @@ if keys[pygame.K_SPACE]:
         facing = 1
 
     if len(bullets) < 5:  # This will make sure we cannot exceed 5 bullets on the screen at once
-        bullets.append(Projectile(round(man.x+man.width//2), round(man.y + man.height//2), man.weapon[0], man.weapon[1], man.weapon[2], man.weapon[3], facing))
+        bullets.append(Projectile(round(plyr.x+plyr.width//2), round(plyr.y + plyr.height//2), plyr.weapon[0], plyr.weapon[1], plyr.weapon[2], plyr
+                                  .weapon[3], facing))
 
 #to draw the bullets
 def redrawGameWindow():
