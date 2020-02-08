@@ -41,5 +41,4 @@ class Player(object):
     def fall(self, max, gravity):
         """Make the player fall."""
         if not self.floor:
-            if self.y + self.height < max:
-                self.y += gravity
+            self.y += 10

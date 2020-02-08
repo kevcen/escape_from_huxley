@@ -2,6 +2,7 @@
 import pygame as pg
 from Colours import col
 from Player import Player
+from Tile import Tile
 # from Projectile import Projectile
 
 # initialise pygame
@@ -21,6 +22,9 @@ pg.display.set_caption("ESCAPE FROM HUXLEY")
 # create a clock object to control FPS.
 clock = pg.time.Clock()
 
+# set a value to scroll the screen by
+SCROLL = [0, 0]
+
 # Code for bullets
 bullets = []
 # Define weapon, [radius,color,vel,damage]
@@ -28,9 +32,8 @@ pistol = (2, (125, 125, 0), 6, 1)
 # maybe change how often you can shoot, but this requires more code
 bigGun = (4, (255, 0, 0), 3, 3)
 
-
 # create the player object
-plyr = Player(100, 100, 20, 50, pistol)
+plyr = Player(100, 150, 20, 50, pistol)
 
 # create list to contain all sprites
 sprites = []
@@ -50,32 +53,13 @@ grass = pg.image.load("images/grass.png")
 grass = pg.transform.scale(dirt, (TILE_SIZE, TILE_SIZE))
 
 # array to represent tiles.
-game_map = [['0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
-             '0', '0', '0', '0', '0', '0', '0', '0', '0'],
-            ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
-                '0', '0', '0', '0', '0', '0', '0', '0', '0'],
-            ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
-                '0', '0', '0', '0', '0', '0', '0', '0', '0'],
-            ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
-                '0', '0', '0', '0', '0', '0', '0', '0', '0'],
-            ['0', '0', '0', '0', '0', '0', '0', '2', '2', '2',
-                '2', '2', '0', '0', '0', '0', '0', '0', '0'],
-            ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
-                '0', '0', '0', '0', '0', '0', '0', '0', '0'],
-            ['2', '2', '0', '0', '0', '0', '0', '0', '0', '0',
-                '0', '0', '0', '0', '0', '0', '0', '2', '2'],
-            ['1', '1', '2', '2', '2', '2', '2', '2', '2', '2',
-                '2', '2', '2', '2', '2', '2', '2', '1', '1'],
-            ['1', '1', '1', '1', '1', '1', '1', '1', '1', '1',
-                '1', '1', '1', '1', '1', '1', '1', '1', '1'],
-            ['1', '1', '1', '1', '1', '1', '1', '1', '1', '1',
-                '1', '1', '1', '1', '1', '1', '1', '1', '1'],
-            ['1', '1', '1', '1', '1', '1', '1', '1', '1', '1',
-                '1', '1', '1', '1', '1', '1', '1', '1', '1'],
-            ['1', '1', '1', '1', '1', '1', '1', '1', '1', '1',
-                '1', '1', '1', '1', '1', '1', '1', '1', '1'],
-            ['1', '1', '1', '1', '1', '1', '1', '1', '1', '1',
-                '1', '1', '1', '1', '1', '1', '1', '1', '1']]
+with open("game/Map.txt", "r") as f:
+    mapData = f.read()
+
+mapData = mapData.split("\n")
+map = []
+for row in mapData:
+    map.append(list(row))
 
 
 def draw_sprites():
@@ -113,29 +97,38 @@ def check_keys():
 
 def draw_tiles():
     """Code to draw the tiles."""
+    SCROLL[0] += (plyr.x - SCROLL[0])
+
     tiles = []
     y = 0
-    for layer in game_map:
+    for layer in map:
         x = 0
         for tile in layer:
             if tile == '1':
-                display.blit(dirt, (x*TILE_SIZE, y*TILE_SIZE))
+                display.blit(dirt, (x*TILE_SIZE - SCROLL[0], y*TILE_SIZE - SCROLL[1]))
             if tile == '2':
-                display.blit(grass, (x*TILE_SIZE, y*TILE_SIZE))
+                display.blit(grass, (x*TILE_SIZE - SCROLL[0], y*TILE_SIZE - SCROLL[1]))
             if tile != '0':
-                tiles.append(pg.Rect(x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE))
+                tiles.append(
+                    Tile(x*TILE_SIZE - SCROLL[0], y*TILE_SIZE - SCROLL[1], TILE_SIZE, TILE_SIZE))
             x += 1
         y += 1
+
+    check_floor(tiles)
     pg.display.update()
-    check_collisions(tiles)
 
 
-def check_collisions(rects):
+def check_floor(tiles):
     """Check for collisions between sprites."""
-    player_rect = pg.Rect(plyr.x, plyr.y, plyr.width, plyr.height)
-    for rect in rects:
-        if player_rect.colliderect(rect):
-            plyr.setFloor(True)
+    floor = False
+    for tile in tiles:
+        if plyr.y + plyr.height >= tile.y and plyr.y + plyr.height <= tile.y + tile.height:
+            if ((plyr.x >= tile.x and plyr.x <= tile.x + tile.width) or
+                    (plyr.x + plyr.width >= tile.x and plyr.x + plyr.width <= tile.x + tile.width)):
+
+                floor = True
+
+    plyr.setFloor(floor)
 
 
 # def move_bullets():
