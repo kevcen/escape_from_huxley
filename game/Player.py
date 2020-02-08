@@ -17,7 +17,7 @@ class Player(object):
         self.velocity = 4
         self.floor = False
         self.isJump = False
-        self.gravity = 10
+        self.gravity = 9
         self.jumpCount = self.gravity
         self.topCol = False
         self.leftCol = False
@@ -71,13 +71,13 @@ class Player(object):
                         self.y -= (self.jumpCount ** 2) * 0.5 * -1
                     else:  # reset stuff if hits floor
                         self.isJump = False
-                        self.jumpCount = 10
-                else:  # going upwards
+                        self.jumpCount = self.gravity
+                else: ## going upwards
                     self.y -= (self.jumpCount ** 2) * 0.5 * 1
-                self.jumpCount -= 1
+                self.jumpCount -= 0.5
             else:
                 self.isJump = False
-                self.jumpCount = 10
+                self.jumpCount = self.gravity
         else:
             self.isJump = True
             # right, left walkcount sets
