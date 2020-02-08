@@ -16,6 +16,9 @@ class Player(object):
         # set player defaults
         self.velocity = 4
         self.floor = False
+        self.isJump = False
+        self.gravity = 10
+        self.jumpCount = self.gravity
         self.topCol = False
         self.leftCol = False
         self.rightCol = False
@@ -58,3 +61,22 @@ class Player(object):
         """Make the player fall."""
         if not self.floor:
             self.y += 10
+
+    def jump(self):
+        if self.isJump:
+            if self.jumpCount >= -self.gravity:
+                if self.jumpCount < 0:  # going downwards
+                    if not(self.floor):
+                        self.y -= (self.jumpCount ** 2) * 0.5 * -1
+                    else:  # reset stuff if hits floor
+                        self.isJump = False
+                        self.jumpCount = 10
+                else:  # going upwards
+                    self.y -= (self.jumpCount ** 2) * 0.5 * 1
+                self.jumpCount -= 1
+            else:
+                self.isJump = False
+                self.jumpCount = 10
+        else:
+            self.isJump = True
+            # right, left walkcount sets
