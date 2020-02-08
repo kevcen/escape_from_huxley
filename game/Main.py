@@ -95,6 +95,7 @@ def draw_sprites():
 
 
 def check_keys():
+    """Check for key presses."""
     # one bullet at a time:
     global bullet_lag
     global weapons_lag
@@ -107,15 +108,13 @@ def check_keys():
         bullet_lag += 1
     if bullet_lag == 10:
         bullet_lag = 0
-    """Check for key presses."""
+
     keys = pg.key.get_pressed()
 
     if keys[pg.K_LEFT]:
         plyr.moveLeft()
     if keys[pg.K_RIGHT]:
         plyr.moveRight(DISPLAY_SIZE[0])
-    if keys[pg.K_UP] or plyr.isJump:
-        plyr.jump()
 
     # When space bar is pressed, the bullet is fired based on direction of Player
     if keys[pg.K_SPACE]:
@@ -171,7 +170,6 @@ def check_floor(tiles):
             if ((plyr.x >= tile.x and plyr.x <= tile.x + tile.width) or
                     (plyr.x + plyr.width >= tile.x and plyr.x + plyr.width <= tile.x + tile.width)):
                 floor = True
-                plyr.y = tile.y - plyr.height #plyr hitbox height
 
     plyr.setFloor(floor)
 
@@ -190,12 +188,26 @@ def check_top(tiles):
 
 def check_right(tiles):
     """Check if right of player is hitting tile."""
-    pass
+    collision = False
+    for tile in tiles:
+        if plyr.x + plyr.width >= tile.x and plyr.x + plyr.width <= tile.x + tile.width:
+            if ((plyr.y >= tile.y and plyr.y <= tile.y + tile.height) or
+                    (plyr.y + plyr.height - 7 >= tile.y and plyr.y + plyr.height - 7 <= tile.y + tile.height)):
+                collision = True
+
+    plyr.setRightCol(collision)
 
 
 def check_left(tiles):
     """Check if left of player is hitting tile."""
-    pass
+    collision = False
+    for tile in tiles:
+        if plyr.x >= tile.x and plyr.x <= tile.x + tile.width:
+            if ((plyr.y >= tile.y and plyr.y <= tile.y + tile.height) or
+                    (plyr.y + plyr.height - 7 >= tile.y and plyr.y + plyr.height - 7 <= tile.y + tile.height)):
+                collision = True
+
+    plyr.setLeftCol(collision)
 
 
 def move_bullets():

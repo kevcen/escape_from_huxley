@@ -33,12 +33,12 @@ class Player(object):
 
     def moveLeft(self):
         """Move the player left."""
-        if self.x > 0:
+        if self.x > 0 and not self.leftCol:
             self.x -= self.velocity
 
     def moveRight(self, max):
         """Move the player right."""
-        if self.x + self.width < max:
+        if self.x + self.width < max and not self.rightCol:
             self.x += self.velocity
 
     def setFloor(self, floor):
@@ -51,6 +51,7 @@ class Player(object):
 
     def setRightCol(self, col):
         """Set rightCol."""
+
         self.rightCol = col
 
     def setLeftCol(self, col):
