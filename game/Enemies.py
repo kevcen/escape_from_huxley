@@ -10,6 +10,8 @@ class Enemies(object):
         self.path = [x, end]
         self.walkCount = 0
         self.velocity = 2
+        self.health = 5
+        self.visible = True
 
     def move(self):
         if self.velocity > 0:
@@ -38,3 +40,11 @@ class Enemies(object):
         else:
             display.blit(self.walkLeft[self.walkCount // 3], (self.x, self.y))
             self.walkCount += 1
+
+
+    def hit(self):
+        if self.health > 0:
+            self.health -= 1  # to do big weapon
+        else:
+            self.visible = False
+        print('hit')
