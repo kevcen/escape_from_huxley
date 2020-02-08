@@ -9,7 +9,7 @@ class Projectile(object):
         self.color = color
         self.damage = damage
         self.facing = facing
-        self.vel = vel
+        self.vel = vel * facing
 
     def draw(self, display):
         pg.draw.circle(display,

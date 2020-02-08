@@ -124,7 +124,10 @@ def check_keys():
     if keys[pg.K_SPACE]:
         if bullet_lag == 0:
             bullet_lag += 1
-            facing = 1
+            if plyr.left:
+                facing = -1
+            else:
+                facing = 1
 
             if len(bullets) < 5:  # This will make sure we cannot exceed 5 bullets on the screen at once
                 bullets.append(
@@ -185,7 +188,7 @@ def check_top(tiles):
     for tile in tiles:
         if plyr.y >= tile.y and plyr.y <= tile.y + tile.height:
             if ((plyr.x >= tile.x and plyr.x <= tile.x + tile.width) or
-                    (plyr.x + plyr.width >= tile.x and plyr.x + plyr.width <= tile.x + tile.width)):
+                    (plyr.x + plyr.width + 7 >= tile.x and plyr.x + plyr.width + 7 <= tile.x + tile.width)):
                 collision = True
 
     plyr.setTopCol(collision)
@@ -218,7 +221,7 @@ def check_left(tiles):
 def move_bullets():
     global bullets
     for bullet in bullets:
-        if bullet.x < 500 and bullet.x > 0:
+        if bullet.x < 700 and bullet.x > 0:
             bullet.x += bullet.vel  # Moves the bullet by its vel
         else:
             bullets.pop(bullets.index(bullet))
