@@ -5,6 +5,7 @@ from Player import Player
 from Tile import Tile
 from Weapons import Weapon
 from Projectile import Projectile
+from Enemies import Enemies
 
 # initialise pygame
 pg.init()
@@ -47,6 +48,9 @@ big_gun = Weapon("Big gun", 4, col.RED.value, 3, 3)
 
 # create the player object
 plyr = Player(100, 150, 50, 50, pistol)
+
+# create the enemy object
+enemy = Enemies(200, 150, 50, 70, 400)
 
 # create list to contain all sprites
 sprites = []
