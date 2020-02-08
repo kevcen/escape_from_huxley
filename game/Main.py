@@ -3,7 +3,7 @@ import pygame as pg
 from Colours import col
 from Player import Player
 from Tile import Tile
-from Weapons import Weapon
+from Weapons import *
 from Projectile import Projectile
 from Enemies import Enemies
 
@@ -42,12 +42,12 @@ SCROLL = [0, 0]
 # Code for bullets
 bullets = []
 # Define weapon, [radius,color,vel,damage]
-pistol = Weapon("Pistol", 20, col.BLACK.value, 6, 1)
+haskell_gun = Weapon("Haskell", weapon_type.HASKELL, 8, 1)
 # maybe change how often you can shoot, but this requires more code
-big_gun = Weapon("Big gun", 4, col.RED.value, 3, 3)
+sql_gun = None #Weapon("Big gun", 4, col.RED.value, 3, 3)
 
 # create the player object
-plyr = Player(100, 150, 50, 50, pistol)
+plyr = Player(100, 150, 50, 50, haskell_gun)
 
 # create the enemy object
 enemy = Enemies(200, 150, 50, 70, 400)
@@ -135,8 +135,7 @@ def check_keys():
 
             if len(bullets) < 5:  # This will make sure we cannot exceed 5 bullets on the screen at once
                 bullets.append(
-                    Projectile(round(plyr.x + plyr.width // 2), round(plyr.y + plyr.height // 2), plyr.weapon.radius, plyr.weapon.color,
-                               plyr.weapon.vel, plyr.weapon.damage, facing))
+                    Projectile(round(plyr.x + plyr.width // 2), round(plyr.y + plyr.height // 2), plyr.weapon.type, plyr.weapon.vel, plyr.weapon.damage, facing))
 
     if keys[pg.K_q]:
         if weapons_lag == 0:
