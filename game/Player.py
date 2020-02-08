@@ -99,19 +99,12 @@ class Player(object):
                     if not(self.floor):
                         self.y -= (self.jumpCount ** 2) * 0.5 * -1
                     else:  # reset stuff if hits floor
-<<<<<<< HEAD
-                        self.isJump = False
-                        self.jumpCount = self.gravity
-                else:  # going upwards
-                    self.y -= (self.jumpCount ** 2) * 0.5 * 1
-=======
                         self.resetJump()
                 else: ## going upwards
                     if not(self.topCol):
                         self.y -= (self.jumpCount ** 2) * 0.5 * 1
                     else:
                         self.resetJump()
->>>>>>> ed4aa95e8c3cef0b492dc009e163ca0c0531997b
                 self.jumpCount -= 0.5
             else:
                 self.resetJump()

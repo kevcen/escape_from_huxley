@@ -115,13 +115,10 @@ def check_keys():
         plyr.moveLeft()
     elif keys[pg.K_RIGHT]:
         plyr.moveRight(DISPLAY_SIZE[0])
-<<<<<<< HEAD
-=======
     else:
         plyr.standing = True
     if keys[pg.K_UP] or plyr.isJump:
         plyr.jump()
->>>>>>> ed4aa95e8c3cef0b492dc009e163ca0c0531997b
 
     # When space bar is pressed, the bullet is fired based on direction of Player
     if keys[pg.K_SPACE]:
