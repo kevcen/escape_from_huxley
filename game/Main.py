@@ -81,7 +81,7 @@ def draw_sprites():
     # Update the display
     pg.display.update()
 
-#---------------------------------------------------
+
 #Code for bullets
 bullets = []
 #Define weapon, [radius,color,vel,damage]
@@ -89,32 +89,14 @@ pistol = (2, (125,125,0), 6, 1)
 #maybe change how often you can shoot, but this requires more code
 bigGun = (4, (255,0,0), 3, 3)
 
-#in while loop
-for bullet in bullets:
-    if bullet.x < 500 and bullet.x > 0:
-        bullet.x += bullet.vel  # Moves the bullet by its vel
-    else:
-        bullets.pop(bullets.index(bullet))
-
-#When space bar is pressed, the bullet is fired based on direction of Player
-if keys[pygame.K_SPACE]:
-    if man.left:
-        facing = -1
-    else:
-        facing = 1
-
-    if len(bullets) < 5:  # This will make sure we cannot exceed 5 bullets on the screen at once
-        bullets.append(Projectile(round(man.x+man.width//2), round(man.y + man.height//2), man.weapon[0], man.weapon[1], man.weapon[2], man.weapon[3], facing))
 
 #to draw the bullets
 def redrawGameWindow():
-    win.blit(bg, (0,0))
-    man.draw(win)
+    display.blit(bg, (0,0))
+    plyr.draw(display)
     for bullet in bullets:
-        bullet.draw(win)
-
+        bullet.draw(display)
     pygame.display.update()
-#---------------------------------------------------
 
 
 def check_keys():
@@ -125,6 +107,21 @@ def check_keys():
         plyr.moveLeft()
     if keys[pg.K_RIGHT]:
         plyr.moveRight(DISPLAY_SIZE[0])
+
+        # When space bar is pressed, the bullet is fired based on direction of Player
+    if keys[pygame.K_SPACE]:
+        if plyr.left:
+            facing = -1
+        else:
+            facing = 1
+
+        if len(bullets) < 5:  # This will make sure we cannot exceed 5 bullets on the screen at once
+            bullets.append(
+                Projectile(round(plyr.x + plyr.width // 2), round(plyr.y + plyr.height // 2), plyr.weapon[0], plyr.weapon[1],
+                           plyr.weapon[2], plyr.weapon[3], facing))
+
+
+
 
 
 def draw_tiles():
@@ -154,6 +151,13 @@ def check_collisions(rects):
 
     # add collision checking logic here
 
+def move_bullets():
+    global bullets
+    for bullet in bullets:
+        if bullet.x < 500 and bullet.x > 0:
+            bullet.x += bullet.vel  # Moves the bullet by its vel
+        else:
+            bullets.pop(bullets.index(bullet))
 
 run = True
 # game loop
@@ -166,6 +170,9 @@ while run:
 
     # check for key presses
     check_keys()
+
+    #moves bullets
+    move_bullets()
 
     # code to exit the window.
     for event in pg.event.get():

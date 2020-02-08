@@ -5,13 +5,13 @@ import pygame as pg
 class Player(object):
     """Player object."""
 
-    def __init__(self, x, y, width, height):
+    def __init__(self, x, y, width, height, weapon):
         """Construct."""
         self.x = x
         self.y = y
         self.width = width
         self.height = height
-
+        self.weapon = weapon
         # set player's speed
         self.velocity = 4
         self.floor = False
