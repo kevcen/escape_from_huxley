@@ -70,13 +70,8 @@ class Player(object):
                         self.y -= (self.jumpCount ** 2) * 0.5 * -1
                     else:  # reset stuff if hits floor
                         self.isJump = False
-<<<<<<< HEAD
                         self.jumpCount = self.gravity
                 else: ## going upwards
-=======
-                        self.jumpCount = 10
-                else:  # going upwards
->>>>>>> 285f2e851f7deca28bee89dc18a441c833dfe695
                     self.y -= (self.jumpCount ** 2) * 0.5 * 1
                 self.jumpCount -= 0.5
             else:
