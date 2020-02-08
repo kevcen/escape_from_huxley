@@ -15,18 +15,16 @@ class Enemies(object):
 
     def move(self):
         if self.velocity > 0:
-            if self.x < self.path[1] + self.velocity:
+            if self.x + self.velocity < self.path[1]:
                 self.x += self.velocity
             else:
                 self.velocity = self.velocity * -1
-                self.x += self.velocity
                 self.walkCount = 0
         else:
-            if self.x > self.path[0] - self.velocity:
+            if self.x - self.velocity > self.path[0]:
                 self.x += self.velocity
             else:
                 self.velocity = self.velocity * -1
-                self.x += self.velocity
                 self.walkCount = 0
 
     def draw(self, display):
@@ -40,7 +38,6 @@ class Enemies(object):
         else:
             display.blit(self.walkLeft[self.walkCount // 3], (self.x, self.y))
             self.walkCount += 1
-
 
     def hit(self):
         if self.health > 0:
