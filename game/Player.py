@@ -51,7 +51,6 @@ class Player(object):
 
     def setRightCol(self, col):
         """Set rightCol."""
-
         self.rightCol = col
 
     def setLeftCol(self, col):
@@ -72,7 +71,7 @@ class Player(object):
                     else:  # reset stuff if hits floor
                         self.isJump = False
                         self.jumpCount = self.gravity
-                else: ## going upwards
+                else:  # going upwards
                     self.y -= (self.jumpCount ** 2) * 0.5 * 1
                 self.jumpCount -= 0.5
             else:
