@@ -3,7 +3,20 @@ import pygame as pg
 from Colours import col
 from Player import Player
 from Tile import Tile
-# from Projectile import Projectile
+from Weapons import Weapon
+from Projectile import Projectile
+
+# initialise pygame
+pg.init()
+
+# define fonts
+big_font = pg.font.SysFont("comicsans", 30)
+small_font = pg.font.SysFont("papyrus", 15)
+# bullet lag for one projectile at once
+bullet_lag = 0
+# only change weapon slowly when holding question
+weapons_lag = 0
+
 
 # initialise pygame
 pg.init()
@@ -28,9 +41,9 @@ SCROLL = [0, 0]
 # Code for bullets
 bullets = []
 # Define weapon, [radius,color,vel,damage]
-pistol = (2, (125, 125, 0), 6, 1)
+pistol = Weapon("Pistol", 20, col.BLACK.value, 6, 1)
 # maybe change how often you can shoot, but this requires more code
-bigGun = (4, (255, 0, 0), 3, 3)
+big_gun = Weapon("Big gun", 4, col.RED.value, 3, 3)
 
 # create the player object
 plyr = Player(100, 150, 20, 50, pistol)
@@ -65,16 +78,35 @@ for row in mapData:
 def draw_sprites():
     """Draw all sprites."""
     display.fill(col.BACKGROUND.value)
+    for bullet in bullets:
+        bullet.draw(display)
+    # Displays current weaon used
+    weapon_text = big_font.render("Weapon: " + plyr.weapon.name, 1, col.BLACK.value)
+    switch_text = small_font.render("Press q to switch to next weapon", 1, col.BLACK.value)
+    display.blit(weapon_text, (10, 10))
+    display.blit(switch_text, (10, 30))
     plyr.fall(DISPLAY_SIZE[0], 3)
     plyr.draw(display, player_image)
     draw_tiles()
     for sprite in sprites:
         sprite.draw(display)
-        # Update the display
+
     pg.display.update()
 
 
 def check_keys():
+    # one bullet at a time:
+    global bullet_lag
+    global weapons_lag
+    if weapons_lag > 0:
+        weapons_lag += 1
+    if weapons_lag == 30:
+        weapons_lag = 0
+
+    if bullet_lag > 0:
+        bullet_lag += 1
+    if bullet_lag == 10:
+        bullet_lag = 0
     """Check for key presses."""
     keys = pg.key.get_pressed()
 
@@ -83,16 +115,24 @@ def check_keys():
     if keys[pg.K_RIGHT]:
         plyr.moveRight(DISPLAY_SIZE[0])
 
-    # # When space bar is pressed, the bullet is fired based on direction of Player
-    # if keys[pg.K_SPACE]:
-    #     facing = 1
-    #
-    #     if len(bullets) < 5:  # This will make sure we cannot exceed 5 bullets on the screen at once
-    #         bullets.append(
-    #             Projectile(round(plyr.x + plyr.width // 2), round(plyr.y + plyr.height // 2), round(plyr.weapon[0]), plyr.weapon[1],
-    #                        plyr.weapon[2], plyr.weapon[3], facing))
+    # When space bar is pressed, the bullet is fired based on direction of Player
+    if keys[pg.K_SPACE]:
+        if bullet_lag == 0:
+            bullet_lag += 1
+            facing = 1
 
-        # sprites.extend(bullets)
+            if len(bullets) < 5:  # This will make sure we cannot exceed 5 bullets on the screen at once
+                bullets.append(
+                    Projectile(round(plyr.x + plyr.width // 2), round(plyr.y + plyr.height // 2), plyr.weapon.radius, plyr.weapon.color,
+                               plyr.weapon.vel, plyr.weapon.damage, facing))
+
+    if keys[pg.K_q]:
+        if weapons_lag == 0:
+            weapons_lag += 1
+            if plyr.weapon == pistol:
+                plyr.weapon = big_gun
+            else:
+                plyr.weapon = pistol
 
 
 def draw_tiles():
@@ -131,23 +171,24 @@ def check_floor(tiles):
     plyr.setFloor(floor)
 
 
-# def move_bullets():
-#     global bullets
-#     for bullet in bullets:
-#         if bullet.x < 500 and bullet.x > 0:
-#             bullet.x += bullet.vel  # Moves the bullet by its vel
-#         else:
-#             bullets.pop(bullets.index(bullet))
+def move_bullets():
+    global bullets
+    for bullet in bullets:
+        if bullet.x < 500 and bullet.x > 0:
+            bullet.x += bullet.vel  # Moves the bullet by its vel
+        else:
+            bullets.pop(bullets.index(bullet))
 
 
 run = True
 # game loop
 while run:
     # limit FPS 50
-    clock.tick(50)
+    clock.tick(60)
 
     # draw the sprites
     draw_sprites()
+    move_bullets()
 
     # check for key presses
     check_keys()
