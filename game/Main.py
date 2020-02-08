@@ -114,6 +114,8 @@ def check_keys():
         plyr.moveLeft()
     if keys[pg.K_RIGHT]:
         plyr.moveRight(DISPLAY_SIZE[0])
+    if keys[pg.K_UP] or plyr.isJump:
+        plyr.jump()
 
     # When space bar is pressed, the bullet is fired based on direction of Player
     if keys[pg.K_SPACE]:
@@ -167,6 +169,7 @@ def check_floor(tiles):
                     (plyr.x + plyr.width >= tile.x and plyr.x + plyr.width <= tile.x + tile.width)):
 
                 floor = True
+                plyr.y = tile.y - plyr.height #plyr hitbox height
 
     plyr.setFloor(floor)
 
