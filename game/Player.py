@@ -25,7 +25,7 @@ class Player(object):
         self.walkRight = [pg.transform.scale(pg.image.load('images/mainAvatar_Right1.png'), (self.width, self.height)),pg.transform.scale(pg.image.load('images/mainAvatar_RightJump1.png'),(self.width, self.height)), pg.transform.scale(pg.image.load('images/mainAvatar_Right2.png'), (self.width, self.height)) ,pg.transform.scale(pg.image.load('images/mainAvatar_RightJump2.png'), (self.width, self.height))]
         self.walkLeft = [pg.transform.scale(pg.image.load('images/mainAvatar_Left1.png'), (self.width, self.height)),pg.transform.scale(pg.image.load('images/mainAvatar_LeftJump1.png'), (self.width, self.height)),pg.transform.scale(pg.image.load('images/mainAvatar_Left2.png'), (self.width, self.height)),pg.transform.scale(pg.image.load('images/mainAvatar_LeftJump1.png'),(self.width, self.height))]
         self.walkCount = 0
-        self.left = False
+        self.left = True
         self.right = False
         self.standing = True
         self.rightJump = False
