@@ -1,8 +1,8 @@
 import pygame as pg
 
 class Weapon(object):
-    def __init__(self, radius, color, vel, damage):
-
+    def __init__(self, name, radius, color, vel, damage):
+        self.name = name
         self.radius = radius
         self.color = color
         self.damage = damage

@@ -5,8 +5,16 @@ from Player import Player
 from Weapons import Weapon
 from Projectile import Projectile
 
+#initialise pygame
+pg.init()
+
+#define fonts
+big_font = pg.font.SysFont("comicsans", 30)
+small_font = pg.font.SysFont("papyrus", 15)
 #bullet lag for one projectile at once
 bullet_lag = 0
+#only change weapon slowly when holding question
+weapons_lag = 0
 
 
 # initialise pygame
@@ -29,9 +37,9 @@ clock = pg.time.Clock()
 # Code for bullets
 bullets = []
 # Define weapon, [radius,color,vel,damage]
-pistol = Weapon(20, col.BLACK.value, 6, 1)
+pistol = Weapon("Pistol", 20, col.BLACK.value, 6, 1)
 # maybe change how often you can shoot, but this requires more code
-bigGun = Weapon(4, col.RED.value, 3, 3)
+big_gun = Weapon("Big gun", 4, col.RED.value, 3, 3)
 
 
 # create the player object
@@ -88,6 +96,11 @@ def draw_sprites():
     display.fill(col.BACKGROUND.value)
     for bullet in bullets:
         bullet.draw(display)
+    #Displays current weaon used
+    weapon_text = big_font.render("Weapon: " + plyr.weapon.name, 1, col.BLACK.value)
+    switch_text = small_font.render("Press q to switch to next weapon", 1 ,col.BLACK.value)
+    display.blit(weapon_text, (10, 10))
+    display.blit(switch_text, (10, 30))
     plyr.fall(DISPLAY_SIZE[0], 3)
     plyr.draw(display, player_image)
     draw_tiles()
@@ -100,7 +113,14 @@ def draw_sprites():
 def check_keys():
     #one bullet at a time:
     global bullet_lag
-    bullet_lag += 1
+    global weapons_lag
+    if weapons_lag > 0:
+        weapons_lag += 1
+    if weapons_lag == 30:
+        weapons_lag = 0
+
+    if bullet_lag > 0:
+        bullet_lag += 1
     if bullet_lag == 5:
         bullet_lag = 0
     """Check for key presses."""
@@ -114,12 +134,21 @@ def check_keys():
     # When space bar is pressed, the bullet is fired based on direction of Player
     if keys[pg.K_SPACE]:
         if bullet_lag == 0:
+            bullet_lag += 1
             facing = 1
 
             if len(bullets) < 5:  # This will make sure we cannot exceed 5 bullets on the screen at once
                 bullets.append(
                     Projectile(round(plyr.x + plyr.width // 2), round(plyr.y + plyr.height // 2), plyr.weapon.radius, plyr.weapon.color,
                                plyr.weapon.vel, plyr.weapon.damage, facing))
+
+    if keys[pg.K_q]:
+        if weapons_lag == 0:
+            weapons_lag += 1
+            if plyr.weapon == pistol:
+                plyr.weapon = big_gun
+            else:
+                plyr.weapon = pistol
 
 
 
