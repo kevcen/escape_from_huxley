@@ -46,7 +46,7 @@ pistol = Weapon("Pistol", 20, col.BLACK.value, 6, 1)
 big_gun = Weapon("Big gun", 4, col.RED.value, 3, 3)
 
 # create the player object
-plyr = Player(100, 150, 64, 64, pistol)
+plyr = Player(100, 150, 50, 50, pistol)
 
 # create list to contain all sprites
 sprites = []
@@ -174,6 +174,7 @@ def check_floor(tiles):
             if ((plyr.x >= tile.x and plyr.x <= tile.x + tile.width) or
                     (plyr.x + plyr.width >= tile.x and plyr.x + plyr.width <= tile.x + tile.width)):
                 floor = True
+                plyr.y = tile.y - plyr.height
 
     plyr.setFloor(floor)
 
@@ -195,8 +196,8 @@ def check_right(tiles):
     collision = False
     for tile in tiles:
         if plyr.x + plyr.width >= tile.x and plyr.x + plyr.width <= tile.x + tile.width:
-            if ((plyr.y >= tile.y and plyr.y <= tile.y + tile.height) or
-                    (plyr.y + plyr.height - 7 >= tile.y and plyr.y + plyr.height - 7 <= tile.y + tile.height)):
+            if ((plyr.y >= tile.y  and plyr.y <= tile.y + tile.height) or
+                    (plyr.y + plyr.height-7 >= tile.y and plyr.y + plyr.height-7 <= tile.y + tile.height)):
                 collision = True
 
     plyr.setRightCol(collision)
@@ -208,7 +209,7 @@ def check_left(tiles):
     for tile in tiles:
         if plyr.x >= tile.x and plyr.x <= tile.x + tile.width:
             if ((plyr.y >= tile.y and plyr.y <= tile.y + tile.height) or
-                    (plyr.y + plyr.height - 7 >= tile.y and plyr.y + plyr.height - 7 <= tile.y + tile.height)):
+                    (plyr.y + plyr.height >= tile.y and plyr.y + plyr.height<= tile.y + tile.height)):
                 collision = True
 
     plyr.setLeftCol(collision)

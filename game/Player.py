@@ -57,7 +57,7 @@ class Player(object):
 
     def moveLeft(self):
         """Move the player left."""
-        if self.x > 0 and not self.leftCol:
+        if self.x > 0 and not(self.leftCol):
             self.x -= self.velocity
         self.right = False
         self.left = True
@@ -65,7 +65,7 @@ class Player(object):
 
     def moveRight(self, max):
         """Move the player right."""
-        if self.x + self.width < max and not self.rightCol:
+        if self.x + self.width < max and not(self.rightCol):
             self.x += self.velocity
         self.right = True
         self.left = False
