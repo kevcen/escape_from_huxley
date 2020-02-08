@@ -121,7 +121,7 @@ def check_keys():
 
     if bullet_lag > 0:
         bullet_lag += 1
-    if bullet_lag == 5:
+    if bullet_lag == 10:
         bullet_lag = 0
     """Check for key presses."""
     keys = pg.key.get_pressed()
