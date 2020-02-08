@@ -2,7 +2,12 @@
 import pygame as pg
 from Colours import col
 from Player import Player
-# from Projectile import Projectile
+from Weapons import Weapon
+from Projectile import Projectile
+
+#bullet lag for one projectile at once
+bullet_lag = 0
+
 
 # initialise pygame
 pg.init()
@@ -24,9 +29,9 @@ clock = pg.time.Clock()
 # Code for bullets
 bullets = []
 # Define weapon, [radius,color,vel,damage]
-pistol = (2, (125, 125, 0), 6, 1)
+pistol = Weapon(20, col.BLACK.value, 6, 1)
 # maybe change how often you can shoot, but this requires more code
-bigGun = (4, (255, 0, 0), 3, 3)
+bigGun = Weapon(4, col.RED.value, 3, 3)
 
 
 # create the player object
@@ -81,16 +86,23 @@ game_map = [['0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
 def draw_sprites():
     """Draw all sprites."""
     display.fill(col.BACKGROUND.value)
+    for bullet in bullets:
+        bullet.draw(display)
     plyr.fall(DISPLAY_SIZE[0], 3)
     plyr.draw(display, player_image)
     draw_tiles()
     for sprite in sprites:
         sprite.draw(display)
-        # Update the display
+
     pg.display.update()
 
 
 def check_keys():
+    #one bullet at a time:
+    global bullet_lag
+    bullet_lag += 1
+    if bullet_lag == 5:
+        bullet_lag = 0
     """Check for key presses."""
     keys = pg.key.get_pressed()
 
@@ -99,16 +111,16 @@ def check_keys():
     if keys[pg.K_RIGHT]:
         plyr.moveRight(DISPLAY_SIZE[0])
 
-    # # When space bar is pressed, the bullet is fired based on direction of Player
-    # if keys[pg.K_SPACE]:
-    #     facing = 1
-    #
-    #     if len(bullets) < 5:  # This will make sure we cannot exceed 5 bullets on the screen at once
-    #         bullets.append(
-    #             Projectile(round(plyr.x + plyr.width // 2), round(plyr.y + plyr.height // 2), round(plyr.weapon[0]), plyr.weapon[1],
-    #                        plyr.weapon[2], plyr.weapon[3], facing))
+    # When space bar is pressed, the bullet is fired based on direction of Player
+    if keys[pg.K_SPACE]:
+        if bullet_lag == 0:
+            facing = 1
 
-        # sprites.extend(bullets)
+            if len(bullets) < 5:  # This will make sure we cannot exceed 5 bullets on the screen at once
+                bullets.append(
+                    Projectile(round(plyr.x + plyr.width // 2), round(plyr.y + plyr.height // 2), plyr.weapon.radius, plyr.weapon.color,
+                               plyr.weapon.vel, plyr.weapon.damage, facing))
+
 
 
 def draw_tiles():
@@ -138,23 +150,24 @@ def check_collisions(rects):
             plyr.setFloor(True)
 
 
-# def move_bullets():
-#     global bullets
-#     for bullet in bullets:
-#         if bullet.x < 500 and bullet.x > 0:
-#             bullet.x += bullet.vel  # Moves the bullet by its vel
-#         else:
-#             bullets.pop(bullets.index(bullet))
+def move_bullets():
+    global bullets
+    for bullet in bullets:
+        if bullet.x < 500 and bullet.x > 0:
+            bullet.x += bullet.vel  # Moves the bullet by its vel
+        else:
+            bullets.pop(bullets.index(bullet))
 
 
 run = True
 # game loop
 while run:
     # limit FPS 50
-    clock.tick(50)
+    clock.tick(60)
 
     # draw the sprites
     draw_sprites()
+    move_bullets()
 
     # check for key presses
     check_keys()
