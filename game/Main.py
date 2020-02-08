@@ -46,7 +46,7 @@ pistol = Weapon("Pistol", 20, col.BLACK.value, 6, 1)
 big_gun = Weapon("Big gun", 4, col.RED.value, 3, 3)
 
 # create the player object
-plyr = Player(100, 150, 20, 50, pistol)
+plyr = Player(100, 150, 64, 64, pistol)
 
 # create list to contain all sprites
 sprites = []
@@ -54,11 +54,11 @@ sprites = []
 # load and scale images
 
 # load player image
-player_image = pg.image.load("images/player.png").convert()
-# transform players size
-player_image = pg.transform.scale(player_image, (plyr.width, plyr.height))
-# set the pixels behind the player to white.
-player_image.set_colorkey((255, 255, 255))
+# player_image = pg.image.load("images/mainAvatar_Left1.png").convert()
+# # transform players size
+# player_image = pg.transform.scale(player_image, (plyr.width, plyr.height))
+# # set the pixels behind the player to white.
+# player_image.set_colorkey((255, 255, 255))
 
 dirt = pg.image.load("images/dirt.png")
 dirt = pg.transform.scale(dirt, (TILE_SIZE, TILE_SIZE))
@@ -86,7 +86,7 @@ def draw_sprites():
     display.blit(weapon_text, (10, 10))
     display.blit(switch_text, (10, 30))
     plyr.fall(DISPLAY_SIZE[0], 3)
-    plyr.draw(display, player_image)
+    plyr.draw(display)
     draw_tiles()
     for sprite in sprites:
         sprite.draw(display)
@@ -113,8 +113,15 @@ def check_keys():
 
     if keys[pg.K_LEFT]:
         plyr.moveLeft()
-    if keys[pg.K_RIGHT]:
+    elif keys[pg.K_RIGHT]:
         plyr.moveRight(DISPLAY_SIZE[0])
+<<<<<<< HEAD
+=======
+    else:
+        plyr.standing = True
+    if keys[pg.K_UP] or plyr.isJump:
+        plyr.jump()
+>>>>>>> ed4aa95e8c3cef0b492dc009e163ca0c0531997b
 
     # When space bar is pressed, the bullet is fired based on direction of Player
     if keys[pg.K_SPACE]:
@@ -178,7 +185,7 @@ def check_top(tiles):
     """Check if top of player is hitting tile."""
     collision = False
     for tile in tiles:
-        if plyr.y + plyr.height <= tile.y and plyr.y + plyr.height >= tile.y + tile.height:
+        if plyr.y >= tile.y and plyr.y <= tile.y + tile.height:
             if ((plyr.x >= tile.x and plyr.x <= tile.x + tile.width) or
                     (plyr.x + plyr.width >= tile.x and plyr.x + plyr.width <= tile.x + tile.width)):
                 collision = True
