@@ -4,22 +4,24 @@ from pygame.locals import *
 
 class projectile(object):
 
-    def __init__(self, x, y, facing):
+    def __init__(self, x, y, facing, image, damage):
         self.x = x
         self.y = y
         self.facing = facing
-        self.vel = 8*facing
-        self.haskellCount = 0
-        self.damage = 1
-        self.haskellShots = [pygame.image.load('images/java_this.png'),pygame.image.load('images/java_abstract.png'),pygame.image.load('images/java_final.png'),pygame.image.load('images/java_hash.png')]
+        self.vel = 11*facing
+        self.damage = damage
+        self.image = image
+        # self.haskellShots = [pygame.image.load('images/java_this.png'),pygame.image.load('images/java_abstract.png'),pygame.image.load('images/java_final.png'),pygame.image.load('images/java_hash.png')]
 
     def draw(self, win):
-        self.haskellCount += 1
-        if self.haskellCount + 1 >= 40:
-            self.haskellCount = 0
+        # self.haskellCount += 1
+        # if self.haskellCount + 1 >= 40:
+        #     self.haskellCount = 0
+        # self.x += self.vel
+        #
+        # win.blit(self.haskellShots[self.haskellCount//10], (round(self.x - scroll[0]), round(self.y - scroll[1])))
         self.x += self.vel
-
-        win.blit(self.haskellShots[self.haskellCount//10], (round(self.x - scroll[0]), round(self.y - scroll[1])))
+        win.blit(self.image, (round(self.x - scroll[0]), round(self.y - scroll[1])))
 
 class enemy(object):
 
@@ -32,8 +34,11 @@ class enemy(object):
         self.walkCount = 0
         self.vel = 3
         #self.hitbox = (self.x + 17, self.y + 2, 31, 57)
-        self.visible = True
+        self.visible = False
         self.health = 10
+
+        self.tenThousands = pygame.image.load('images/java_10k.png')
+        self.shootCount = 0
         # self.walkRight = [pygame.image.load('images/boss_rightStep1.png'), pygame.image.load('images/boss_rightStep2.png')]
         # self.walkLeft = [pygame.image.load('images/boss_leftWalk1.png'),pygame.image.load('images/boss_leftWalk2.png')]
 
@@ -55,6 +60,13 @@ class enemy(object):
             win.blit(pygame.image.load('images/tony.png'), (self.x - scroll[0], self.y - scroll[1]))
             pygame.draw.rect(win, (255, 0 ,0), (self.x - scroll[0], self.y - 20 - scroll[1], 64, 5))
             pygame.draw.rect(win, (0, 255, 0), (self.x - scroll[0], self.y - 20 - scroll[1], 6.4 * (self.health), 5))
+            if self.shootCount > 0:
+                self.shootCount += 1
+            if self.shootCount >= 20:
+                self.shootCount = 0
+            if self.shootCount == 0:
+                self.shoot(win)
+                self.shootCount = 1
         #pygame.draw.rect(win, (255,0,0), self.hitbox, 2)
 
     # def move(self):
@@ -77,8 +89,11 @@ class enemy(object):
         else:
             self.visible = False
 
+    def shoot(self, win):
+        enemyBullets.append(projectile(self.x, self.y, 1, self.tenThousands, 1))
+        enemyBullets.append(projectile(self.x, self.y, -1, self.tenThousands, 1))
 
-
+enemyBullets = []
 clock = pygame.time.Clock()
 shooting = False
 
@@ -101,7 +116,7 @@ moving_right = False
 moving_left = False
 gravity = 0
 air_timer = 0
-velocity = 10 ## CHANGED FOR QUICK TESTING -
+velocity = 20 ## CHANGED FOR QUICK TESTING -
 walkCount = 0
 wasLeft = False
 wasRight = True
@@ -127,6 +142,7 @@ def load_map(path):
 
 
 game_map = load_map('game/Map')
+game_map2 = load_map('game/Map2')
 
 Carpet_Floor = pygame.image.load('images/Carpet_Floor.png')
 Carpet_Floor = pygame.transform.scale(Carpet_Floor, (TILE_SIZE, TILE_SIZE))
@@ -210,9 +226,33 @@ def move(rect, movement, tiles):
             collision_types['top'] = True
     return rect, collision_types
 
+def gameover():
+    global pygame
+    gameover = pygame.transform.scale(pygame.image.load("images/gameOver.png"), WINDOW_SIZE)
+    display.blit(gameover, (0,0))
+    pygame.display.update()
+    pygame.time.delay(1500)
+    quit()
+
+health = 10
+def takeDamage():
+    global health
+    health -= 5
+    if health == 0:
+        gameover()
+
+
+
+
 shootLoop = 0
 computerCount = 0
-tony = enemy(1000, 860, 79, 160)
+tony = enemy(3600, 860, 79, 160)
+javaShots = [pygame.image.load('images/java_this.png'),pygame.image.load('images/java_abstract.png'),pygame.image.load('images/java_final.png'),pygame.image.load('images/java_hash.png')]
+javaCount = 0
+haskellCount = 0
+haskellShots = [pygame.image.load('images/bullet_concat.png'),pygame.image.load('images/bullet_curry.png'),pygame.image.load('images/bullet_define.png'),pygame.image.load('images/bullet_filter.png'),pygame.image.load('images/bullet_flip.png'),pygame.image.load('images/bullet_fold.png'),pygame.image.load('images/bullet_map.png'),pygame.image.load('images/bullet_scan.png'),pygame.image.load('images/bullet_uncurry.png')]
+weapon = 'Java'
+enterredBossRoom = False
 while True:  # game loop
     # display.fill((146, 244, 255))  # clear screen by filling it with blue
     display.blit(bg_image, (0,0))
@@ -225,6 +265,12 @@ while True:  # game loop
 
     tile_rects = []
     y = 0
+    if player_rect.x >= 3000 - 630 and player_rect.y >= 860-100 and not enterredBossRoom:
+        enterredBossRoom = True
+        tony.visible = True
+        game_map = game_map2
+        weapon = 'Haskell'
+
     for layer in game_map:
         x = 0
         for tile in layer:
@@ -323,7 +369,18 @@ while True:  # game loop
             facing = -1
         else:
             facing = 1
-        bullets.append(projectile(player_rect.x, player_rect.y, facing))
+
+        if weapon == 'Java':
+            bullets.append(projectile(player_rect.x, player_rect.y, facing, javaShots[javaCount], 1))
+            javaCount += 1
+            if javaCount == len(javaShots):
+                javaCount = 0
+        if weapon == 'Haskell':
+            bullets.append(projectile(player_rect.x, player_rect.y, facing, haskellShots[haskellCount], 2))
+            haskellCount += 1
+            if haskellCount == len(javaShots):
+                haskellCount = 0
+
         shootLoop = 1 # to get out of zero state
 
 
@@ -331,7 +388,7 @@ while True:  # game loop
 
     toRemove = []
     for bullet in bullets:
-        bullet_img = bullet.haskellShots[bullet.haskellCount//10]
+        bullet_img = bullet.image
         bullet_rect = pygame.Rect(round(bullet.x),
                                 round(bullet.y),
                                 bullet_img.get_width(),
@@ -346,10 +403,28 @@ while True:  # game loop
 
         tony_rect = pygame.Rect(tony.x , tony.y, tony.width, tony.height)
         tonyhits = collision_test(bullet_rect, [tony_rect])
-        if tonyhits:
+        if tonyhits and tony.visible:
             tony.hit(bullet.damage)
             toRemove.append(bullet)
 
+
+
+    enemyRemove = []
+    for bullet in enemyBullets:
+        bullet_img = bullet.image
+        bullet_rect = pygame.Rect(round(bullet.x),
+                                round(bullet.y),
+                                bullet_img.get_width(),
+                                bullet_img.get_height())
+
+        bullet.draw(display)
+        hits = collision_test(bullet_rect, [player_rect])
+        if hits:
+            takeDamage()
+            enemyRemove.append(bullet)
+
+    for bullet in enemyRemove:
+        enemyBullets.pop(enemyBullets.index(bullet))
 
     for bullet in toRemove:
         bullets.pop(bullets.index(bullet))
@@ -381,6 +456,11 @@ while True:  # game loop
                 moving_left = False
             if event.key == K_SPACE:
                 shooting = False
+            if event.key == K_q:
+                if weapon == 'Java':
+                    weapon = 'Haskell'
+                elif weapon == 'Haskell':
+                    weapon = 'Java'
 
     # screen.blit(pygame.transform.scale(display, WINDOW_SIZE), (0, 0))
     pygame.display.update()
