@@ -78,7 +78,7 @@ for row in mapData:
 def draw_sprites():
     """Draw all sprites."""
     display.fill(col.BACKGROUND.value)
-    #--- bullets v
+    # --- bullets v
     for bullet in bullets:
         bullet.draw(display)
 
@@ -88,7 +88,7 @@ def draw_sprites():
 
     display.blit(weapon_text, (10, 10))
     display.blit(switch_text, (10, 30))
-    #----- bullets ^
+    # ----- bullets ^
     plyr.draw(display)
     draw_tiles()
     plyr.fall(DISPLAY_SIZE[0], 3)
@@ -164,7 +164,6 @@ def draw_tiles():
             x += 1
         y += 1
 
-
     #plyr1 = pg.Rect(plyr.hitbox[0], plyr.hitbox[1], plyr.hitbox[2], plyr.hitbox[3])
     plyr1 = pg.Rect(plyr.x, plyr.y, plyr.width, plyr.height)
     belowCollisions = []
@@ -176,44 +175,41 @@ def draw_tiles():
     for tile in tiles:
         tile1 = pg.Rect(tile.x, tile.y, tile.width, tile.height)
         if plyr1.colliderect(tile1):
-            #vertical collisions
+            # vertical collisions
             if plyr.upwards:
                 aboveCollisions.append(tile)
             elif plyr.falling:
                 belowCollisions.append(tile)
 
-            #horizontal collisions
+            # horizontal collisions
             if plyr.right:
                 rightCollisions.append(tile)
             elif plyr.left:
                 leftCollisions.append(tile)
-    if len(belowCollisions) != 0 and len( rightCollisions) !=0 and len(leftCollisions) !=0:
+    if len(belowCollisions) != 0 and len(rightCollisions) != 0 and len(leftCollisions) != 0:
         tile = belowCollisions[0]
         plyr.y = tile.y - plyr.height
         plyr.floor = True
         plyr.rightCol = False
         plyr.leftCol = False
         plyr.topCol = False
-    elif len(aboveCollisions) !=0 and len(rightCollisions) !=0 and len(leftCollisions) !=0:
+    elif len(aboveCollisions) != 0 and len(rightCollisions) != 0 and len(leftCollisions) != 0:
         tile = aboveCollisions[0]
         plyr.y = tile.y + tile.height
         plyr.floor = False
         plyr.rightCol = False
         plyr.leftCol = False
         plyr.topCol = True
-    elif len(rightCollisions) !=0:
+    elif len(rightCollisions) != 0:
         tile = rightCollisions[0]
         plyr.x = tile.x - plyr.width
         plyr.rightCol = True
         plyr.leftCol = False
-    elif len(leftCollisions) !=0:
+    elif len(leftCollisions) != 0:
         tile = leftCollisions[0]
         plyr.x = tile.x + tile.width
         plyr.rightCol = False
         plyr.leftCol = True
-
-
-
 
     # rCollisionTile = check_right(tiles)
     #
@@ -232,15 +228,11 @@ def draw_tiles():
     #     boostRight(lCollisionTile)
     #
     # print(plyr.x, plyr.y)
-    #boostUp(fCollisionTile)
+    # boostUp(fCollisionTile)
     # print(plyr.x, plyr.y)
     # #boostDown(tCollisionTile)
 
-
-
-
     pg.display.update()
-
 
 
 # def boostLeft(tile):
@@ -261,8 +253,6 @@ def draw_tiles():
 #         plyr.y = tile.y + tile.height
 
 
-
-
 def check_floor(tiles):
     """Check if the player is standing on the floor."""
     collision = False
@@ -274,7 +264,6 @@ def check_floor(tiles):
         if bottomBoundary >= tile.y and bottomBoundary < tile.y + tile.height and ((leftBoundary > tile.x and leftBoundary < tile.x + tile.width) or (rightBoundary > tile.x and rightBoundary < tile.x + tile.width)):
             collision = True
             collidingTile = tile
-
 
     plyr.setFloor(collision)
 
@@ -293,7 +282,6 @@ def check_top(tiles):
             collision = True
             collidingTile = tile
 
-
     plyr.setTopCol(collision)
     return tile
 
@@ -310,7 +298,6 @@ def check_right(tiles):
             collision = True
             collidingTile = tile
 
-
     plyr.setRightCol(collision)
     return tile
 
@@ -326,7 +313,6 @@ def check_left(tiles):
         if leftBoundary <= tile.x + tile.width and leftBoundary > tile.x and ((bottomBoundary > tile.y and bottomBoundary < tile.y + tile.height) or (topBoundary > tile.y and topBoundary < tile.y + tile.height)):
             collision = True
             collidingTile = tile
-
 
     plyr.setLeftCol(collision)
     return tile

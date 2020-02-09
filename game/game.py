@@ -1,7 +1,8 @@
 import sys
 import pygame
 from pygame.locals import *
-
+from Menu import Menu
+from Pause import Pause
 
 clock = pygame.time.Clock()
 
@@ -25,8 +26,10 @@ air_timer = 0
 velocity = 4
 walkCount = 0
 
-walkLeft = [pygame.transform.scale(pygame.image.load('images/mainAvatar_Left1.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_LeftJump2.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_Left2.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_LeftJump1.png'), AVATAR_SIZE)]
-walkRight = [pygame.transform.scale(pygame.image.load('images/mainAvatar_Right1.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_RightJump2.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_Right2.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_RightJump1.png'), AVATAR_SIZE)]
+walkLeft = [pygame.transform.scale(pygame.image.load('images/mainAvatar_Left1.png'), AVATAR_SIZE), pygame.transform.scale(pygame.image.load('images/mainAvatar_LeftJump2.png'), AVATAR_SIZE),
+            pygame.transform.scale(pygame.image.load('images/mainAvatar_Left2.png'), AVATAR_SIZE), pygame.transform.scale(pygame.image.load('images/mainAvatar_LeftJump1.png'), AVATAR_SIZE)]
+walkRight = [pygame.transform.scale(pygame.image.load('images/mainAvatar_Right1.png'), AVATAR_SIZE), pygame.transform.scale(pygame.image.load('images/mainAvatar_RightJump2.png'), AVATAR_SIZE),
+             pygame.transform.scale(pygame.image.load('images/mainAvatar_Right2.png'), AVATAR_SIZE), pygame.transform.scale(pygame.image.load('images/mainAvatar_RightJump1.png'), AVATAR_SIZE)]
 noWalkPlayer = pygame.transform.scale(pygame.image.load('images/mainAvatarStand.png'), AVATAR_SIZE)
 bg_image = pygame.transform.scale(pygame.image.load('images/insideBackground.png'), WINDOW_SIZE)
 
@@ -58,7 +61,7 @@ player_img = pygame.transform.scale(player_img, (10, 26))
 player_img.set_colorkey((255, 255, 255))
 
 
-player_rect = pygame.Rect(100, 100, AVATAR_SIZE[0],AVATAR_SIZE[1])
+player_rect = pygame.Rect(100, 100, AVATAR_SIZE[0], AVATAR_SIZE[1])
 
 
 def collision_test(rect, tiles):
@@ -93,9 +96,20 @@ def move(rect, movement, tiles):
     return rect, collision_types
 
 
+# def gameover():
+#     """Display the game over screen."""
+#     gameover = pg.image.load("images/gameOver.png")
+#     gameover = pg.transform.scale(gameover, WINDOW_SIZE)
+#     display.blit(gameover, (0, 0))
+#     pg.display.update()
+#     pg.time.delay(1500)
+
+
+Menu(display, pygame)
+
 while True:  # game loop
     # display.fill((146, 244, 255))  # clear screen by filling it with blue
-    display.blit(bg_image, (0,0))
+    display.blit(bg_image, (0, 0))
 
     true_scroll[0] += (player_rect.x-true_scroll[0]-300)/20
     true_scroll[1] += (player_rect.y-true_scroll[1]-500)/20
@@ -135,15 +149,16 @@ while True:  # game loop
     else:
         air_timer += 1
 
-    #draw player
-    if walkCount + 1 >= 32: # 4 * 8
+    # draw player
+    if walkCount + 1 >= 32:  # 4 * 8
         walkCount = 0
 
     if moving_right:
-        display.blit(walkRight[walkCount//8],(player_rect.x - scroll[0], player_rect.y - scroll[1]))
+        display.blit(walkRight[walkCount//8], (player_rect.x -
+                                               scroll[0], player_rect.y - scroll[1]))
     # display.blit(player_img, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
     elif moving_left:
-        display.blit(walkLeft[walkCount//8],(player_rect.x - scroll[0], player_rect.y - scroll[1]))
+        display.blit(walkLeft[walkCount//8], (player_rect.x - scroll[0], player_rect.y - scroll[1]))
     else:
         display.blit(noWalkPlayer, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
 
@@ -152,6 +167,10 @@ while True:  # game loop
             pygame.quit()
             sys.exit()
         if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                Pause(display, pygame)
+                moving_right = False
+                moving_left = False
             if event.key == K_RIGHT:
                 moving_right = True
             if event.key == K_LEFT:
