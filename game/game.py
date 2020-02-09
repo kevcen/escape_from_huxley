@@ -4,7 +4,16 @@ from pygame.locals import *
 from Menu import Menu
 from Pause import Pause
 
+class animation(object):
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.step = 0
 
+    def draw(self):
+        if 5 - self.step > 0:
+            pygame.draw.circle(display, (255, 255, 255), (round(self.x - scroll[0]), round(self.y - scroll[1])), 50 + self.step*3, 5 - self.step)
+            self.step += 1
 class projectile(object):
 
     def __init__(self, x, y, facing, image, damage):
@@ -250,9 +259,9 @@ Window = pygame.transform.scale(Window, (TILE_SIZE, TILE_SIZE))
 Mystical = pygame.image.load('images/Mystical.png')
 Mystical = pygame.transform.scale(Mystical, (TILE_SIZE, TILE_SIZE))
 phoneBoy1 = pygame.image.load('images/phoneBoy1.png')
-phoneBoy1 = pygame.transform.scale(phoneBoy1, (TILE_SIZE*3 // 2, TILE_SIZE*3 // 2))
+phoneBoy1 = pygame.transform.scale(phoneBoy1, (TILE_SIZE, TILE_SIZE))
 phoneBoy2 = pygame.image.load('images/phoneBoy2.png')
-phoneBoy2 = pygame.transform.scale(phoneBoy2, (TILE_SIZE*3 // 2, TILE_SIZE*3 // 2))
+phoneBoy2 = pygame.transform.scale(phoneBoy2, (TILE_SIZE, TILE_SIZE))
 blackboard_clean = pygame.image.load('images/blackboard_clean.png')
 blackboard_clean = pygame.transform.scale(blackboard_clean, (TILE_SIZE*3, TILE_SIZE*2))
 blackboard_drawn = pygame.image.load('images/blackboard_drawn.png')
@@ -343,6 +352,7 @@ haskellShots = [pygame.image.load('images/bullet_concat.png'), pygame.image.load
 weapon = 'Java'
 enterredBossRoom = False
 enteredSecret = False
+hitAnimations = []
 while True:  # game loop
     # display.fill((146, 244, 255))  # clear screen by filling it with blue
     display.blit(bg_image, (0, 0))
@@ -355,14 +365,15 @@ while True:  # game loop
 
     tile_rects = []
     y = 0
-    if player_rect.x >= (3000 - 630) * 3 / 2 and player_rect.y >= 860 * 3 / 2 and not enterredBossRoom:
+    if player_rect.x >= (3000 - 630) * 3 / 2 and player_rect.y >= 860 * 3 / 2 and not enterredBossRoom :
         enterredBossRoom = True
         tony.visible = True
         game_map = game_map2
         weapon = 'Haskell'
         # pygame.mixer.music.unload()
-        pygame.mixer.music.load("sounds/tony_fight_music.mp3")
-        pygame.mixer.music.play(-1)
+        if(enteredSecret):
+            pygame.mixer.music.load("sounds/tony_fight_music.mp3")
+            pygame.mixer.music.play(-1)
     if player_rect.x <= 640 * 3 / 2 and player_rect.y >= (860-100) * 3 / 2 and not enteredSecret:
         enteredSecret = True
         game_map = game_map3
@@ -533,9 +544,17 @@ while True:  # game loop
         tony_rect = pygame.Rect(tony.x, tony.y, tony.width, tony.height)
         tonyhits = collision_test(bullet_rect, [tony_rect])
         if tonyhits and tony.visible:
+
             hitSound.play()
             tony.hit(bullet.damage)
             toRemove.append(bullet)
+
+            #play animation
+
+            hitAnimations.append(animation(bullet.x, bullet.y))
+
+    for hitAnimation in hitAnimations:
+        hitAnimation.draw()
 
     enemyRemove = []
     for bullet in enemyBullets:
