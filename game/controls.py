@@ -8,7 +8,7 @@ def controls(display, pg):
 
     backButton = button(pg, back1, display.get_width() // 2 + 250,
                         display.get_height()//2 - 300, 150, 80)
-    background = pg.image.load("images/escape_from_huxley_open.png")
+    background = pg.image.load("images/controls.png")
     background = pg.transform.scale(background, (display.get_width(), display.get_height()))
     display.blit(background, (0, 0))
 

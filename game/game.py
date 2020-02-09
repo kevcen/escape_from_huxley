@@ -5,6 +5,8 @@ from Menu import Menu
 from Pause import Pause
 
 haskellEnabled = False
+
+
 class animation(object):
     def __init__(self, x, y):
         self.x = x
@@ -13,8 +15,11 @@ class animation(object):
 
     def draw(self):
         if 5 - self.step > 0:
-            pygame.draw.circle(display, (255, 255, 255), (round(self.x - scroll[0]), round(self.y - scroll[1])), 50 + self.step*3, 5 - self.step)
+            pygame.draw.circle(display, (255, 255, 255), (round(
+                self.x - scroll[0]), round(self.y - scroll[1])), 50 + self.step*3, 5 - self.step)
             self.step += 1
+
+
 class projectile(object):
 
     def __init__(self, x, y, facing, image, damage):
@@ -369,7 +374,7 @@ while True:  # game loop
 
     tile_rects = []
     y = 0
-    if player_rect.x >= (3000 - 630) * 3 / 2 and player_rect.y >= 860 * 3 / 2 and not enterredBossRoom :
+    if player_rect.x >= (3000 - 630) * 3 / 2 and player_rect.y >= 860 * 3 / 2 and not enterredBossRoom:
         enterredBossRoom = True
         tony.visible = True
         game_map = game_map2
@@ -558,7 +563,7 @@ while True:  # game loop
             tony.hit(bullet.damage)
             toRemove.append(bullet)
 
-            #play animation
+            # play animation
 
             hitAnimations.append(animation(bullet.x, bullet.y))
 
