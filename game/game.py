@@ -199,7 +199,7 @@ CeilingLeftTop = pygame.image.load('images/Ceiling_LeftTop.png')
 CeilingLeftTop = pygame.transform.scale(CeilingLeftTop, (TILE_SIZE, TILE_SIZE))
 CeilingRightTop = pygame.image.load('images/Ceiling_RightTop.png')
 CeilingRightTop = pygame.transform.scale(CeilingRightTop, (TILE_SIZE, TILE_SIZE))
-Roof = pygame.image.load('images/huxley_bottom.png')
+Roof = pygame.image.load('images/huxley_top.png')
 Roof = pygame.transform.scale(Roof, (TILE_SIZE, TILE_SIZE))
 WallLeftInner = pygame.image.load('images/huxley_right.png')
 WallLeftInner = pygame.transform.scale(WallLeftInner, (TILE_SIZE, TILE_SIZE))
@@ -209,6 +209,16 @@ WallRightInner = pygame.image.load('images/huxley_left.png')
 WallRightInner = pygame.transform.scale(WallRightInner, (TILE_SIZE, TILE_SIZE))
 WallRightOuter = pygame.image.load('images/huxley_right.png')
 WallRightOuter = pygame.transform.scale(WallRightOuter, (TILE_SIZE, TILE_SIZE))
+WallBottom = pygame.image.load('images/huxley_bottom.png')
+WallBottom = pygame.transform.scale(WallBottom, (TILE_SIZE, TILE_SIZE))
+WallTopLeft = pygame.image.load('images/huxley_topleft.png')
+WallTopLeft = pygame.transform.scale(WallTopLeft, (TILE_SIZE, TILE_SIZE))
+WallTopRight = pygame.image.load('images/huxley_topright.png')
+WallTopRight = pygame.transform.scale(WallTopRight, (TILE_SIZE, TILE_SIZE))
+WallBotRight = pygame.image.load('images/huxley_botright.png')
+WallBotRight = pygame.transform.scale(WallBotRight, (TILE_SIZE, TILE_SIZE))
+WallBotLeft = pygame.image.load('images/huxley_botleft.png')
+WallBotLeft = pygame.transform.scale(WallBotLeft, (TILE_SIZE, TILE_SIZE))
 Window = pygame.image.load('images/window.png')
 Window = pygame.transform.scale(Window, (TILE_SIZE, TILE_SIZE))
 Mystical = pygame.image.load('images/Mystical.png')
@@ -369,6 +379,16 @@ while True:  # game loop
                 display.blit(blackboard_drawn, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile == 'k':
                 display.blit(Konstantinos, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == 'l':
+                display.blit(WallTopLeft, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == 'm':
+                display.blit(WallTopRight, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == 'n':
+                display.blit(WallBotLeft, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == 'o':
+                display.blit(WallBotRight, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == 'p':
+                display.blit(WallBottom, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile == 'i':
                 if phoneBoyCount//100 == 0:
                     phoneBoy = phoneBoy1
