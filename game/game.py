@@ -10,6 +10,7 @@ class projectile(object):
         self.facing = facing
         self.vel = 8*facing
         self.haskellCount = 0
+        self.damage = 1
         self.haskellShots = [pygame.image.load('images/java_this.png'),pygame.image.load('images/java_abstract.png'),pygame.image.load('images/java_final.png'),pygame.image.load('images/java_hash.png')]
 
     def draw(self, win):
@@ -19,6 +20,62 @@ class projectile(object):
         self.x += self.vel
 
         win.blit(self.haskellShots[self.haskellCount//10], (round(self.x - scroll[0]), round(self.y - scroll[1])))
+
+class enemy(object):
+
+    def __init__(self, x, y, width, height):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        #self.path = (self.x, self.end)
+        self.walkCount = 0
+        self.vel = 3
+        #self.hitbox = (self.x + 17, self.y + 2, 31, 57)
+        self.visible = True
+        self.health = 10
+        # self.walkRight = [pygame.image.load('images/boss_rightStep1.png'), pygame.image.load('images/boss_rightStep2.png')]
+        # self.walkLeft = [pygame.image.load('images/boss_leftWalk1.png'),pygame.image.load('images/boss_leftWalk2.png')]
+
+
+
+    def draw(self, win):
+        #self.move()
+        if self.visible:
+            # if self.walkCount + 1 >= 6:
+            #     self.walkCount = 0
+            # if self.vel > 0:
+            #     win.blit(self.walkRight[self.walkCount // 3] , (self.x- count[0], self.y- count[1]))
+            #     self.walkCount += 1
+            # else:
+            #     win.blit(self.walkLeft[self.walkCount // 3] , (self.x- count[0], self.y- count[1]))
+            #     self.walkCount += 1
+            #self.hitbox = (self.x + 17, self.y + 2, 31, 57)
+
+            win.blit(pygame.image.load('images/tony.png'), (self.x - scroll[0], self.y - scroll[1]))
+            pygame.draw.rect(win, (255, 0 ,0), (self.x - scroll[0], self.y - 20 - scroll[1], 64, 5))
+            pygame.draw.rect(win, (0, 255, 0), (self.x - scroll[0], self.y - 20 - scroll[1], 6.4 * (self.health), 5))
+        #pygame.draw.rect(win, (255,0,0), self.hitbox, 2)
+
+    # def move(self):
+    #     if self.vel > 0:
+    #         if self.x + self.vel <= self.path[1]:
+    #             self.x += self.vel
+    #         else:
+    #             self.vel = self.vel * -1
+    #             self.walkCount = 0
+    #     else:
+    #         if self.x + self.vel >= self.path[0]: #is it plus?
+    #             self.x += self.vel
+    #         else:
+    #             self.vel = self.vel * -1
+    #             self.walkCount = 0
+
+    def hit(self, damage):
+        if self.health > 0:
+            self.health -= damage
+        else:
+            self.visible = False
 
 
 
@@ -153,6 +210,7 @@ def move(rect, movement, tiles):
 
 shootLoop = 0
 computerCount = 0
+tony = enemy(1000, 860, 79, 160)
 while True:  # game loop
     # display.fill((146, 244, 255))  # clear screen by filling it with blue
     display.blit(bg_image, (0,0))
@@ -223,8 +281,8 @@ while True:  # game loop
         player_movement[0] -= velocity
     player_movement[1] += gravity
     gravity += 0.6
-    if gravity > 6:
-        gravity = 6
+    if gravity > 12:
+        gravity = 12
     #--
 
     player_rect, collisions = move(player_rect, player_movement, tile_rects)
@@ -247,6 +305,8 @@ while True:  # game loop
     else:
         display.blit(noWalkPlayer, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
 
+    #draw tony
+    tony.draw(display)
 
     #draw bullets
     if shootLoop > 0:
@@ -272,16 +332,20 @@ while True:  # game loop
                                 round(bullet.y),
                                 bullet_img.get_width(),
                                 bullet_img.get_height())
-        print(str(round(bullet.x)))
-        print(str(round(bullet.y)))
-        print(str(bullet_img.get_width()))
-        print(str(bullet_img.get_height()))
 
+        #wall collision
         hits = collision_test(bullet_rect, tile_rects)
         print(str(hits))
         bullet.draw(display)
         if hits:
             toRemove.append(bullet)
+
+        tony_rect = pygame.Rect(tony.x , tony.y, tony.width, tony.height)
+        tonyhits = collision_test(bullet_rect, [tony_rect])
+        if tonyhits:
+            tony.hit(bullet.damage)
+            toRemove.append(bullet)
+
 
     for bullet in toRemove:
         bullets.pop(bullets.index(bullet))
