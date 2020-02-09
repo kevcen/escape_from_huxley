@@ -350,6 +350,8 @@ haskellShots = [pygame.image.load('images/bullet_concat.png'), pygame.image.load
 weapon = 'Java'
 enterredBossRoom = False
 enteredSecret = False
+kon_counter = 0
+speech = pygame.image.load('images/konstantinos_speech.png')
 while True:  # game loop
     # display.fill((146, 244, 255))  # clear screen by filling it with blue
     display.blit(bg_image, (0, 0))
@@ -360,6 +362,8 @@ while True:  # game loop
     scroll[0] = int(scroll[0])
     scroll[1] = int(scroll[1])
 
+
+
     tile_rects = []
     y = 0
     if player_rect.x >= (3000 - 630) * 3 / 2 and player_rect.y >= 860 * 3 / 2 and not enterredBossRoom:
@@ -369,9 +373,14 @@ while True:  # game loop
         # pygame.mixer.music.unload()
         pygame.mixer.music.load("sounds/tony_fight_music.mp3")
         pygame.mixer.music.play(-1)
+        if(enteredSecret):
+            kon_counter += 1
+
+
     if player_rect.x <= 640 * 3 / 2 and player_rect.y >= (860-100) * 3 / 2 and not enteredSecret:
         enteredSecret = True
         game_map = game_map3
+
     if player_rect.x >= (3000 - 630) * 3/2 + 48 and player_rect.y >= 860 * 3/2 and enterredBossRoom:
         haskellEnabled = True
         weapon = 'Haskell'
@@ -474,6 +483,12 @@ while True:  # game loop
             x += 1
 
         y += 1
+
+    if kon_counter > 0:
+        display.blit(speech, ((500, 300)))
+        kon_counter += 1
+        if(kon_counter == 100):
+            gameover()
     # -- player movement
     player_movement = [0, 0]
     if moving_right:
@@ -625,5 +640,6 @@ while True:  # game loop
                         weapon = 'Java'
 
     # screen.blit(pygame.transform.scale(display, WINDOW_SIZE), (0, 0))
+
     pygame.display.update()
     clock.tick(60)
