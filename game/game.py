@@ -344,7 +344,7 @@ def takeDamage():
 shootLoop = 0
 computerCount = 0
 phoneBoyCount = 0
-tony = enemy(3600 * 3/2, 860 * 3/2 + 78, 79, 160)
+tony = enemy(3000 * 3/2, 860 * 3/2 + 78, 79, 160)
 javaShots = [pygame.image.load('images/java_this.png'), pygame.image.load('images/java_abstract.png'),
              pygame.image.load('images/java_final.png'), pygame.image.load('images/java_hash.png')]
 javaCount = 0
