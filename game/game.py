@@ -7,16 +7,15 @@ clock = pygame.time.Clock()
 
 pygame.init()  # initiates pygame
 
-pygame.display.set_caption('Pygame Platformer')
+pygame.display.set_caption('ESCAPE FROM HUXLEY')
 
 WINDOW_SIZE = (1200, 800)
 
 TILE_SIZE = 32
 
-display = pygame.display.set_mode(WINDOW_SIZE)  # initiate the window
+# initiate the window
+display = pygame.display.set_mode(WINDOW_SIZE)
 
-
-# display = pygame.Surface((600, 400))  # used as the surface for rendering, which is scaled
 
 moving_right = False
 moving_left = False
