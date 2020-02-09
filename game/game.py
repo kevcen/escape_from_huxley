@@ -156,6 +156,15 @@ walkRight = [pygame.transform.scale(pygame.image.load('images/mainAvatar_Right1.
 noWalkPlayer = walkRight[0]
 bg_image = pygame.transform.scale(pygame.image.load('images/insideBackground.png'), WINDOW_SIZE)
 
+bulletSound = pygame.mixer.Sound('sounds/code_shoot.wav')
+hitSound = pygame.mixer.Sound('sounds/code_hit.wav')
+
+pygame.mixer.music.load('sounds/normal_bg.mp3')
+pygame.mixer.music.play(-1)
+
+
+
+
 
 true_scroll = [0, 0]
 
@@ -314,6 +323,9 @@ while True:  # game loop
         tony.visible = True
         game_map = game_map2
         weapon = 'Haskell'
+        #pygame.mixer.music.unload()
+        pygame.mixer.music.load("sounds/tony_fight_music.mp3")
+        pygame.mixer.music.play(-1)
     if player_rect.x <= 640 and player_rect.y >= 860-100 and not enteredSecret:
         enteredSecret = True
         game_map = game_map3
@@ -428,6 +440,7 @@ while True:  # game loop
         shootLoop = 0
 
     if shooting and shootLoop == 0:
+        bulletSound.play()
         if wasLeft:
             facing = -1
         else:
@@ -467,6 +480,7 @@ while True:  # game loop
         tony_rect = pygame.Rect(tony.x , tony.y, tony.width, tony.height)
         tonyhits = collision_test(bullet_rect, [tony_rect])
         if tonyhits and tony.visible:
+            hitSound.play()
             tony.hit(bullet.damage)
             toRemove.append(bullet)
 
