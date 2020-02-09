@@ -658,6 +658,11 @@ while True:  # game loop
                         weapon = 'Java'
 
     # screen.blit(pygame.transform.scale(display, WINDOW_SIZE), (0, 0))
+    if weapon == 'Java':
+        display.blit(JavaLogo, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
+    elif weapon == 'Haskell':
+        display.blit(haskellLogo, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
+
 
     pygame.display.update()
     clock.tick(60)
