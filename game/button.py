@@ -2,22 +2,17 @@ from Colours import col
 
 
 class button():
-    def __init__(self, pg, colour, x, y, width, height, text=''):
-        self.colour = colour
+    def __init__(self, pg, image, x, y, width, height, text=''):
+        self.image = image
         self.x = x
         self.y = y
-        self.width = width
-        self.height = height
+        self.width = image.get_width()
+        self.height = image.get_height()
         self.text = text
         self.pg = pg
 
-    def draw(self, display, outline=None):
-        # Call this method to draw the button on the screen
-        if outline:
-            self.pg.draw.rect(display, outline, (self.x-2, self.y -
-                                                 2, self.width+4, self.height+4), 0)
-
-        self.pg.draw.rect(display, self.colour, (self.x, self.y, self.width, self.height), 0)
+    def draw(self, display):
+        display.blit(self.image, (self.x, self.y))
 
         if self.text != '':
             font = self.pg.font.SysFont('comicsans', 60)

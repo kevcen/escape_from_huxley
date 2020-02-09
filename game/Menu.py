@@ -4,20 +4,20 @@ from button import button
 
 def Menu(display, pg):
     """Create main menu for the game."""
+    play1 = pg.image.load("images/play1.png")
+    play2 = pg.image.load("images/play2.png")
+    quit1 = pg.image.load("images/quit1.png")
+    quit2 = pg.image.load("images/quit2.png")
+
     play = False
-    startButton = button(pg, col.GREEN.value, display.get_width() // 2 - 300,
-                         display.get_height()//2 + 150, 180, 100, "PLAY")
-    quitButton = button(pg, col.RED.value, display.get_width() // 2 + 100,
-                        display.get_height()//2 + 150, 180, 100, "QUIT")
-    background = pg.image.load("images/insideBackground.png")
+    startButton = button(pg, play1, display.get_width() // 2 - 350,
+                         display.get_height()//2 + 150, 180, 100)
+    quitButton = button(pg, quit1, display.get_width() // 2 + 100,
+                        display.get_height()//2 + 150, 180, 100)
+    background = pg.image.load("images/escape_from_huxley_open.png")
     background = pg.transform.scale(background, (display.get_width(), display.get_height()))
     title_font = pg.font.SysFont("papyrus", 120)
-    title_text = title_font.render("ESCAPE FROM HUXLEY", 1, col.RED.value)
     display.blit(background, (0, 0))
-    display.blit(title_text, ((display.get_width() -
-                               title_text.get_width()) // 2,
-                              (display.get_height() - title_text.get_height())
-                              // 2 - 100))
 
     while not play:
 
@@ -45,10 +45,10 @@ def Menu(display, pg):
                         quit()
             if event.type == pg.MOUSEMOTION:
                 if startButton.isOver(pos):
-                    startButton.colour = col.DARKGREEN.value
+                    startButton.image = play2
                 else:
-                    startButton.colour = col.GREEN.value
+                    startButton.image = play1
                 if quitButton.isOver(pos):
-                    quitButton.colour = col.DARKRED.value
+                    quitButton.image = quit2
                 else:
-                    quitButton.colour = col.RED.value
+                    quitButton.image = quit1
