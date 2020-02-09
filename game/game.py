@@ -23,7 +23,7 @@ moving_right = False
 moving_left = False
 gravity = 0
 air_timer = 0
-velocity = 4
+velocity = 10 ## CHANGED FOR QUICK TESTING -
 walkCount = 0
 
 walkLeft = [pygame.transform.scale(pygame.image.load('images/mainAvatar_Left1.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_LeftJump2.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_Left2.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_LeftJump1.png'), AVATAR_SIZE)]
@@ -52,6 +52,11 @@ Carpet_Floor = pygame.image.load('images/Carpet_Floor.png')
 Carpet_Floor = pygame.transform.scale(Carpet_Floor, (TILE_SIZE, TILE_SIZE))
 dirt_img = pygame.image.load('images/dirt.png')
 dirt_img = pygame.transform.scale(dirt_img, (TILE_SIZE, TILE_SIZE))
+Computer1 = pygame.image.load('images/Computer_1.png')
+Computer1 = pygame.transform.scale(Computer1, (TILE_SIZE, TILE_SIZE))
+Computer2 = pygame.image.load('images/Computer_2.png')
+Computer2 = pygame.transform.scale(Computer2, (TILE_SIZE, TILE_SIZE))
+
 
 
 player_img = pygame.image.load('images/player.png').convert()
@@ -113,6 +118,10 @@ while True:  # game loop
                 display.blit(dirt_img, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile == '2':
                 display.blit(Carpet_Floor, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == '3':
+                display.blit(Computer1, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == '4':
+                display.blit(Computer2, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile != '0':
                 tile_rects.append(pygame.Rect(x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE))
             x += 1
