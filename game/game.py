@@ -143,6 +143,7 @@ def load_map(path):
 
 game_map = load_map('game/Map')
 game_map2 = load_map('game/Map2')
+game_map3 = load_map('game/Map3')
 
 Carpet_Floor = pygame.image.load('images/Carpet_Floor.png')
 Carpet_Floor = pygame.transform.scale(Carpet_Floor, (TILE_SIZE, TILE_SIZE))
@@ -253,6 +254,7 @@ haskellCount = 0
 haskellShots = [pygame.image.load('images/bullet_concat.png'),pygame.image.load('images/bullet_curry.png'),pygame.image.load('images/bullet_define.png'),pygame.image.load('images/bullet_filter.png'),pygame.image.load('images/bullet_flip.png'),pygame.image.load('images/bullet_fold.png'),pygame.image.load('images/bullet_map.png'),pygame.image.load('images/bullet_scan.png'),pygame.image.load('images/bullet_uncurry.png')]
 weapon = 'Java'
 enterredBossRoom = False
+enteredSecret = False
 while True:  # game loop
     # display.fill((146, 244, 255))  # clear screen by filling it with blue
     display.blit(bg_image, (0,0))
@@ -270,6 +272,9 @@ while True:  # game loop
         tony.visible = True
         game_map = game_map2
         weapon = 'Haskell'
+    if player_rect.x <= 640 and player_rect.y >= 860-100 and not enteredSecret:
+        enteredSecret = True
+        game_map = game_map3
 
     for layer in game_map:
         x = 0
