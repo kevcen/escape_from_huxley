@@ -5,21 +5,6 @@ from Menu import Menu
 from Pause import Pause
 
 haskellEnabled = False
-
-
-class animation(object):
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-        self.step = 0
-
-    def draw(self):
-        if 5 - self.step > 0:
-            pygame.draw.circle(display, (255, 255, 255), (round(
-                self.x - scroll[0]), round(self.y - scroll[1])), 50 + self.step*3, 5 - self.step)
-            self.step += 1
-
-
 class projectile(object):
 
     def __init__(self, x, y, facing, image, damage):
@@ -365,7 +350,6 @@ haskellShots = [pygame.image.load('images/bullet_concat.png'), pygame.image.load
 weapon = 'Java'
 enterredBossRoom = False
 enteredSecret = False
-hitAnimations = []
 while True:  # game loop
     # display.fill((146, 244, 255))  # clear screen by filling it with blue
     display.blit(bg_image, (0, 0))
@@ -383,9 +367,8 @@ while True:  # game loop
         tony.visible = True
         game_map = game_map2
         # pygame.mixer.music.unload()
-        if(enteredSecret):
-            pygame.mixer.music.load("sounds/tony_fight_music.mp3")
-            pygame.mixer.music.play(-1)
+        pygame.mixer.music.load("sounds/tony_fight_music.mp3")
+        pygame.mixer.music.play(-1)
     if player_rect.x <= 640 * 3 / 2 and player_rect.y >= (860-100) * 3 / 2 and not enteredSecret:
         enteredSecret = True
         game_map = game_map3
@@ -393,6 +376,12 @@ while True:  # game loop
         haskellEnabled = True
         weapon = 'Haskell'
         game_map = game_map4
+    if (player_rect.x >= 3000 * 3/2 + 224) and (player_rect.x <= 3000 * 3/2 + 240)  and (player_rect.y >=  860 * 3/2 + 78 - 430) and (player_rect.y <=  860 * 3/2 + 78 - 390) and not tony.visible and enterredBossRoom:
+        winning = pygame.transform.scale(pygame.image.load("images/winning.png"), WINDOW_SIZE)
+        display.blit(winning, (0, 0))
+        pygame.display.update()
+        pygame.time.delay(3000)
+        quit()
 
     for layer in game_map:
         x = 0
@@ -567,17 +556,9 @@ while True:  # game loop
         tony_rect = pygame.Rect(tony.x, tony.y, tony.width, tony.height)
         tonyhits = collision_test(bullet_rect, [tony_rect])
         if tonyhits and tony.visible:
-
             hitSound.play()
             tony.hit(bullet.damage)
             toRemove.append(bullet)
-
-            # play animation
-
-            hitAnimations.append(animation(bullet.x, bullet.y))
-
-    for hitAnimation in hitAnimations:
-        hitAnimation.draw()
 
     enemyRemove = []
     for bullet in enemyBullets:
