@@ -1,5 +1,3 @@
-from Colours import col
-
 
 class button():
     def __init__(self, pg, image, x, y, width, height, text=''):
