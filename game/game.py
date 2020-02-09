@@ -161,7 +161,7 @@ moving_right = False
 moving_left = False
 gravity = 0
 air_timer = 0
-velocity = 10  # CHANGED FOR QUICK TESTING -
+velocity = 12  # CHANGED FOR QUICK TESTING -
 walkCount = 0
 wasLeft = False
 wasRight = True
@@ -172,6 +172,15 @@ walkRight = [pygame.transform.scale(pygame.image.load('images/mainAvatar_Right1.
              pygame.transform.scale(pygame.image.load('images/mainAvatar_Right2.png'), AVATAR_SIZE), pygame.transform.scale(pygame.image.load('images/mainAvatar_RightJump1.png'), AVATAR_SIZE)]
 noWalkPlayer = walkRight[0]
 bg_image = pygame.transform.scale(pygame.image.load('images/insideBackground.png'), WINDOW_SIZE)
+
+bulletSound = pygame.mixer.Sound('sounds/code_shoot.wav')
+hitSound = pygame.mixer.Sound('sounds/code_hit.wav')
+
+pygame.mixer.music.load('sounds/normal_bg.mp3')
+pygame.mixer.music.play(-1)
+
+
+
 
 
 true_scroll = [0, 0]
@@ -345,6 +354,9 @@ while True:  # game loop
         tony.visible = True
         game_map = game_map2
         weapon = 'Haskell'
+        #pygame.mixer.music.unload()
+        pygame.mixer.music.load("sounds/tony_fight_music.mp3")
+        pygame.mixer.music.play(-1)
     if player_rect.x <= 640 and player_rect.y >= 860-100 and not enteredSecret:
         enteredSecret = True
         game_map = game_map3
@@ -434,7 +446,7 @@ while True:  # game loop
     if moving_left:
         player_movement[0] -= velocity
     player_movement[1] += gravity
-    gravity += 0.6
+    gravity += 1.5
     if gravity > 12:
         gravity = 12
     # --
@@ -470,6 +482,7 @@ while True:  # game loop
         shootLoop = 0
 
     if shooting and shootLoop == 0:
+        bulletSound.play()
         if wasLeft:
             facing = -1
         else:
@@ -508,6 +521,7 @@ while True:  # game loop
         tony_rect = pygame.Rect(tony.x, tony.y, tony.width, tony.height)
         tonyhits = collision_test(bullet_rect, [tony_rect])
         if tonyhits and tony.visible:
+            hitSound.play()
             tony.hit(bullet.damage)
             toRemove.append(bullet)
 
@@ -557,7 +571,7 @@ while True:  # game loop
                 wasLeft = True
             if event.key == K_UP:
                 if air_timer < 6:
-                    gravity = -12
+                    gravity = -15
             if event.key == K_SPACE:
                 shooting = True
 
