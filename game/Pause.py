@@ -5,22 +5,23 @@ from options import options
 
 def Pause(display, pg):
     """Pause function."""
+    resume1 = pg.image.load("images/presume1.png")
+    resume2 = pg.image.load("images/presume2.png")
+    quit1 = pg.image.load("images/pquit1.png")
+    quit2 = pg.image.load("images/pquit2.png")
+    options1 = pg.image.load("images/poptions1.png")
+    options2 = pg.image.load("images/poptions2.png")
+
     resume = False
-    resumeButton = button(pg, col.GREEN.value, display.get_width() // 2 - 550,
-                          display.get_height()//2 - 200, 200, 100, "RESUME")
-    quitButton = button(pg, col.RED.value, display.get_width() // 2 - 550,
-                        display.get_height()//2 + 100, 200, 100, "QUIT")
-    optionsButton = button(pg, col.BLUE.value, display.get_width() // 2 - 550,
-                           display.get_height()//2 - 50, 200, 100, "OPTIONS")
-    background = pg.image.load("images/insideBackground.png")
+    resumeButton = button(pg, resume1, display.get_width() // 2 - 550,
+                          display.get_height()//2 - 200, 200, 100)
+    quitButton = button(pg, quit1, display.get_width() // 2 - 550,
+                        display.get_height()//2 + 100, 200, 100)
+    optionsButton = button(pg, options1, display.get_width() // 2 - 550,
+                           display.get_height()//2 - 50, 200, 100)
+    background = pg.image.load("images/game_paused.png")
     background = pg.transform.scale(background, (display.get_width(), display.get_height()))
-    title_font = pg.font.SysFont("papyrus", 200)
-    title_text = title_font.render("PAUSED", 1, col.RED.value)
     display.blit(background, (0, 0))
-    display.blit(title_text, ((display.get_width() -
-                               title_text.get_width()) // 2,
-                              (display.get_height() - title_text.get_height())
-                              // 2))
 
     while not resume:
 
@@ -48,23 +49,19 @@ def Pause(display, pg):
                     if optionsButton.isOver(pos):
                         options(display, pg)
                         display.blit(background, (0, 0))
-                        display.blit(title_text, ((display.get_width() -
-                                                   title_text.get_width()) // 2,
-                                                  (display.get_height() - title_text.get_height())
-                                                  // 2))
-
                     if quitButton.isOver(pos):
                         quit()
+
             if event.type == pg.MOUSEMOTION:
                 if resumeButton.isOver(pos):
-                    resumeButton.colour = col.DARKGREEN.value
+                    resumeButton.image = resume2
                 else:
-                    resumeButton.colour = col.GREEN.value
+                    resumeButton.image = resume1
                 if quitButton.isOver(pos):
-                    quitButton.colour = col.DARKRED.value
+                    quitButton.image = quit2
                 else:
-                    quitButton.colour = col.RED.value
+                    quitButton.image = quit1
                 if optionsButton.isOver(pos):
-                    optionsButton.colour = col.DARKBLUE.value
+                    optionsButton.image = options2
                 else:
-                    optionsButton.colour = col.BLUE.value
+                    optionsButton.image = options1
