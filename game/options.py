@@ -1,8 +1,13 @@
 from button import button
 
+music_playing = True
+sfx_playing = True
 
-def options(display, pg):
+
+def options(display, pg, sounds):
     """Options function."""
+    global music_playing
+    global sfx_playing
     exit = False
     music1 = pg.image.load("images/omusic1.png")
     music2 = pg.image.load("images/omusic2.png")
@@ -39,9 +44,19 @@ def options(display, pg):
             if event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     if musicButton.isOver(pos):
-                        pass
+                        if music_playing:
+                            pg.mixer.music.pause()
+                        else:
+                            pg.mixer.music.unpause()
+                        music_playing = not music_playing
                     if soundButton.isOver(pos):
-                        pass
+                        if sfx_playing:
+                            for sound in sounds:
+                                sound.set_volume(0)
+                        else:
+                            for sound in sounds:
+                                sound.set_volume(1)
+                        sfx_playing = not sfx_playing
                     if backButton.isOver(pos):
                         exit = True
             if event.type == pg.MOUSEMOTION:
@@ -57,3 +72,11 @@ def options(display, pg):
                     backButton.image = back2
                 else:
                     backButton.image = back1
+
+
+def music():
+    return music_playing
+
+
+def sfx():
+    return sfx_playing

@@ -1,10 +1,15 @@
+from options import music, sfx
 import sys
 import pygame
 from pygame.locals import *
 from Menu import Menu
 from Pause import Pause
+
 hitAnimations = []
+
 haskellEnabled = False
+
+
 class animation(object):
     def __init__(self, x, y):
         self.x = x
@@ -13,8 +18,10 @@ class animation(object):
 
     def draw(self):
         if 5 - self.step > 0:
-            pygame.draw.circle(display, (255, 255, 255), (round(self.x - scroll[0]), round(self.y - scroll[1])), 50+self.step*3, 5- self.step)
-            self.step+=1
+            pygame.draw.circle(display, (255, 255, 255), (round(
+                self.x - scroll[0]), round(self.y - scroll[1])), 50+self.step*3, 5 - self.step)
+            self.step += 1
+
 
 class projectile(object):
 
@@ -277,7 +284,7 @@ ICCrest = pygame.image.load('images/ImperialCrest.png')
 ICCrest = pygame.transform.scale(ICCrest, (TILE_SIZE, TILE_SIZE))
 haskellLogo = pygame.image.load('images/haskellLogo.png')
 haskellLogo = pygame.transform.scale(haskellLogo, (TILE_SIZE, TILE_SIZE))
-haskellLogo1= pygame.transform.scale(haskellLogo, (round(TILE_SIZE/2), round(TILE_SIZE/2)))
+haskellLogo1 = pygame.transform.scale(haskellLogo, (round(TILE_SIZE/2), round(TILE_SIZE/2)))
 Labs = pygame.image.load('images/Labs.png')
 Labs = pygame.transform.scale(Labs, (TILE_SIZE*4, TILE_SIZE*4))
 DoorClosed = pygame.image.load('images/GlassDoorClosed.png')
@@ -377,8 +384,6 @@ while True:  # game loop
     scroll[0] = int(scroll[0])
     scroll[1] = int(scroll[1])
 
-
-
     tile_rects = []
     y = 0
     if player_rect.x >= (3000 - 630) * 3 / 2 and player_rect.y >= 860 * 3 / 2 and not enterredBossRoom:
@@ -391,7 +396,6 @@ while True:  # game loop
         if(enteredSecret):
             kon_counter += 1
 
-
     if player_rect.x <= 640 * 3 / 2 and player_rect.y >= (860-100) * 3 / 2 and not enteredSecret:
         enteredSecret = True
         game_map = game_map3
@@ -402,7 +406,7 @@ while True:  # game loop
         weapon = 'Haskell'
         print('haskell enabled')
         game_map = game_map4
-    if (player_rect.x >= 3000 * 3/2 + 224) and (player_rect.x <= 3000 * 3/2 + 240)  and (player_rect.y >=  860 * 3/2 + 78 - 430) and (player_rect.y <=  860 * 3/2 + 78 - 390) and not tony.visible and enterredBossRoom:
+    if (player_rect.x >= 3000 * 3/2 + 224) and (player_rect.x <= 3000 * 3/2 + 240) and (player_rect.y >= 860 * 3/2 + 78 - 430) and (player_rect.y <= 860 * 3/2 + 78 - 390) and not tony.visible and enterredBossRoom:
         winning = pygame.transform.scale(pygame.image.load("images/winning.png"), WINDOW_SIZE)
         display.blit(winning, (0, 0))
         pygame.display.update()
@@ -627,7 +631,7 @@ while True:  # game loop
             sys.exit()
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
-                Pause(display, pygame)
+                Pause(display, pygame, [hitSound, bulletSound])
                 moving_right = False
                 moving_left = False
                 wasRight = False
@@ -662,10 +666,11 @@ while True:  # game loop
 
     # screen.blit(pygame.transform.scale(display, WINDOW_SIZE), (0, 0))
     if weapon == 'Java':
-        display.blit(JavaLogo, (player_rect.x - scroll[0] + 3, player_rect.y - scroll[1] - player_rect.height +10))
+        display.blit(JavaLogo, (player_rect.x -
+                                scroll[0] + 3, player_rect.y - scroll[1] - player_rect.height + 10))
     elif weapon == 'Haskell':
-        display.blit(haskellLogo1, (player_rect.x - scroll[0] + 3, player_rect.y - scroll[1] - player_rect.height + 10))
-
+        display.blit(haskellLogo1, (player_rect.x -
+                                    scroll[0] + 3, player_rect.y - scroll[1] - player_rect.height + 10))
 
     pygame.display.update()
     clock.tick(60)
