@@ -44,8 +44,8 @@ def load_map(path):
 
 game_map = load_map('game/Map')
 
-grass_img = pygame.image.load('images/grass.png')
-grass_img = pygame.transform.scale(grass_img, (TILE_SIZE, TILE_SIZE))
+Carpet_Floor = pygame.image.load('images/Carpet_Floor.png')
+Carpet_Floor = pygame.transform.scale(Carpet_Floor, (TILE_SIZE, TILE_SIZE))
 dirt_img = pygame.image.load('images/dirt.png')
 dirt_img = pygame.transform.scale(dirt_img, (TILE_SIZE, TILE_SIZE))
 
@@ -107,7 +107,7 @@ while True:  # game loop
             if tile == '1':
                 display.blit(dirt_img, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile == '2':
-                display.blit(grass_img, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+                display.blit(Carpet_Floor, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile != '0':
                 tile_rects.append(pygame.Rect(x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE))
             x += 1
