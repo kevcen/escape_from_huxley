@@ -3,8 +3,19 @@ import pygame
 from pygame.locals import *
 from Menu import Menu
 from Pause import Pause
-
+hitAnimations = []
 haskellEnabled = False
+class animation(object):
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.step = 0
+
+    def draw(self):
+        if 5 - self.step > 0:
+            pygame.draw.circle(display, (255, 255, 255), (round(self.x - scroll[0]), round(self.y - scroll[1])), 50+self.step*3, 5- self.step)
+            self.step+=1
+
 class projectile(object):
 
     def __init__(self, x, y, facing, image, damage):
@@ -164,7 +175,7 @@ moving_right = False
 moving_left = False
 gravity = 0
 air_timer = 0
-velocity = 12  # CHANGED FOR QUICK TESTING -
+velocity = 30  # CHANGED FOR QUICK TESTING -
 walkCount = 0
 wasLeft = False
 wasRight = True
@@ -574,6 +585,11 @@ while True:  # game loop
             hitSound.play()
             tony.hit(bullet.damage)
             toRemove.append(bullet)
+
+            hitAnimations.append(animation(bullet.x, bullet.y))
+
+        for hitAnimation in hitAnimations:
+            hitAnimation.draw()
 
     enemyRemove = []
     for bullet in enemyBullets:
