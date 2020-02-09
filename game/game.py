@@ -267,7 +267,11 @@ ICCrest = pygame.transform.scale(ICCrest, (TILE_SIZE, TILE_SIZE))
 haskellLogo = pygame.image.load('images/haskellLogo.png')
 haskellLogo = pygame.transform.scale(haskellLogo, (TILE_SIZE, TILE_SIZE))
 Labs = pygame.image.load('images/Labs.png')
-Labs = pygame.transform.scale(Labs, (TILE_SIZE, TILE_SIZE))
+Labs = pygame.transform.scale(Labs, (TILE_SIZE*4, TILE_SIZE*4))
+DoorClosed = pygame.image.load('images/GlassDoorClosed.png')
+DoorClosed = pygame.transform.scale(DoorClosed, (TILE_SIZE*2, TILE_SIZE*2))
+DoorOpened = pygame.image.load('images/GlassDoorOpened.png')
+DoorOpened = pygame.transform.scale(DoorOpened, (TILE_SIZE*2, TILE_SIZE*2))
 
 
 player_img = pygame.image.load('images/player.png').convert()
@@ -442,6 +446,11 @@ while True:  # game loop
                 display.blit(haskellLogo, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile == 't':
                 display.blit(Labs, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == 'u':
+                if tony.visible:
+                    display.blit(DoorClosed, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+                else:
+                    display.blit(DoorOpened, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile == 'i':
                 if phoneBoyCount//100 == 0:
                     phoneBoy = phoneBoy1
@@ -454,7 +463,7 @@ while True:  # game loop
                     phoneBoyCount = 0
             if tile == '?':
                 display.blit(Mystical, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
-            if tile != '0' and tile != 'g' and tile != 'h' and tile != 'i' and tile != 'k' and tile != 'r' and tile != 's' and tile != 'q':
+            if tile != '0' and tile != 'g' and tile != 'h' and tile != 'i' and tile != 'k' and tile != 'r' and tile != 's' and tile != 'q' and tile != 'u':
                 tile_rects.append(pygame.Rect(x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE))
             x += 1
 
