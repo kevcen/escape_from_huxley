@@ -11,7 +11,7 @@ class projectile(object):
         self.x = x
         self.y = y
         self.facing = facing
-        self.vel = 11*facing
+        self.vel = 20*facing
         self.damage = damage
         self.image = image
         # self.haskellShots = [pygame.image.load('images/java_this.png'),pygame.image.load('images/java_abstract.png'),pygame.image.load('images/java_final.png'),pygame.image.load('images/java_hash.png')]
@@ -149,7 +149,7 @@ pygame.display.set_caption('ESCAPE FROM HUXLEY')
 
 WINDOW_SIZE = (1200, 800)
 
-TILE_SIZE = 32
+TILE_SIZE = 48
 
 AVATAR_SIZE = (118//4, 210//4)
 
@@ -178,9 +178,6 @@ hitSound = pygame.mixer.Sound('sounds/code_hit.wav')
 
 pygame.mixer.music.load('sounds/normal_bg.mp3')
 pygame.mixer.music.play(-1)
-
-
-
 
 
 true_scroll = [0, 0]
@@ -250,9 +247,9 @@ Window = pygame.transform.scale(Window, (TILE_SIZE, TILE_SIZE))
 Mystical = pygame.image.load('images/Mystical.png')
 Mystical = pygame.transform.scale(Mystical, (TILE_SIZE, TILE_SIZE))
 phoneBoy1 = pygame.image.load('images/phoneBoy1.png')
-phoneBoy1 = pygame.transform.scale(phoneBoy1, (TILE_SIZE*2, TILE_SIZE*2))
+phoneBoy1 = pygame.transform.scale(phoneBoy1, (TILE_SIZE*3 // 2, TILE_SIZE*3 // 2))
 phoneBoy2 = pygame.image.load('images/phoneBoy2.png')
-phoneBoy2 = pygame.transform.scale(phoneBoy2, (TILE_SIZE*2, TILE_SIZE*2))
+phoneBoy2 = pygame.transform.scale(phoneBoy2, (TILE_SIZE*3 // 2, TILE_SIZE*3 // 2))
 blackboard_clean = pygame.image.load('images/blackboard_clean.png')
 blackboard_clean = pygame.transform.scale(blackboard_clean, (TILE_SIZE*3, TILE_SIZE*2))
 blackboard_drawn = pygame.image.load('images/blackboard_drawn.png')
@@ -333,7 +330,7 @@ def takeDamage():
 shootLoop = 0
 computerCount = 0
 phoneBoyCount = 0
-tony = enemy(3600, 860, 79, 160)
+tony = enemy(3600 * 3/2, 860 * 3/2, 79, 160)
 javaShots = [pygame.image.load('images/java_this.png'), pygame.image.load('images/java_abstract.png'),
              pygame.image.load('images/java_final.png'), pygame.image.load('images/java_hash.png')]
 javaCount = 0
@@ -355,15 +352,15 @@ while True:  # game loop
 
     tile_rects = []
     y = 0
-    if player_rect.x >= 3000 - 630 and player_rect.y >= 860 and not enterredBossRoom:
+    if player_rect.x >= (3000 - 630) * 3 / 2 and player_rect.y >= 860 * 3 / 2 and not enterredBossRoom:
         enterredBossRoom = True
         tony.visible = True
         game_map = game_map2
         weapon = 'Haskell'
-        #pygame.mixer.music.unload()
+        # pygame.mixer.music.unload()
         pygame.mixer.music.load("sounds/tony_fight_music.mp3")
         pygame.mixer.music.play(-1)
-    if player_rect.x <= 640 and player_rect.y >= 860-100 and not enteredSecret:
+    if player_rect.x <= 640 * 3 / 2 and player_rect.y >= (860-100) * 3 / 2 and not enteredSecret:
         enteredSecret = True
         game_map = game_map3
 
@@ -583,7 +580,7 @@ while True:  # game loop
                 wasLeft = True
             if event.key == K_UP:
                 if air_timer < 6:
-                    gravity = -15
+                    gravity = -22
             if event.key == K_SPACE:
                 shooting = True
 
