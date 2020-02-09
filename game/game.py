@@ -188,6 +188,16 @@ Window = pygame.image.load('images/window.png')
 Window = pygame.transform.scale(Window, (TILE_SIZE, TILE_SIZE))
 Mystical = pygame.image.load('images/Mystical.png')
 Mystical = pygame.transform.scale(Mystical, (TILE_SIZE, TILE_SIZE))
+phoneBoy1 = pygame.image.load('images/phoneBoy1.png')
+phoneBoy1 = pygame.transform.scale(phoneBoy1, (TILE_SIZE*2, TILE_SIZE*2))
+phoneBoy2 = pygame.image.load('images/phoneBoy2.png')
+phoneBoy2 = pygame.transform.scale(phoneBoy2, (TILE_SIZE*2, TILE_SIZE*2))
+blackboard_clean = pygame.image.load('images/blackboard_clean.png')
+blackboard_clean = pygame.transform.scale(blackboard_clean, (TILE_SIZE*3, TILE_SIZE*2))
+blackboard_drawn = pygame.image.load('images/blackboard_drawn.png')
+blackboard_drawn = pygame.transform.scale(blackboard_drawn, (TILE_SIZE*3, TILE_SIZE*2))
+Konstantinos = pygame.image.load('images/Konstantinos.png')
+Konstantinos = pygame.transform.scale(Konstantinos, (TILE_SIZE*2, TILE_SIZE*2))
 
 
 player_img = pygame.image.load('images/player.png').convert()
@@ -331,9 +341,25 @@ while True:  # game loop
                 display.blit(CeilingLeftTop, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile == 'f':
                 display.blit(CeilingRightTop, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == 'g':
+                display.blit(blackboard_clean, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == 'h':
+                display.blit(blackboard_drawn, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == 'k':
+                display.blit(Konstantinos, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == 'i':
+                if phoneBoyCount//100 == 0:
+                    phoneBoy = phoneBoy1
+                elif computerCount//100 == 1:
+                    phoneBoy = phoneBoy2
+                display.blit(phoneBoy, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+
+                phoneBoyCount += 1
+                if phoneBoyCount + 1 >= 200:
+                    phoneBoyCount = 0
             if tile == '?':
                 display.blit(Mystical, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
-            if tile != '0':
+            if tile != '0' and tile != 'g' and tile != 'h' and tile != 'i' and tile != 'k':
                 tile_rects.append(pygame.Rect(x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE))
             x += 1
 
