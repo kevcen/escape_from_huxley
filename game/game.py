@@ -112,6 +112,8 @@ WallRightOuter = pygame.image.load('images/Wall_RightOuter.png')
 WallRightOuter = pygame.transform.scale(WallRightOuter, (TILE_SIZE, TILE_SIZE))
 Window = pygame.image.load('images/window.png')
 Window = pygame.transform.scale(Window, (TILE_SIZE, TILE_SIZE))
+Mystical = pygame.image.load('images/Mystical.png')
+Mystical = pygame.transform.scale(Mystical, (TILE_SIZE, TILE_SIZE))
 
 
 player_img = pygame.image.load('images/player.png').convert()
@@ -225,6 +227,8 @@ while True:  # game loop
                 display.blit(CeilingLeftTop, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile == 'f':
                 display.blit(CeilingRightTop, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == '?':
+                display.blit(Mystical, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile != '0':
                 tile_rects.append(pygame.Rect(x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE))
             x += 1
