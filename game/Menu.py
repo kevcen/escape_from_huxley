@@ -1,5 +1,5 @@
-from Colours import col
 from button import button
+from controls import controls
 
 
 def Menu(display, pg):
@@ -8,21 +8,25 @@ def Menu(display, pg):
     play2 = pg.image.load("images/play2.png")
     quit1 = pg.image.load("images/quit1.png")
     quit2 = pg.image.load("images/quit2.png")
+    control1 = pg.image.load("images/htp1.png")
+    control2 = pg.image.load("images/htp2.png")
 
     play = False
     startButton = button(pg, play1, display.get_width() // 2 - 350,
-                         display.get_height()//2 + 150, 180, 100)
+                         display.get_height()//2 + 100, 180, 100)
     quitButton = button(pg, quit1, display.get_width() // 2 + 100,
-                        display.get_height()//2 + 150, 180, 100)
+                        display.get_height()//2 + 100, 180, 100)
+    controlButton = button(pg, control1, display.get_width() // 2 - 120,
+                           display.get_height()//2 + 220, 180, 100)
     background = pg.image.load("images/escape_from_huxley_open.png")
     background = pg.transform.scale(background, (display.get_width(), display.get_height()))
-    title_font = pg.font.SysFont("papyrus", 120)
     display.blit(background, (0, 0))
 
     while not play:
 
         startButton.draw(display)
         quitButton.draw(display)
+        controlButton.draw(display)
 
         pg.display.update()
 
@@ -43,6 +47,10 @@ def Menu(display, pg):
                         play = True
                     if quitButton.isOver(pos):
                         quit()
+                    if controlButton.isOver(pos):
+                        controls(display, pg)
+                        display.blit(background, (0, 0))
+                        controlButton.image = control1
             if event.type == pg.MOUSEMOTION:
                 if startButton.isOver(pos):
                     startButton.image = play2
@@ -52,3 +60,7 @@ def Menu(display, pg):
                     quitButton.image = quit2
                 else:
                     quitButton.image = quit1
+                if controlButton.isOver(pos):
+                    controlButton.image = control2
+                else:
+                    controlButton.image = control1
