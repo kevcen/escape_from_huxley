@@ -277,6 +277,7 @@ ICCrest = pygame.image.load('images/ImperialCrest.png')
 ICCrest = pygame.transform.scale(ICCrest, (TILE_SIZE, TILE_SIZE))
 haskellLogo = pygame.image.load('images/haskellLogo.png')
 haskellLogo = pygame.transform.scale(haskellLogo, (TILE_SIZE, TILE_SIZE))
+haskellLogo1= pygame.transform.scale(haskellLogo, (round(TILE_SIZE/2), round(TILE_SIZE/2)))
 Labs = pygame.image.load('images/Labs.png')
 Labs = pygame.transform.scale(Labs, (TILE_SIZE*4, TILE_SIZE*4))
 DoorClosed = pygame.image.load('images/GlassDoorClosed.png')
@@ -284,7 +285,7 @@ DoorClosed = pygame.transform.scale(DoorClosed, (TILE_SIZE*2, TILE_SIZE*2))
 DoorOpened = pygame.image.load('images/GlassDoorOpened.png')
 DoorOpened = pygame.transform.scale(DoorOpened, (TILE_SIZE*2, TILE_SIZE*2))
 JavaLogo = pygame.image.load('images/javalogo.png')
-JavaLogo = pygame.transform.scale(JavaLogo, (TILE_SIZE*4, TILE_SIZE*4))
+JavaLogo = pygame.transform.scale(JavaLogo, (round(TILE_SIZE/2), round(TILE_SIZE/2)))
 
 
 player_img = pygame.image.load('images/player.png').convert()
@@ -661,9 +662,9 @@ while True:  # game loop
 
     # screen.blit(pygame.transform.scale(display, WINDOW_SIZE), (0, 0))
     if weapon == 'Java':
-        display.blit(JavaLogo, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
+        display.blit(JavaLogo, (player_rect.x - scroll[0] + 3, player_rect.y - scroll[1] - player_rect.height +10))
     elif weapon == 'Haskell':
-        display.blit(haskellLogo, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
+        display.blit(haskellLogo1, (player_rect.x - scroll[0] + 3, player_rect.y - scroll[1] - player_rect.height + 10))
 
 
     pygame.display.update()
