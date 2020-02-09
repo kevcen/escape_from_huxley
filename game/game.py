@@ -23,7 +23,7 @@ moving_right = False
 moving_left = False
 gravity = 0
 air_timer = 0
-velocity = 4
+velocity = 10 ## CHANGED FOR QUICK TESTING -
 walkCount = 0
 
 walkLeft = [pygame.transform.scale(pygame.image.load('images/mainAvatar_Left1.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_LeftJump2.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_Left2.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_LeftJump1.png'), AVATAR_SIZE)]
@@ -50,8 +50,36 @@ game_map = load_map('game/Map')
 
 Carpet_Floor = pygame.image.load('images/Carpet_Floor.png')
 Carpet_Floor = pygame.transform.scale(Carpet_Floor, (TILE_SIZE, TILE_SIZE))
+Carpet_Left = pygame.image.load('images/Carpet_Left.png')
+Carpet_Left = pygame.transform.scale(Carpet_Left, (TILE_SIZE, TILE_SIZE))
+Carpet_Right = pygame.image.load('images/Carpet_Right.png')
+Carpet_Right = pygame.transform.scale(Carpet_Right, (TILE_SIZE, TILE_SIZE))
 dirt_img = pygame.image.load('images/dirt.png')
 dirt_img = pygame.transform.scale(dirt_img, (TILE_SIZE, TILE_SIZE))
+Computer = pygame.image.load('images/Computer_1.png')
+Computer = pygame.transform.scale(Computer, (TILE_SIZE, TILE_SIZE))
+CeilingLight = pygame.image.load('images/LowerCeiling.png')
+CeilingLight = pygame.transform.scale(CeilingLight, (TILE_SIZE, TILE_SIZE))
+CeilingNoLight = pygame.image.load('images/LowerCeiling2.png')
+CeilingNoLight = pygame.transform.scale(CeilingNoLight, (TILE_SIZE, TILE_SIZE))
+CeilingLeftTop = pygame.image.load('images/Ceiling_LeftTop.png')
+CeilingLeftTop = pygame.transform.scale(CeilingLeftTop, (TILE_SIZE, TILE_SIZE))
+CeilingRightTop = pygame.image.load('images/Ceiling_RightTop.png')
+CeilingRightTop = pygame.transform.scale(CeilingRightTop, (TILE_SIZE, TILE_SIZE))
+Roof = pygame.image.load('images/UpperCeiling.png')
+Roof = pygame.transform.scale(Roof, (TILE_SIZE, TILE_SIZE))
+WallLeftInner = pygame.image.load('images/Wall_LeftInner.png')
+WallLeftInner = pygame.transform.scale(WallLeftInner, (TILE_SIZE, TILE_SIZE))
+WallLeftOuter = pygame.image.load('images/Wall_LeftOuter.png')
+WallLeftOuter = pygame.transform.scale(WallLeftOuter, (TILE_SIZE, TILE_SIZE))
+WallRightInner = pygame.image.load('images/Wall_RightInner.png')
+WallRightInner = pygame.transform.scale(WallRightInner, (TILE_SIZE, TILE_SIZE))
+WallRightOuter = pygame.image.load('images/Wall_RightOuter.png')
+WallRightOuter = pygame.transform.scale(WallRightOuter, (TILE_SIZE, TILE_SIZE))
+Window = pygame.image.load('images/window.png')
+Window = pygame.transform.scale(Window, (TILE_SIZE, TILE_SIZE))
+
+
 
 
 player_img = pygame.image.load('images/player.png').convert()
@@ -113,6 +141,32 @@ while True:  # game loop
                 display.blit(dirt_img, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile == '2':
                 display.blit(Carpet_Floor, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == '3':
+                display.blit(Computer, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == '4':
+                display.blit(CeilingLight, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == '5':
+                display.blit(CeilingNoLight, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == '6':
+                display.blit(Roof, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == '7':
+                display.blit(WallLeftInner, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == '8':
+                display.blit(WallLeftOuter, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == '9':
+                display.blit(WallRightInner, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == 'a':
+                display.blit(WallRightOuter, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == 'b':
+                display.blit(Window, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == 'c':
+                display.blit(Carpet_Left, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == 'd':
+                display.blit(Carpet_Right, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == 'e':
+                display.blit(CeilingLeftTop, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == 'f':
+                display.blit(CeilingRightTop, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile != '0':
                 tile_rects.append(pygame.Rect(x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE))
             x += 1
