@@ -5,22 +5,23 @@ from button import button
 def options(display, pg):
     """Options function."""
     exit = False
-    musicButton = button(pg, col.BLUE.value, display.get_width() // 2 - 420,
-                         display.get_height()//2 + 150, 380, 150, "MUSIC")
-    soundButton = button(pg, col.BLUE.value, display.get_width() // 2 + 20,
-                         display.get_height()//2 + 150, 380, 150, "SOUND EFFECTS")
-    backButton = button(pg, col.RED.value, display.get_width() // 2 + 400,
-                        display.get_height()//2 - 300, 150, 80, "BACK")
+    music1 = pg.image.load("images/omusic1.png")
+    music2 = pg.image.load("images/omusic2.png")
+    sound1 = pg.image.load("images/osfx1.png")
+    sound2 = pg.image.load("images/osfx2.png")
+    back1 = pg.image.load("images/oback1.png")
+    back2 = pg.image.load("images/oback2.png")
+    musicButton = button(pg, music1, display.get_width() // 2 - 350,
+                         display.get_height()//2 + 150, 380, 150)
+    soundButton = button(pg, sound1, display.get_width() // 2 + 50,
+                         display.get_height()//2 + 150, 380, 150)
+    backButton = button(pg, back1, display.get_width() // 2 + 250,
+                        display.get_height()//2 - 300, 150, 80)
 
-    background = pg.image.load("images/insideBackground.png")
+    background = pg.image.load("images/options_page.png")
     background = pg.transform.scale(background, (display.get_width(), display.get_height()))
     title_font = pg.font.SysFont("papyrus", 200)
-    title_text = title_font.render("OPTIONS", 1, col.RED.value)
     display.blit(background, (0, 0))
-    display.blit(title_text, ((display.get_width() -
-                               title_text.get_width()) // 2,
-                              (display.get_height() - title_text.get_height())
-                              // 2))
 
     while not exit:
 
@@ -41,19 +42,19 @@ def options(display, pg):
                     if musicButton.isOver(pos):
                         pass
                     if soundButton.isOver(pos):
-                        options(display, pg)
+                        pass
                     if backButton.isOver(pos):
                         exit = True
             if event.type == pg.MOUSEMOTION:
                 if musicButton.isOver(pos):
-                    musicButton.colour = col.DARKBLUE.value
+                    musicButton.image = music2
                 else:
-                    musicButton.colour = col.BLUE.value
+                    musicButton.image = music1
                 if soundButton.isOver(pos):
-                    soundButton.colour = col.DARKBLUE.value
+                    soundButton.image = sound2
                 else:
-                    soundButton.colour = col.BLUE.value
+                    soundButton.image = sound1
                 if backButton.isOver(pos):
-                    backButton.colour = col.DARKRED.value
+                    backButton.image = back2
                 else:
-                    backButton.colour = col.RED.value
+                    backButton.image = back1

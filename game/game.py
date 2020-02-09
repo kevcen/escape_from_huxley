@@ -75,38 +75,38 @@ class enemy(object):
                     self.shoot(win)
                     self.shootCount = 1
             else:
-                if self.count > 500:
+                if self.count > 200:
                     self.visible = False
                 else:
                     self.count += 1
-                    if self.count//50 == 0:
+                    if self.count//20 == 0:
                         win.blit(pygame.image.load('images/TonyWither1.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//50 == 1:
+                    elif self.count//20 == 1:
                         win.blit(pygame.image.load('images/TonyWither2.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//50 == 2:
+                    elif self.count//20 == 2:
                         win.blit(pygame.image.load('images/TonyWither3.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//50 == 3:
+                    elif self.count//20 == 3:
                         win.blit(pygame.image.load('images/TonyWither4.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//50 == 4:
+                    elif self.count//20 == 4:
                         win.blit(pygame.image.load('images/TonyWither5.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//50 == 5:
+                    elif self.count//20 == 5:
                         win.blit(pygame.image.load('images/TonyWither6.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//50 == 6:
+                    elif self.count//20 == 6:
                         win.blit(pygame.image.load('images/TonyWither7.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//50 == 7:
+                    elif self.count//20 == 7:
                         win.blit(pygame.image.load('images/TonyWither8.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//50 == 8:
+                    elif self.count//20 == 8:
                         win.blit(pygame.image.load('images/TonyWither9.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//50 == 9:
+                    elif self.count//20 == 9:
                         win.blit(pygame.image.load('images/TonyWither10.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
         #pygame.draw.rect(win, (255,0,0), self.hitbox, 2)

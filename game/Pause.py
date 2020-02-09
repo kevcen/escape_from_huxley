@@ -49,6 +49,7 @@ def Pause(display, pg):
                     if optionsButton.isOver(pos):
                         options(display, pg)
                         display.blit(background, (0, 0))
+                        optionsButton.image = options1
                     if quitButton.isOver(pos):
                         quit()
 
