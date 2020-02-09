@@ -82,7 +82,6 @@ Window = pygame.image.load('images/window.png')
 Window = pygame.transform.scale(Window, (TILE_SIZE, TILE_SIZE))
 
 
-
 player_img = pygame.image.load('images/player.png').convert()
 player_img = pygame.transform.scale(player_img, (10, 26))
 player_img.set_colorkey((255, 255, 255))
