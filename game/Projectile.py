@@ -3,7 +3,7 @@ from Weapons import weapon_type
 import random
 
 
-class Projectile(object):
+class projectile(object):
 
     def __init__(self, x, y, type, vel, damage, facing):
         self.x = x
