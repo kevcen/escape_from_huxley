@@ -161,7 +161,7 @@ moving_right = False
 moving_left = False
 gravity = 0
 air_timer = 0
-velocity = 10  # CHANGED FOR QUICK TESTING -
+velocity = 12  # CHANGED FOR QUICK TESTING -
 walkCount = 0
 wasLeft = False
 wasRight = True
@@ -426,7 +426,7 @@ while True:  # game loop
     if moving_left:
         player_movement[0] -= velocity
     player_movement[1] += gravity
-    gravity += 0.6
+    gravity += 1.5
     if gravity > 12:
         gravity = 12
     # --
@@ -551,7 +551,7 @@ while True:  # game loop
                 wasLeft = True
             if event.key == K_UP:
                 if air_timer < 6:
-                    gravity = -12
+                    gravity = -15
             if event.key == K_SPACE:
                 shooting = True
 
