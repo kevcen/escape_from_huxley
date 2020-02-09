@@ -23,6 +23,10 @@ moving_left = False
 gravity = 0
 air_timer = 0
 velocity = 4
+walkCount = 0
+walkLeft = [pygame.transform.scale(pygame.image.load('images/mainAvatar_Left1.png'), (64,64)),pygame.transform.scale(pygame.image.load('images/mainAvatar_LeftJump2.png'), (64,64)),pygame.transform.scale(pygame.image.load('images/mainAvatar_Left2.png'), (64,64)),pygame.transform.scale(pygame.image.load('images/mainAvatar_LeftJump1.png'), (64,64))]
+walkRight = [pygame.transform.scale(pygame.image.load('images/mainAvatar_Right1.png'), (64,64)),pygame.transform.scale(pygame.image.load('images/mainAvatar_RightJump2.png'), (64,64)),pygame.transform.scale(pygame.image.load('images/mainAvatar_Right2.png'), (64,64)),pygame.transform.scale(pygame.image.load('images/mainAvatar_RightJump1.png'), (64,64))]
+noWalkPlayer = pygame.transform.scale(pygame.image.load('images/mainAvatarStand.png'), (64,64))
 
 true_scroll = [0, 0]
 
@@ -51,7 +55,7 @@ player_img = pygame.transform.scale(player_img, (10, 26))
 player_img.set_colorkey((255, 255, 255))
 
 
-player_rect = pygame.Rect(100, 100, 10, 26)
+player_rect = pygame.Rect(100, 100, 64, 64)
 
 
 def collision_test(rect, tiles):
@@ -89,8 +93,8 @@ def move(rect, movement, tiles):
 while True:  # game loop
     display.fill((146, 244, 255))  # clear screen by filling it with blue
 
-    true_scroll[0] += (player_rect.x-true_scroll[0]-152)/20
-    true_scroll[1] += (player_rect.y-true_scroll[1]-106)/20
+    true_scroll[0] += (player_rect.x-true_scroll[0]-300)/20
+    true_scroll[1] += (player_rect.y-true_scroll[1]-500)/20
     scroll = true_scroll.copy()
     scroll[0] = int(scroll[0])
     scroll[1] = int(scroll[1])
@@ -127,7 +131,17 @@ while True:  # game loop
     else:
         air_timer += 1
 
-    display.blit(player_img, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
+    #draw player
+    if walkCount + 1 >= 32: # 4 * 8
+        walkCount = 0
+
+    if moving_right:
+        display.blit(walkRight[walkCount//8],(player_rect.x - scroll[0], player_rect.y - scroll[1]))
+    # display.blit(player_img, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
+    elif moving_left:
+        display.blit(walkLeft[walkCount//8],(player_rect.x - scroll[0], player_rect.y - scroll[1]))
+    else:
+        display.blit(noWalkPlayer, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
 
     for event in pygame.event.get():  # event loop
         if event.type == QUIT:
