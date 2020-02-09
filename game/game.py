@@ -4,7 +4,17 @@ from pygame.locals import *
 from Menu import Menu
 from Pause import Pause
 
+haskellEnabled = False
+class animation(object):
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.step = 0
 
+    def draw(self):
+        if 5 - self.step > 0:
+            pygame.draw.circle(display, (255, 255, 255), (round(self.x - scroll[0]), round(self.y - scroll[1])), 50 + self.step*3, 5 - self.step)
+            self.step += 1
 class projectile(object):
 
     def __init__(self, x, y, facing, image, damage):
@@ -74,41 +84,44 @@ class enemy(object):
                 if self.shootCount == 0:
                     self.shoot(win)
                     self.shootCount = 1
+
             else:
-                if self.count > 200:
+                if self.count > 50:
                     self.visible = False
                 else:
                     self.count += 1
-                    if self.count//20 == 0:
+                    if self.count//5 == 0:
                         win.blit(pygame.image.load('images/TonyWither1.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//20 == 1:
+                    elif self.count//5 == 1:
                         win.blit(pygame.image.load('images/TonyWither2.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//20 == 2:
+                    elif self.count//5 == 2:
                         win.blit(pygame.image.load('images/TonyWither3.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//20 == 3:
+                    elif self.count//5 == 3:
                         win.blit(pygame.image.load('images/TonyWither4.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//20 == 4:
+                    elif self.count//5 == 4:
                         win.blit(pygame.image.load('images/TonyWither5.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//20 == 5:
+                    elif self.count//5 == 5:
                         win.blit(pygame.image.load('images/TonyWither6.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//20 == 6:
+                    elif self.count//5 == 6:
                         win.blit(pygame.image.load('images/TonyWither7.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//20 == 7:
+                    elif self.count//5 == 7:
                         win.blit(pygame.image.load('images/TonyWither8.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//20 == 8:
+                    elif self.count//5 == 8:
                         win.blit(pygame.image.load('images/TonyWither9.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//20 == 9:
+                    elif self.count//5 == 9:
                         win.blit(pygame.image.load('images/TonyWither10.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
+                        pygame.mixer.music.load('sounds/normal_bg.mp3')
+                        pygame.mixer.music.play(-1)
         #pygame.draw.rect(win, (255,0,0), self.hitbox, 2)
 
     # def move(self):
@@ -161,7 +174,7 @@ moving_right = False
 moving_left = False
 gravity = 0
 air_timer = 0
-velocity = 12  # CHANGED FOR QUICK TESTING -
+velocity = 25  # CHANGED FOR QUICK TESTING -
 walkCount = 0
 wasLeft = False
 wasRight = True
@@ -197,6 +210,7 @@ def load_map(path):
 game_map = load_map('game/Map')
 game_map2 = load_map('game/Map2')
 game_map3 = load_map('game/Map3')
+game_map4 = load_map('game/Map4')
 
 Carpet_Floor = pygame.image.load('images/huxley_top.png')
 Carpet_Floor = pygame.transform.scale(Carpet_Floor, (TILE_SIZE, TILE_SIZE))
@@ -247,9 +261,9 @@ Window = pygame.transform.scale(Window, (TILE_SIZE, TILE_SIZE))
 Mystical = pygame.image.load('images/Mystical.png')
 Mystical = pygame.transform.scale(Mystical, (TILE_SIZE, TILE_SIZE))
 phoneBoy1 = pygame.image.load('images/phoneBoy1.png')
-phoneBoy1 = pygame.transform.scale(phoneBoy1, (TILE_SIZE*3 // 2, TILE_SIZE*3 // 2))
+phoneBoy1 = pygame.transform.scale(phoneBoy1, (TILE_SIZE, TILE_SIZE))
 phoneBoy2 = pygame.image.load('images/phoneBoy2.png')
-phoneBoy2 = pygame.transform.scale(phoneBoy2, (TILE_SIZE*3 // 2, TILE_SIZE*3 // 2))
+phoneBoy2 = pygame.transform.scale(phoneBoy2, (TILE_SIZE, TILE_SIZE))
 blackboard_clean = pygame.image.load('images/blackboard_clean.png')
 blackboard_clean = pygame.transform.scale(blackboard_clean, (TILE_SIZE*3, TILE_SIZE*2))
 blackboard_drawn = pygame.image.load('images/blackboard_drawn.png')
@@ -257,11 +271,13 @@ blackboard_drawn = pygame.transform.scale(blackboard_drawn, (TILE_SIZE*3, TILE_S
 Konstantinos = pygame.image.load('images/Konstantinos.png')
 Konstantinos = pygame.transform.scale(Konstantinos, (TILE_SIZE*2, TILE_SIZE*2))
 ICHack = pygame.image.load('images/ICHack.png')
-ICHack = pygame.transform.scale(ICHack, (TILE_SIZE*2, TILE_SIZE))
+ICHack = pygame.transform.scale(ICHack, (TILE_SIZE*4, TILE_SIZE*2))
 ICCrest = pygame.image.load('images/ImperialCrest.png')
 ICCrest = pygame.transform.scale(ICCrest, (TILE_SIZE, TILE_SIZE))
 haskellLogo = pygame.image.load('images/haskellLogo.png')
 haskellLogo = pygame.transform.scale(haskellLogo, (TILE_SIZE, TILE_SIZE))
+Labs = pygame.image.load('images/Labs.png')
+Labs = pygame.transform.scale(Labs, (TILE_SIZE, TILE_SIZE))
 
 
 player_img = pygame.image.load('images/player.png').convert()
@@ -330,7 +346,7 @@ def takeDamage():
 shootLoop = 0
 computerCount = 0
 phoneBoyCount = 0
-tony = enemy(3600 * 3/2, 860 * 3/2, 79, 160)
+tony = enemy(3000 * 3/2, 860 * 3/2 + 78, 79, 160)
 javaShots = [pygame.image.load('images/java_this.png'), pygame.image.load('images/java_abstract.png'),
              pygame.image.load('images/java_final.png'), pygame.image.load('images/java_hash.png')]
 javaCount = 0
@@ -340,6 +356,7 @@ haskellShots = [pygame.image.load('images/bullet_concat.png'), pygame.image.load
 weapon = 'Java'
 enterredBossRoom = False
 enteredSecret = False
+hitAnimations = []
 while True:  # game loop
     # display.fill((146, 244, 255))  # clear screen by filling it with blue
     display.blit(bg_image, (0, 0))
@@ -352,17 +369,21 @@ while True:  # game loop
 
     tile_rects = []
     y = 0
-    if player_rect.x >= (3000 - 630) * 3 / 2 and player_rect.y >= 860 * 3 / 2 and not enterredBossRoom:
+    if player_rect.x >= (3000 - 630) * 3 / 2 and player_rect.y >= 860 * 3 / 2 and not enterredBossRoom :
         enterredBossRoom = True
         tony.visible = True
         game_map = game_map2
-        weapon = 'Haskell'
         # pygame.mixer.music.unload()
-        pygame.mixer.music.load("sounds/tony_fight_music.mp3")
-        pygame.mixer.music.play(-1)
+        if(enteredSecret):
+            pygame.mixer.music.load("sounds/tony_fight_music.mp3")
+            pygame.mixer.music.play(-1)
     if player_rect.x <= 640 * 3 / 2 and player_rect.y >= (860-100) * 3 / 2 and not enteredSecret:
         enteredSecret = True
         game_map = game_map3
+    if player_rect.x >= (3000 - 630) * 3/2 + 48 and player_rect.y >= 860 * 3/2 and enterredBossRoom:
+        haskellEnabled = True
+        weapon = 'Haskell'
+        game_map = game_map4
 
     for layer in game_map:
         x = 0
@@ -372,18 +393,18 @@ while True:  # game loop
             if tile == '2':
                 display.blit(Carpet_Floor, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile == '3':
-                if computerCount//50 == 0:
+                if computerCount//200 == 0:
                     Computer = Computer1
-                elif computerCount//50 == 1:
+                elif computerCount//200 == 1:
                     Computer = Computer2
-                elif computerCount // 50 == 2:
+                elif computerCount // 200 == 2:
                     Computer = Computer3
-                elif computerCount//50 == 3:
+                elif computerCount//200 == 3:
                     Computer = Computer4
                 display.blit(Computer, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
 
                 computerCount += 1
-                if computerCount + 1 >= 200:
+                if computerCount + 1 >= 800:
                     computerCount = 0
             if tile == '4':
                 display.blit(CeilingLight, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
@@ -432,6 +453,8 @@ while True:  # game loop
             if tile == 's':
                 display.blit(haskellLogo, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile == 't':
+                display.blit(Labs, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == 'i':
                 if phoneBoyCount//100 == 0:
                     phoneBoy = phoneBoy1
                 elif computerCount//100 == 1:
@@ -443,7 +466,7 @@ while True:  # game loop
                     phoneBoyCount = 0
             if tile == '?':
                 display.blit(Mystical, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
-            if tile != '0' and tile != 'g' and tile != 'h' and tile != 'i' and tile != 'k' and tile != 'r' and tile != 's' and tile != 't':
+            if tile != '0' and tile != 'g' and tile != 'h' and tile != 'i' and tile != 'k' and tile != 'r' and tile != 's' and tile != 'q':
                 tile_rects.append(pygame.Rect(x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE))
             x += 1
 
@@ -530,9 +553,17 @@ while True:  # game loop
         tony_rect = pygame.Rect(tony.x, tony.y, tony.width, tony.height)
         tonyhits = collision_test(bullet_rect, [tony_rect])
         if tonyhits and tony.visible:
+
             hitSound.play()
             tony.hit(bullet.damage)
             toRemove.append(bullet)
+
+            #play animation
+
+            hitAnimations.append(animation(bullet.x, bullet.y))
+
+    for hitAnimation in hitAnimations:
+        hitAnimation.draw()
 
     enemyRemove = []
     for bullet in enemyBullets:
@@ -592,10 +623,11 @@ while True:  # game loop
             if event.key == K_SPACE:
                 shooting = False
             if event.key == K_q:
-                if weapon == 'Java':
-                    weapon = 'Haskell'
-                elif weapon == 'Haskell':
-                    weapon = 'Java'
+                if haskellEnabled:
+                    if weapon == 'Java':
+                        weapon = 'Haskell'
+                    elif weapon == 'Haskell':
+                        weapon = 'Java'
 
     # screen.blit(pygame.transform.scale(display, WINDOW_SIZE), (0, 0))
     pygame.display.update()
