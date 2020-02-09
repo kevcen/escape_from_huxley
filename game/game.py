@@ -2,8 +2,28 @@ import sys
 import pygame
 from pygame.locals import *
 
+class projectile(object):
+
+    def __init__(self, x, y, facing):
+        self.x = x
+        self.y = y
+        self.facing = facing
+        self.vel = 8*facing
+        self.haskellCount = 0
+        self.haskellShots = [pygame.image.load('images/java_10k.png'),pygame.image.load('images/java_abstract.png'),pygame.image.load('images/java_final.png')]
+
+    def draw(self, win):
+        self.haskellCount += 1
+        if self.haskellCount + 1 >= 30:
+            self.haskellCount = 0
+        self.x += self.vel
+
+        win.blit(self.haskellShots[self.haskellCount//10], (round(self.x - scroll[0]), round(self.y - scroll[1])))
+
+
 
 clock = pygame.time.Clock()
+shooting = False
 
 pygame.init()  # initiates pygame
 
@@ -12,6 +32,7 @@ pygame.display.set_caption('Pygame Platformer')
 WINDOW_SIZE = (1200, 800)
 
 TILE_SIZE = 32
+
 AVATAR_SIZE = (118//4, 210//4)
 
 display = pygame.display.set_mode(WINDOW_SIZE)  # initiate the window
@@ -25,10 +46,12 @@ gravity = 0
 air_timer = 0
 velocity = 10 ## CHANGED FOR QUICK TESTING -
 walkCount = 0
+wasLeft = False
+wasRight = True
 
 walkLeft = [pygame.transform.scale(pygame.image.load('images/mainAvatar_Left1.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_LeftJump2.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_Left2.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_LeftJump1.png'), AVATAR_SIZE)]
 walkRight = [pygame.transform.scale(pygame.image.load('images/mainAvatar_Right1.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_RightJump2.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_Right2.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_RightJump1.png'), AVATAR_SIZE)]
-noWalkPlayer = pygame.transform.scale(pygame.image.load('images/mainAvatarStand.png'), AVATAR_SIZE)
+noWalkPlayer = walkRight[0]
 bg_image = pygame.transform.scale(pygame.image.load('images/insideBackground.png'), WINDOW_SIZE)
 
 
@@ -66,6 +89,7 @@ player_img.set_colorkey((255, 255, 255))
 
 player_rect = pygame.Rect(100, 100, AVATAR_SIZE[0],AVATAR_SIZE[1])
 
+bullets = []
 
 def collision_test(rect, tiles):
     hit_list = []
@@ -98,7 +122,7 @@ def move(rect, movement, tiles):
             collision_types['top'] = True
     return rect, collision_types
 
-
+shootLoop = 0
 while True:  # game loop
     # display.fill((146, 244, 255))  # clear screen by filling it with blue
     display.blit(bg_image, (0,0))
@@ -125,8 +149,9 @@ while True:  # game loop
             if tile != '0':
                 tile_rects.append(pygame.Rect(x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE))
             x += 1
-        y += 1
 
+        y += 1
+    #-- player movement
     player_movement = [0, 0]
     if moving_right:
         player_movement[0] += velocity
@@ -136,6 +161,7 @@ while True:  # game loop
     gravity += 0.6
     if gravity > 6:
         gravity = 6
+    #--
 
     player_rect, collisions = move(player_rect, player_movement, tile_rects)
 
@@ -149,13 +175,53 @@ while True:  # game loop
     if walkCount + 1 >= 32: # 4 * 8
         walkCount = 0
 
-    if moving_right:
+    if wasRight:
         display.blit(walkRight[walkCount//8],(player_rect.x - scroll[0], player_rect.y - scroll[1]))
     # display.blit(player_img, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
-    elif moving_left:
+    elif wasLeft:
         display.blit(walkLeft[walkCount//8],(player_rect.x - scroll[0], player_rect.y - scroll[1]))
     else:
         display.blit(noWalkPlayer, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
+
+
+    #draw bullets
+    if shootLoop > 0:
+        shootLoop += 1
+    if shootLoop > 10:
+        shootLoop = 0
+
+    if shooting and shootLoop == 0:
+        if wasLeft:
+            facing = -1
+        else:
+            facing = 1
+        bullets.append(projectile(player_rect.x, player_rect.y, facing))
+        shootLoop = 1 # to get out of zero state
+
+
+
+
+    toRemove = []
+    for bullet in bullets:
+        bullet_img = bullet.haskellShots[bullet.haskellCount//10]
+        bullet_rect = pygame.Rect(round(bullet.x),
+                                round(bullet.y),
+                                bullet_img.get_width(),
+                                bullet_img.get_height())
+        print(str(round(bullet.x)))
+        print(str(round(bullet.y)))
+        print(str(bullet_img.get_width()))
+        print(str(bullet_img.get_height()))
+
+        hits = collision_test(bullet_rect, tile_rects)
+        print(str(hits))
+        bullet.draw(display)
+        if hits:
+            toRemove.append(bullet)
+
+    for bullet in toRemove:
+        bullets.pop(bullets.index(bullet))
+
 
     for event in pygame.event.get():  # event loop
         if event.type == QUIT:
@@ -164,16 +230,25 @@ while True:  # game loop
         if event.type == KEYDOWN:
             if event.key == K_RIGHT:
                 moving_right = True
+                wasRight = True
+                wasLeft = False
             if event.key == K_LEFT:
                 moving_left = True
+                wasRight = False
+                wasLeft = True
             if event.key == K_UP:
                 if air_timer < 6:
                     gravity = -12
+            if event.key == K_SPACE:
+                shooting = True
+
         if event.type == KEYUP:
             if event.key == K_RIGHT:
                 moving_right = False
             if event.key == K_LEFT:
                 moving_left = False
+            if event.key == K_SPACE:
+                shooting = False
 
     # screen.blit(pygame.transform.scale(display, WINDOW_SIZE), (0, 0))
     pygame.display.update()
