@@ -12,6 +12,7 @@ pygame.display.set_caption('Pygame Platformer')
 WINDOW_SIZE = (1200, 800)
 
 TILE_SIZE = 32
+AVATAR_SIZE = (118//4, 210//4)
 
 display = pygame.display.set_mode(WINDOW_SIZE)  # initiate the window
 
@@ -24,10 +25,12 @@ gravity = 0
 air_timer = 0
 velocity = 4
 walkCount = 0
-walkLeft = [pygame.transform.scale(pygame.image.load('images/mainAvatar_Left1.png'), (64,64)),pygame.transform.scale(pygame.image.load('images/mainAvatar_LeftJump2.png'), (64,64)),pygame.transform.scale(pygame.image.load('images/mainAvatar_Left2.png'), (64,64)),pygame.transform.scale(pygame.image.load('images/mainAvatar_LeftJump1.png'), (64,64))]
-walkRight = [pygame.transform.scale(pygame.image.load('images/mainAvatar_Right1.png'), (64,64)),pygame.transform.scale(pygame.image.load('images/mainAvatar_RightJump2.png'), (64,64)),pygame.transform.scale(pygame.image.load('images/mainAvatar_Right2.png'), (64,64)),pygame.transform.scale(pygame.image.load('images/mainAvatar_RightJump1.png'), (64,64))]
-noWalkPlayer = pygame.transform.scale(pygame.image.load('images/mainAvatarStand.png'), (64,64))
+
+walkLeft = [pygame.transform.scale(pygame.image.load('images/mainAvatar_Left1.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_LeftJump2.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_Left2.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_LeftJump1.png'), AVATAR_SIZE)]
+walkRight = [pygame.transform.scale(pygame.image.load('images/mainAvatar_Right1.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_RightJump2.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_Right2.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_RightJump1.png'), AVATAR_SIZE)]
+noWalkPlayer = pygame.transform.scale(pygame.image.load('images/mainAvatarStand.png'), AVATAR_SIZE)
 bg_image = pygame.transform.scale(pygame.image.load('images/insideBackground.png'), WINDOW_SIZE)
+
 
 true_scroll = [0, 0]
 
