@@ -417,7 +417,13 @@ while True:  # game loop
                                 bullet_img.get_width(),
                                 bullet_img.get_height())
 
+
         bullet.draw(display)
+
+        tilehits = collision_test(bullet_rect, tile_rects)
+        if tilehits:
+            enemyRemove.append(bullet)
+
         hits = collision_test(bullet_rect, [player_rect])
         if hits:
             takeDamage()
