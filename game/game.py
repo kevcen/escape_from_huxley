@@ -188,9 +188,11 @@ phoneBoy1 = pygame.transform.scale(phoneBoy1, (TILE_SIZE*2, TILE_SIZE*2))
 phoneBoy2 = pygame.image.load('images/phoneBoy2.png')
 phoneBoy2 = pygame.transform.scale(phoneBoy2, (TILE_SIZE*2, TILE_SIZE*2))
 blackboard_clean = pygame.image.load('images/blackboard_clean.png')
-blackboard_clean = pygame.transform.scale(blackboard_clean, (TILE_SIZE*2, TILE_SIZE))
+blackboard_clean = pygame.transform.scale(blackboard_clean, (TILE_SIZE*3, TILE_SIZE*2))
 blackboard_drawn = pygame.image.load('images/blackboard_drawn.png')
-blackboard_drawn = pygame.transform.scale(blackboard_drawn, (TILE_SIZE*2, TILE_SIZE))
+blackboard_drawn = pygame.transform.scale(blackboard_drawn, (TILE_SIZE*3, TILE_SIZE*2))
+Konstantinos = pygame.image.load('images/Konstantinos.png')
+Konstantinos = pygame.transform.scale(Konstantinos, (TILE_SIZE*2, TILE_SIZE*2))
 
 
 
@@ -335,6 +337,8 @@ while True:  # game loop
                 display.blit(blackboard_clean, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile == 'h':
                 display.blit(blackboard_drawn, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == 'k':
+                display.blit(Konstantinos, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile == 'i':
                 if phoneBoyCount//100 == 0:
                     phoneBoy = phoneBoy1
@@ -347,7 +351,7 @@ while True:  # game loop
                     phoneBoyCount = 0
             if tile == '?':
                 display.blit(Mystical, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
-            if tile != '0' and tile != 'g' and tile != 'h' and tile != 'i':
+            if tile != '0' and tile != 'g' and tile != 'h' and tile != 'i' and tile != 'k':
                 tile_rects.append(pygame.Rect(x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE))
             x += 1
 
