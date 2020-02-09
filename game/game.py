@@ -363,6 +363,7 @@ enterredBossRoom = False
 enteredSecret = False
 kon_counter = 0
 speech = pygame.image.load('images/konstantinos_speech.png')
+pickedUp = False
 while True:  # game loop
     # display.fill((146, 244, 255))  # clear screen by filling it with blue
     display.blit(bg_image, (0, 0))
@@ -392,9 +393,11 @@ while True:  # game loop
         enteredSecret = True
         game_map = game_map3
 
-    if player_rect.x >= (3000 - 630) * 3/2 + 48 and player_rect.y >= 860 * 3/2 and enterredBossRoom:
+    if player_rect.x >= (3000 - 630) * 3/2 + 48 and player_rect.y >= 860 * 3/2 and enterredBossRoom and not pickedUp:
+        pickedUp = True
         haskellEnabled = True
         weapon = 'Haskell'
+        print('haskell enabled')
         game_map = game_map4
     if (player_rect.x >= 3000 * 3/2 + 224) and (player_rect.x <= 3000 * 3/2 + 240)  and (player_rect.y >=  860 * 3/2 + 78 - 430) and (player_rect.y <=  860 * 3/2 + 78 - 390) and not tony.visible and enterredBossRoom:
         winning = pygame.transform.scale(pygame.image.load("images/winning.png"), WINDOW_SIZE)
@@ -574,7 +577,6 @@ while True:  # game loop
 
         # wall collision
         hits = collision_test(bullet_rect, tile_rects)
-        print(str(hits))
         bullet.draw(display)
         if hits:
             toRemove.append(bullet)
