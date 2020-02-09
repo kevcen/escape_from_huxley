@@ -431,7 +431,7 @@ while True:  # game loop
                 display.blit(ICCrest, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile == 's':
                 display.blit(haskellLogo, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
-            if tile == 't':
+            if tile == 'i':
                 if phoneBoyCount//100 == 0:
                     phoneBoy = phoneBoy1
                 elif computerCount//100 == 1:
@@ -443,7 +443,7 @@ while True:  # game loop
                     phoneBoyCount = 0
             if tile == '?':
                 display.blit(Mystical, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
-            if tile != '0' and tile != 'g' and tile != 'h' and tile != 'i' and tile != 'k' and tile != 'r' and tile != 's' and tile != 't':
+            if tile != '0' and tile != 'g' and tile != 'h' and tile != 'i' and tile != 'k' and tile != 'r' and tile != 's' and tile != 'q':
                 tile_rects.append(pygame.Rect(x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE))
             x += 1
 
