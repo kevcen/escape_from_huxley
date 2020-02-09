@@ -59,7 +59,7 @@ player_img = pygame.transform.scale(player_img, (10, 26))
 player_img.set_colorkey((255, 255, 255))
 
 
-player_rect = pygame.Rect(100, 100, 64, 64)
+player_rect = pygame.Rect(100, 100, AVATAR_SIZE[0],AVATAR_SIZE[1])
 
 
 def collision_test(rect, tiles):
