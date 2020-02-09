@@ -259,6 +259,12 @@ blackboard_drawn = pygame.image.load('images/blackboard_drawn.png')
 blackboard_drawn = pygame.transform.scale(blackboard_drawn, (TILE_SIZE*3, TILE_SIZE*2))
 Konstantinos = pygame.image.load('images/Konstantinos.png')
 Konstantinos = pygame.transform.scale(Konstantinos, (TILE_SIZE*2, TILE_SIZE*2))
+ICHack = pygame.image.load('images/ICHack.png')
+ICHack = pygame.transform.scale(ICHack, (TILE_SIZE*2, TILE_SIZE))
+ICCrest = pygame.image.load('images/ImperialCrest.png')
+ICCrest = pygame.transform.scale(ICCrest, (TILE_SIZE, TILE_SIZE))
+haskellLogo = pygame.image.load('images/haskellLogo.png')
+haskellLogo = pygame.transform.scale(haskellLogo, (TILE_SIZE, TILE_SIZE))
 
 
 player_img = pygame.image.load('images/player.png').convert()
@@ -422,7 +428,13 @@ while True:  # game loop
                 display.blit(WallBotRight, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile == 'p':
                 display.blit(WallBottom, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
-            if tile == 'i':
+            if tile == 'q':
+                display.blit(ICHack, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == 'r':
+                display.blit(ICCrest, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == 's':
+                display.blit(haskellLogo, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == 't':
                 if phoneBoyCount//100 == 0:
                     phoneBoy = phoneBoy1
                 elif computerCount//100 == 1:
@@ -434,7 +446,7 @@ while True:  # game loop
                     phoneBoyCount = 0
             if tile == '?':
                 display.blit(Mystical, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
-            if tile != '0' and tile != 'g' and tile != 'h' and tile != 'i' and tile != 'k':
+            if tile != '0' and tile != 'g' and tile != 'h' and tile != 'i' and tile != 'k' and tile != 'r' and tile != 's' and tile != 't':
                 tile_rects.append(pygame.Rect(x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE))
             x += 1
 
