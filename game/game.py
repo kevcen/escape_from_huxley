@@ -3,11 +3,13 @@ import pygame
 from pygame.locals import *
 from Menu import Menu
 from Pause import Pause
+<<<<<<< HEAD
 from options import music, sfx
 
+=======
+hitAnimations = []
+>>>>>>> 89525acefcd888a63eb0fc7ab7e73b7915ae46ea
 haskellEnabled = False
-
-
 class animation(object):
     def __init__(self, x, y):
         self.x = x
@@ -16,10 +18,8 @@ class animation(object):
 
     def draw(self):
         if 5 - self.step > 0:
-            pygame.draw.circle(display, (255, 255, 255), (round(
-                self.x - scroll[0]), round(self.y - scroll[1])), 50 + self.step*3, 5 - self.step)
-            self.step += 1
-
+            pygame.draw.circle(display, (255, 255, 255), (round(self.x - scroll[0]), round(self.y - scroll[1])), 50+self.step*3, 5- self.step)
+            self.step+=1
 
 class projectile(object):
 
@@ -180,7 +180,7 @@ moving_right = False
 moving_left = False
 gravity = 0
 air_timer = 0
-velocity = 25  # CHANGED FOR QUICK TESTING -
+velocity = 30  # CHANGED FOR QUICK TESTING -
 walkCount = 0
 wasLeft = False
 wasRight = True
@@ -282,12 +282,15 @@ ICCrest = pygame.image.load('images/ImperialCrest.png')
 ICCrest = pygame.transform.scale(ICCrest, (TILE_SIZE, TILE_SIZE))
 haskellLogo = pygame.image.load('images/haskellLogo.png')
 haskellLogo = pygame.transform.scale(haskellLogo, (TILE_SIZE, TILE_SIZE))
+haskellLogo1= pygame.transform.scale(haskellLogo, (round(TILE_SIZE/2), round(TILE_SIZE/2)))
 Labs = pygame.image.load('images/Labs.png')
 Labs = pygame.transform.scale(Labs, (TILE_SIZE*4, TILE_SIZE*4))
 DoorClosed = pygame.image.load('images/GlassDoorClosed.png')
 DoorClosed = pygame.transform.scale(DoorClosed, (TILE_SIZE*2, TILE_SIZE*2))
 DoorOpened = pygame.image.load('images/GlassDoorOpened.png')
 DoorOpened = pygame.transform.scale(DoorOpened, (TILE_SIZE*2, TILE_SIZE*2))
+JavaLogo = pygame.image.load('images/javalogo.png')
+JavaLogo = pygame.transform.scale(JavaLogo, (round(TILE_SIZE/2), round(TILE_SIZE/2)))
 
 
 player_img = pygame.image.load('images/player.png').convert()
@@ -366,7 +369,9 @@ haskellShots = [pygame.image.load('images/bullet_concat.png'), pygame.image.load
 weapon = 'Java'
 enterredBossRoom = False
 enteredSecret = False
-hitAnimations = []
+kon_counter = 0
+speech = pygame.image.load('images/konstantinos_speech.png')
+pickedUp = False
 while True:  # game loop
     # display.fill((146, 244, 255))  # clear screen by filling it with blue
     display.blit(bg_image, (0, 0))
@@ -377,6 +382,8 @@ while True:  # game loop
     scroll[0] = int(scroll[0])
     scroll[1] = int(scroll[1])
 
+
+
     tile_rects = []
     y = 0
     if player_rect.x >= (3000 - 630) * 3 / 2 and player_rect.y >= 860 * 3 / 2 and not enterredBossRoom:
@@ -384,16 +391,28 @@ while True:  # game loop
         tony.visible = True
         game_map = game_map2
         # pygame.mixer.music.unload()
+        pygame.mixer.music.load("sounds/tony_fight_music.mp3")
+        pygame.mixer.music.play(-1)
         if(enteredSecret):
-            pygame.mixer.music.load("sounds/tony_fight_music.mp3")
-            pygame.mixer.music.play(-1)
+            kon_counter += 1
+
+
     if player_rect.x <= 640 * 3 / 2 and player_rect.y >= (860-100) * 3 / 2 and not enteredSecret:
         enteredSecret = True
         game_map = game_map3
-    if player_rect.x >= (3000 - 630) * 3/2 + 48 and player_rect.y >= 860 * 3/2 and enterredBossRoom:
+
+    if player_rect.x >= (3000 - 630) * 3/2 + 48 and player_rect.y >= 860 * 3/2 and enterredBossRoom and not pickedUp:
+        pickedUp = True
         haskellEnabled = True
         weapon = 'Haskell'
+        print('haskell enabled')
         game_map = game_map4
+    if (player_rect.x >= 3000 * 3/2 + 224) and (player_rect.x <= 3000 * 3/2 + 240)  and (player_rect.y >=  860 * 3/2 + 78 - 430) and (player_rect.y <=  860 * 3/2 + 78 - 390) and not tony.visible and enterredBossRoom:
+        winning = pygame.transform.scale(pygame.image.load("images/winning.png"), WINDOW_SIZE)
+        display.blit(winning, (0, 0))
+        pygame.display.update()
+        pygame.time.delay(3000)
+        quit()
 
     for layer in game_map:
         x = 0
@@ -486,6 +505,12 @@ while True:  # game loop
             x += 1
 
         y += 1
+
+    if kon_counter > 0:
+        display.blit(speech, ((500, 300)))
+        kon_counter += 1
+        if(kon_counter == 100):
+            gameover()
     # -- player movement
     player_movement = [0, 0]
     if moving_right:
@@ -560,7 +585,6 @@ while True:  # game loop
 
         # wall collision
         hits = collision_test(bullet_rect, tile_rects)
-        print(str(hits))
         bullet.draw(display)
         if hits:
             toRemove.append(bullet)
@@ -572,12 +596,10 @@ while True:  # game loop
             tony.hit(bullet.damage)
             toRemove.append(bullet)
 
-            # play animation
-
             hitAnimations.append(animation(bullet.x, bullet.y))
 
-    for hitAnimation in hitAnimations:
-        hitAnimation.draw()
+        for hitAnimation in hitAnimations:
+            hitAnimation.draw()
 
     enemyRemove = []
     for bullet in enemyBullets:
@@ -644,5 +666,11 @@ while True:  # game loop
                         weapon = 'Java'
 
     # screen.blit(pygame.transform.scale(display, WINDOW_SIZE), (0, 0))
+    if weapon == 'Java':
+        display.blit(JavaLogo, (player_rect.x - scroll[0] + 3, player_rect.y - scroll[1] - player_rect.height +10))
+    elif weapon == 'Haskell':
+        display.blit(haskellLogo1, (player_rect.x - scroll[0] + 3, player_rect.y - scroll[1] - player_rect.height + 10))
+
+
     pygame.display.update()
     clock.tick(60)
