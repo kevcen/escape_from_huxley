@@ -74,41 +74,44 @@ class enemy(object):
                 if self.shootCount == 0:
                     self.shoot(win)
                     self.shootCount = 1
+
             else:
-                if self.count > 200:
+                if self.count > 50:
                     self.visible = False
                 else:
                     self.count += 1
-                    if self.count//20 == 0:
+                    if self.count//5 == 0:
                         win.blit(pygame.image.load('images/TonyWither1.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//20 == 1:
+                    elif self.count//5 == 1:
                         win.blit(pygame.image.load('images/TonyWither2.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//20 == 2:
+                    elif self.count//5 == 2:
                         win.blit(pygame.image.load('images/TonyWither3.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//20 == 3:
+                    elif self.count//5 == 3:
                         win.blit(pygame.image.load('images/TonyWither4.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//20 == 4:
+                    elif self.count//5 == 4:
                         win.blit(pygame.image.load('images/TonyWither5.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//20 == 5:
+                    elif self.count//5 == 5:
                         win.blit(pygame.image.load('images/TonyWither6.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//20 == 6:
+                    elif self.count//5 == 6:
                         win.blit(pygame.image.load('images/TonyWither7.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//20 == 7:
+                    elif self.count//5 == 7:
                         win.blit(pygame.image.load('images/TonyWither8.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//20 == 8:
+                    elif self.count//5 == 8:
                         win.blit(pygame.image.load('images/TonyWither9.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
-                    elif self.count//20 == 9:
+                    elif self.count//5 == 9:
                         win.blit(pygame.image.load('images/TonyWither10.png'),
                                  (self.x - scroll[0], self.y - scroll[1]))
+                        pygame.mixer.music.load('sounds/normal_bg.mp3')
+                        pygame.mixer.music.play(-1)
         #pygame.draw.rect(win, (255,0,0), self.hitbox, 2)
 
     # def move(self):
@@ -161,7 +164,7 @@ moving_right = False
 moving_left = False
 gravity = 0
 air_timer = 0
-velocity = 12  # CHANGED FOR QUICK TESTING -
+velocity = 25  # CHANGED FOR QUICK TESTING -
 walkCount = 0
 wasLeft = False
 wasRight = True
@@ -324,7 +327,7 @@ def takeDamage():
 shootLoop = 0
 computerCount = 0
 phoneBoyCount = 0
-tony = enemy(3600 * 3/2, 860 * 3/2, 79, 160)
+tony = enemy(3600 * 3/2, 860 * 3/2 + 78, 79, 160)
 javaShots = [pygame.image.load('images/java_this.png'), pygame.image.load('images/java_abstract.png'),
              pygame.image.load('images/java_final.png'), pygame.image.load('images/java_hash.png')]
 javaCount = 0
