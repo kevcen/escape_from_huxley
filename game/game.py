@@ -4,6 +4,7 @@ from pygame.locals import *
 from Menu import Menu
 from Pause import Pause
 
+haskellEnabled = False
 class animation(object):
     def __init__(self, x, y):
         self.x = x
@@ -209,6 +210,7 @@ def load_map(path):
 game_map = load_map('game/Map')
 game_map2 = load_map('game/Map2')
 game_map3 = load_map('game/Map3')
+game_map4 = load_map('game/Map4')
 
 Carpet_Floor = pygame.image.load('images/huxley_top.png')
 Carpet_Floor = pygame.transform.scale(Carpet_Floor, (TILE_SIZE, TILE_SIZE))
@@ -369,7 +371,6 @@ while True:  # game loop
         enterredBossRoom = True
         tony.visible = True
         game_map = game_map2
-        weapon = 'Haskell'
         # pygame.mixer.music.unload()
         if(enteredSecret):
             pygame.mixer.music.load("sounds/tony_fight_music.mp3")
@@ -377,6 +378,10 @@ while True:  # game loop
     if player_rect.x <= 640 * 3 / 2 and player_rect.y >= (860-100) * 3 / 2 and not enteredSecret:
         enteredSecret = True
         game_map = game_map3
+    if player_rect.x >= (3000 - 630) * 3/2 + 48 and player_rect.y >= 860 * 3/2 and enterredBossRoom:
+        haskellEnabled = True
+        weapon = 'Haskell'
+        game_map = game_map4
 
     for layer in game_map:
         x = 0
@@ -386,18 +391,18 @@ while True:  # game loop
             if tile == '2':
                 display.blit(Carpet_Floor, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile == '3':
-                if computerCount//50 == 0:
+                if computerCount//200 == 0:
                     Computer = Computer1
-                elif computerCount//50 == 1:
+                elif computerCount//200 == 1:
                     Computer = Computer2
-                elif computerCount // 50 == 2:
+                elif computerCount // 200 == 2:
                     Computer = Computer3
-                elif computerCount//50 == 3:
+                elif computerCount//200 == 3:
                     Computer = Computer4
                 display.blit(Computer, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
 
                 computerCount += 1
-                if computerCount + 1 >= 200:
+                if computerCount + 1 >= 800:
                     computerCount = 0
             if tile == '4':
                 display.blit(CeilingLight, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
@@ -614,10 +619,11 @@ while True:  # game loop
             if event.key == K_SPACE:
                 shooting = False
             if event.key == K_q:
-                if weapon == 'Java':
-                    weapon = 'Haskell'
-                elif weapon == 'Haskell':
-                    weapon = 'Java'
+                if haskellEnabled:
+                    if weapon == 'Java':
+                        weapon = 'Haskell'
+                    elif weapon == 'Haskell':
+                        weapon = 'Java'
 
     # screen.blit(pygame.transform.scale(display, WINDOW_SIZE), (0, 0))
     pygame.display.update()
