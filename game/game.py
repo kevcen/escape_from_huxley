@@ -39,6 +39,8 @@ class enemy(object):
 
         self.tenThousands = pygame.image.load('images/java_10k.png')
         self.shootCount = 0
+        self.alive = True
+        self.count = 0
         # self.walkRight = [pygame.image.load('images/boss_rightStep1.png'), pygame.image.load('images/boss_rightStep2.png')]
         # self.walkLeft = [pygame.image.load('images/boss_leftWalk1.png'),pygame.image.load('images/boss_leftWalk2.png')]
 
@@ -56,17 +58,42 @@ class enemy(object):
             #     win.blit(self.walkLeft[self.walkCount // 3] , (self.x- count[0], self.y- count[1]))
             #     self.walkCount += 1
             #self.hitbox = (self.x + 17, self.y + 2, 31, 57)
-
-            win.blit(pygame.image.load('images/tony.png'), (self.x - scroll[0], self.y - scroll[1]))
-            pygame.draw.rect(win, (255, 0 ,0), (self.x - scroll[0], self.y - 20 - scroll[1], 64, 5))
-            pygame.draw.rect(win, (0, 255, 0), (self.x - scroll[0], self.y - 20 - scroll[1], 6.4 * (self.health), 5))
-            if self.shootCount > 0:
-                self.shootCount += 1
-            if self.shootCount >= 20:
-                self.shootCount = 0
-            if self.shootCount == 0:
-                self.shoot(win)
-                self.shootCount = 1
+            if self.alive:
+                win.blit(pygame.image.load('images/tony.png'), (self.x - scroll[0], self.y - scroll[1]))
+                pygame.draw.rect(win, (255, 0 ,0), (self.x - scroll[0], self.y - 20 - scroll[1], 64, 5))
+                pygame.draw.rect(win, (0, 255, 0), (self.x - scroll[0], self.y - 20 - scroll[1], 6.4 * (self.health), 5))
+                if self.shootCount > 0:
+                    self.shootCount += 1
+                if self.shootCount >= 20:
+                    self.shootCount = 0
+                if self.shootCount == 0:
+                    self.shoot(win)
+                    self.shootCount = 1
+            else:
+                if self.count > 500:
+                    self.visible = False
+                else:
+                    self.count += 1
+                    if self.count//50 == 0:
+                        win.blit(pygame.image.load('images/TonyWither1.png'), (self.x - scroll[0], self.y - scroll[1]))
+                    elif self.count//50 == 1:
+                        win.blit(pygame.image.load('images/TonyWither2.png'), (self.x - scroll[0], self.y - scroll[1]))
+                    elif self.count//50 == 2:
+                        win.blit(pygame.image.load('images/TonyWither3.png'), (self.x - scroll[0], self.y - scroll[1]))
+                    elif self.count//50 == 3:
+                        win.blit(pygame.image.load('images/TonyWither4.png'), (self.x - scroll[0], self.y - scroll[1]))
+                    elif self.count//50 == 4:
+                        win.blit(pygame.image.load('images/TonyWither5.png'), (self.x - scroll[0], self.y - scroll[1]))
+                    elif self.count//50 == 5:
+                        win.blit(pygame.image.load('images/TonyWither6.png'), (self.x - scroll[0], self.y - scroll[1]))
+                    elif self.count//50 == 6:
+                        win.blit(pygame.image.load('images/TonyWither7.png'), (self.x - scroll[0], self.y - scroll[1]))
+                    elif self.count//50 == 7:
+                        win.blit(pygame.image.load('images/TonyWither8.png'), (self.x - scroll[0], self.y - scroll[1]))
+                    elif self.count//50 == 8:
+                        win.blit(pygame.image.load('images/TonyWither9.png'), (self.x - scroll[0], self.y - scroll[1]))
+                    elif self.count//50 == 9:
+                        win.blit(pygame.image.load('images/TonyWither10.png'), (self.x - scroll[0], self.y - scroll[1]))
         #pygame.draw.rect(win, (255,0,0), self.hitbox, 2)
 
     # def move(self):
@@ -87,7 +114,10 @@ class enemy(object):
         if self.health > 0:
             self.health -= damage
         else:
-            self.visible = False
+            self.die()
+
+    def die(self):
+        self.alive = False
 
     def shoot(self, win):
         enemyBullets.append(projectile(self.x, self.y, 1, self.tenThousands, 1))
@@ -279,7 +309,7 @@ while True:  # game loop
 
     tile_rects = []
     y = 0
-    if player_rect.x >= 3000 - 630 and player_rect.y >= 860-100 and not enterredBossRoom:
+    if player_rect.x >= 3000 - 630 and player_rect.y >= 860 and not enterredBossRoom:
         enterredBossRoom = True
         tony.visible = True
         game_map = game_map2
