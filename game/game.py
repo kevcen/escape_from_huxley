@@ -1,6 +1,9 @@
 import sys
 import pygame
 from pygame.locals import *
+from Menu import Menu
+from Pause import Pause
+
 
 class projectile(object):
 
@@ -23,6 +26,7 @@ class projectile(object):
         self.x += self.vel
         win.blit(self.image, (round(self.x - scroll[0]), round(self.y - scroll[1])))
 
+
 class enemy(object):
 
     def __init__(self, x, y, width, height):
@@ -44,10 +48,8 @@ class enemy(object):
         # self.walkRight = [pygame.image.load('images/boss_rightStep1.png'), pygame.image.load('images/boss_rightStep2.png')]
         # self.walkLeft = [pygame.image.load('images/boss_leftWalk1.png'),pygame.image.load('images/boss_leftWalk2.png')]
 
-
-
     def draw(self, win):
-        #self.move()
+        # self.move()
         if self.visible:
             # if self.walkCount + 1 >= 6:
             #     self.walkCount = 0
@@ -59,9 +61,12 @@ class enemy(object):
             #     self.walkCount += 1
             #self.hitbox = (self.x + 17, self.y + 2, 31, 57)
             if self.alive:
-                win.blit(pygame.image.load('images/tony.png'), (self.x - scroll[0], self.y - scroll[1]))
-                pygame.draw.rect(win, (255, 0 ,0), (self.x - scroll[0], self.y - 20 - scroll[1], 64, 5))
-                pygame.draw.rect(win, (0, 255, 0), (self.x - scroll[0], self.y - 20 - scroll[1], 6.4 * (self.health), 5))
+                win.blit(pygame.image.load('images/tony.png'),
+                         (self.x - scroll[0], self.y - scroll[1]))
+                pygame.draw.rect(win, (255, 0, 0), (self.x -
+                                                    scroll[0], self.y - 20 - scroll[1], 64, 5))
+                pygame.draw.rect(win, (0, 255, 0), (self.x -
+                                                    scroll[0], self.y - 20 - scroll[1], 6.4 * (self.health), 5))
                 if self.shootCount > 0:
                     self.shootCount += 1
                 if self.shootCount >= 20:
@@ -75,25 +80,35 @@ class enemy(object):
                 else:
                     self.count += 1
                     if self.count//20 == 0:
-                        win.blit(pygame.image.load('images/TonyWither1.png'), (self.x - scroll[0], self.y - scroll[1]))
+                        win.blit(pygame.image.load('images/TonyWither1.png'),
+                                 (self.x - scroll[0], self.y - scroll[1]))
                     elif self.count//20 == 1:
-                        win.blit(pygame.image.load('images/TonyWither2.png'), (self.x - scroll[0], self.y - scroll[1]))
+                        win.blit(pygame.image.load('images/TonyWither2.png'),
+                                 (self.x - scroll[0], self.y - scroll[1]))
                     elif self.count//20 == 2:
-                        win.blit(pygame.image.load('images/TonyWither3.png'), (self.x - scroll[0], self.y - scroll[1]))
+                        win.blit(pygame.image.load('images/TonyWither3.png'),
+                                 (self.x - scroll[0], self.y - scroll[1]))
                     elif self.count//20 == 3:
-                        win.blit(pygame.image.load('images/TonyWither4.png'), (self.x - scroll[0], self.y - scroll[1]))
+                        win.blit(pygame.image.load('images/TonyWither4.png'),
+                                 (self.x - scroll[0], self.y - scroll[1]))
                     elif self.count//20 == 4:
-                        win.blit(pygame.image.load('images/TonyWither5.png'), (self.x - scroll[0], self.y - scroll[1]))
+                        win.blit(pygame.image.load('images/TonyWither5.png'),
+                                 (self.x - scroll[0], self.y - scroll[1]))
                     elif self.count//20 == 5:
-                        win.blit(pygame.image.load('images/TonyWither6.png'), (self.x - scroll[0], self.y - scroll[1]))
+                        win.blit(pygame.image.load('images/TonyWither6.png'),
+                                 (self.x - scroll[0], self.y - scroll[1]))
                     elif self.count//20 == 6:
-                        win.blit(pygame.image.load('images/TonyWither7.png'), (self.x - scroll[0], self.y - scroll[1]))
+                        win.blit(pygame.image.load('images/TonyWither7.png'),
+                                 (self.x - scroll[0], self.y - scroll[1]))
                     elif self.count//20 == 7:
-                        win.blit(pygame.image.load('images/TonyWither8.png'), (self.x - scroll[0], self.y - scroll[1]))
+                        win.blit(pygame.image.load('images/TonyWither8.png'),
+                                 (self.x - scroll[0], self.y - scroll[1]))
                     elif self.count//20 == 8:
-                        win.blit(pygame.image.load('images/TonyWither9.png'), (self.x - scroll[0], self.y - scroll[1]))
+                        win.blit(pygame.image.load('images/TonyWither9.png'),
+                                 (self.x - scroll[0], self.y - scroll[1]))
                     elif self.count//20 == 9:
-                        win.blit(pygame.image.load('images/TonyWither10.png'), (self.x - scroll[0], self.y - scroll[1]))
+                        win.blit(pygame.image.load('images/TonyWither10.png'),
+                                 (self.x - scroll[0], self.y - scroll[1]))
         #pygame.draw.rect(win, (255,0,0), self.hitbox, 2)
 
     # def move(self):
@@ -123,13 +138,14 @@ class enemy(object):
         enemyBullets.append(projectile(self.x, self.y, 1, self.tenThousands, 1))
         enemyBullets.append(projectile(self.x, self.y, -1, self.tenThousands, 1))
 
+
 enemyBullets = []
 clock = pygame.time.Clock()
 shooting = False
 
 pygame.init()  # initiates pygame
 
-pygame.display.set_caption('Pygame Platformer')
+pygame.display.set_caption('ESCAPE FROM HUXLEY')
 
 WINDOW_SIZE = (1200, 800)
 
@@ -137,22 +153,23 @@ TILE_SIZE = 32
 
 AVATAR_SIZE = (118//4, 210//4)
 
-display = pygame.display.set_mode(WINDOW_SIZE)  # initiate the window
+# initiate the window
+display = pygame.display.set_mode(WINDOW_SIZE)
 
-
-# display = pygame.Surface((600, 400))  # used as the surface for rendering, which is scaled
 
 moving_right = False
 moving_left = False
 gravity = 0
 air_timer = 0
-velocity = 20 ## CHANGED FOR QUICK TESTING -
+velocity = 10  # CHANGED FOR QUICK TESTING -
 walkCount = 0
 wasLeft = False
 wasRight = True
 
-walkLeft = [pygame.transform.scale(pygame.image.load('images/mainAvatar_Left1.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_LeftJump2.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_Left2.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_LeftJump1.png'), AVATAR_SIZE)]
-walkRight = [pygame.transform.scale(pygame.image.load('images/mainAvatar_Right1.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_RightJump2.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_Right2.png'), AVATAR_SIZE),pygame.transform.scale(pygame.image.load('images/mainAvatar_RightJump1.png'), AVATAR_SIZE)]
+walkLeft = [pygame.transform.scale(pygame.image.load('images/mainAvatar_Left1.png'), AVATAR_SIZE), pygame.transform.scale(pygame.image.load('images/mainAvatar_LeftJump2.png'), AVATAR_SIZE),
+            pygame.transform.scale(pygame.image.load('images/mainAvatar_Left2.png'), AVATAR_SIZE), pygame.transform.scale(pygame.image.load('images/mainAvatar_LeftJump1.png'), AVATAR_SIZE)]
+walkRight = [pygame.transform.scale(pygame.image.load('images/mainAvatar_Right1.png'), AVATAR_SIZE), pygame.transform.scale(pygame.image.load('images/mainAvatar_RightJump2.png'), AVATAR_SIZE),
+             pygame.transform.scale(pygame.image.load('images/mainAvatar_Right2.png'), AVATAR_SIZE), pygame.transform.scale(pygame.image.load('images/mainAvatar_RightJump1.png'), AVATAR_SIZE)]
 noWalkPlayer = walkRight[0]
 bg_image = pygame.transform.scale(pygame.image.load('images/insideBackground.png'), WINDOW_SIZE)
 
@@ -234,17 +251,14 @@ Konstantinos = pygame.image.load('images/Konstantinos.png')
 Konstantinos = pygame.transform.scale(Konstantinos, (TILE_SIZE*2, TILE_SIZE*2))
 
 
-
-
-
 player_img = pygame.image.load('images/player.png').convert()
 player_img = pygame.transform.scale(player_img, (10, 26))
 player_img.set_colorkey((255, 255, 255))
 
-
-player_rect = pygame.Rect(100, 100, AVATAR_SIZE[0],AVATAR_SIZE[1])
+player_rect = pygame.Rect(100, 100, AVATAR_SIZE[0], AVATAR_SIZE[1])
 
 bullets = []
+
 
 def collision_test(rect, tiles):
     hit_list = []
@@ -277,15 +291,22 @@ def move(rect, movement, tiles):
             collision_types['top'] = True
     return rect, collision_types
 
+
+Menu(display, pygame)
+
+
 def gameover():
     global pygame
     gameover = pygame.transform.scale(pygame.image.load("images/gameOver.png"), WINDOW_SIZE)
-    display.blit(gameover, (0,0))
+    display.blit(gameover, (0, 0))
     pygame.display.update()
     pygame.time.delay(1500)
     quit()
 
+
 health = 10
+
+
 def takeDamage():
     global health
     health -= 5
@@ -293,22 +314,22 @@ def takeDamage():
         gameover()
 
 
-
-
 shootLoop = 0
 computerCount = 0
 phoneBoyCount = 0
 tony = enemy(3600, 860, 79, 160)
-javaShots = [pygame.image.load('images/java_this.png'),pygame.image.load('images/java_abstract.png'),pygame.image.load('images/java_final.png'),pygame.image.load('images/java_hash.png')]
+javaShots = [pygame.image.load('images/java_this.png'), pygame.image.load('images/java_abstract.png'),
+             pygame.image.load('images/java_final.png'), pygame.image.load('images/java_hash.png')]
 javaCount = 0
 haskellCount = 0
-haskellShots = [pygame.image.load('images/bullet_concat.png'),pygame.image.load('images/bullet_curry.png'),pygame.image.load('images/bullet_define.png'),pygame.image.load('images/bullet_filter.png'),pygame.image.load('images/bullet_flip.png'),pygame.image.load('images/bullet_fold.png'),pygame.image.load('images/bullet_map.png'),pygame.image.load('images/bullet_scan.png'),pygame.image.load('images/bullet_uncurry.png')]
+haskellShots = [pygame.image.load('images/bullet_concat.png'), pygame.image.load('images/bullet_curry.png'), pygame.image.load('images/bullet_define.png'), pygame.image.load('images/bullet_filter.png'), pygame.image.load(
+    'images/bullet_flip.png'), pygame.image.load('images/bullet_fold.png'), pygame.image.load('images/bullet_map.png'), pygame.image.load('images/bullet_scan.png'), pygame.image.load('images/bullet_uncurry.png')]
 weapon = 'Java'
 enterredBossRoom = False
 enteredSecret = False
 while True:  # game loop
     # display.fill((146, 244, 255))  # clear screen by filling it with blue
-    display.blit(bg_image, (0,0))
+    display.blit(bg_image, (0, 0))
 
     true_scroll[0] += (player_rect.x-true_scroll[0]-300)/20
     true_scroll[1] += (player_rect.y-true_scroll[1]-500)/20
@@ -340,16 +361,16 @@ while True:  # game loop
             if tile == '3':
                 if computerCount//50 == 0:
                     Computer = Computer1
-                elif computerCount//50  == 1:
+                elif computerCount//50 == 1:
                     Computer = Computer2
-                elif computerCount //50 ==2:
+                elif computerCount // 50 == 2:
                     Computer = Computer3
-                elif computerCount//50  == 3:
+                elif computerCount//50 == 3:
                     Computer = Computer4
                 display.blit(Computer, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
 
                 computerCount += 1
-                if computerCount +1 >= 200:
+                if computerCount + 1 >= 200:
                     computerCount = 0
             if tile == '4':
                 display.blit(CeilingLight, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
@@ -389,7 +410,7 @@ while True:  # game loop
                 display.blit(phoneBoy, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
 
                 phoneBoyCount += 1
-                if phoneBoyCount +1 >= 200:
+                if phoneBoyCount + 1 >= 200:
                     phoneBoyCount = 0
             if tile == '?':
                 display.blit(Mystical, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
@@ -398,7 +419,7 @@ while True:  # game loop
             x += 1
 
         y += 1
-    #-- player movement
+    # -- player movement
     player_movement = [0, 0]
     if moving_right:
         player_movement[0] += velocity
@@ -408,7 +429,7 @@ while True:  # game loop
     gravity += 0.6
     if gravity > 12:
         gravity = 12
-    #--
+    # --
 
     player_rect, collisions = move(player_rect, player_movement, tile_rects)
 
@@ -418,22 +439,23 @@ while True:  # game loop
     else:
         air_timer += 1
 
-    #draw player
-    if walkCount + 1 >= 32: # 4 * 8
+    # draw player
+    if walkCount + 1 >= 32:  # 4 * 8
         walkCount = 0
 
     if wasRight:
-        display.blit(walkRight[walkCount//8],(player_rect.x - scroll[0], player_rect.y - scroll[1]))
+        display.blit(walkRight[walkCount//8], (player_rect.x -
+                                               scroll[0], player_rect.y - scroll[1]))
     # display.blit(player_img, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
     elif wasLeft:
-        display.blit(walkLeft[walkCount//8],(player_rect.x - scroll[0], player_rect.y - scroll[1]))
+        display.blit(walkLeft[walkCount//8], (player_rect.x - scroll[0], player_rect.y - scroll[1]))
     else:
         display.blit(noWalkPlayer, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
 
-    #draw tony
+    # draw tony
     tony.draw(display)
 
-    #draw bullets
+    # draw bullets
     if shootLoop > 0:
         shootLoop += 1
     if shootLoop > 10:
@@ -447,53 +469,49 @@ while True:  # game loop
             facing = 1
 
         if weapon == 'Java':
-            bullets.append(projectile(player_rect.x, player_rect.y, facing, javaShots[javaCount], 1))
+            bullets.append(projectile(player_rect.x, player_rect.y,
+                                      facing, javaShots[javaCount], 1))
             javaCount += 1
             if javaCount == len(javaShots):
                 javaCount = 0
         if weapon == 'Haskell':
-            bullets.append(projectile(player_rect.x, player_rect.y, facing, haskellShots[haskellCount], 2))
+            bullets.append(projectile(player_rect.x, player_rect.y,
+                                      facing, haskellShots[haskellCount], 2))
             haskellCount += 1
             if haskellCount == len(javaShots):
                 haskellCount = 0
 
-        shootLoop = 1 # to get out of zero state
-
-
-
+        shootLoop = 1  # to get out of zero state
 
     toRemove = []
     for bullet in bullets:
         bullet_img = bullet.image
         bullet_rect = pygame.Rect(round(bullet.x),
-                                round(bullet.y),
-                                bullet_img.get_width(),
-                                bullet_img.get_height())
+                                  round(bullet.y),
+                                  bullet_img.get_width(),
+                                  bullet_img.get_height())
 
-        #wall collision
+        # wall collision
         hits = collision_test(bullet_rect, tile_rects)
         print(str(hits))
         bullet.draw(display)
         if hits:
             toRemove.append(bullet)
 
-        tony_rect = pygame.Rect(tony.x , tony.y, tony.width, tony.height)
+        tony_rect = pygame.Rect(tony.x, tony.y, tony.width, tony.height)
         tonyhits = collision_test(bullet_rect, [tony_rect])
         if tonyhits and tony.visible:
             hitSound.play()
             tony.hit(bullet.damage)
             toRemove.append(bullet)
 
-
-
     enemyRemove = []
     for bullet in enemyBullets:
         bullet_img = bullet.image
         bullet_rect = pygame.Rect(round(bullet.x),
-                                round(bullet.y),
-                                bullet_img.get_width(),
-                                bullet_img.get_height())
-
+                                  round(bullet.y),
+                                  bullet_img.get_width(),
+                                  bullet_img.get_height())
 
         bullet.draw(display)
 
@@ -512,12 +530,17 @@ while True:  # game loop
     for bullet in toRemove:
         bullets.pop(bullets.index(bullet))
 
-
     for event in pygame.event.get():  # event loop
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
         if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                Pause(display, pygame)
+                moving_right = False
+                moving_left = False
+                wasRight = False
+                wasLeft = False
             if event.key == K_RIGHT:
                 moving_right = True
                 wasRight = True

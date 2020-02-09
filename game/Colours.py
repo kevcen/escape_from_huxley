@@ -9,8 +9,11 @@ class col(Enum):
     BLACK = (0, 0, 0)
     WHITE = (255, 255, 255)
     RED = (255, 0, 0)
+    DARKRED = (128, 0, 0)
     GREEN = (0, 255, 0)
+    DARKGREEN = (0, 128, 0)
     BLUE = (0, 0, 255)
+    DARKBLUE = (0, 0, 128)
 
     # background colour
     BACKGROUND = (100, 100, 255)
