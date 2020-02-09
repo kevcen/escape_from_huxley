@@ -79,8 +79,14 @@ Carpet_Right = pygame.image.load('images/Carpet_Right.png')
 Carpet_Right = pygame.transform.scale(Carpet_Right, (TILE_SIZE, TILE_SIZE))
 dirt_img = pygame.image.load('images/dirt.png')
 dirt_img = pygame.transform.scale(dirt_img, (TILE_SIZE, TILE_SIZE))
-Computer = pygame.image.load('images/Computer_1.png')
-Computer = pygame.transform.scale(Computer, (TILE_SIZE, TILE_SIZE))
+Computer1 = pygame.image.load('images/Computer_1.png')
+Computer1 = pygame.transform.scale(Computer1, (TILE_SIZE, TILE_SIZE))
+Computer2 = pygame.image.load('images/Computer_2.png')
+Computer2 = pygame.transform.scale(Computer2, (TILE_SIZE, TILE_SIZE))
+Computer3 = pygame.image.load('images/Computer_3.png')
+Computer3 = pygame.transform.scale(Computer3, (TILE_SIZE, TILE_SIZE))
+Computer4 = pygame.image.load('images/Computer_4.png')
+Computer4 = pygame.transform.scale(Computer4, (TILE_SIZE, TILE_SIZE))
 CeilingLight = pygame.image.load('images/LowerCeiling.png')
 CeilingLight = pygame.transform.scale(CeilingLight, (TILE_SIZE, TILE_SIZE))
 CeilingNoLight = pygame.image.load('images/LowerCeiling2.png')
@@ -146,6 +152,7 @@ def move(rect, movement, tiles):
     return rect, collision_types
 
 shootLoop = 0
+computerCount = 0
 while True:  # game loop
     # display.fill((146, 244, 255))  # clear screen by filling it with blue
     display.blit(bg_image, (0,0))
@@ -166,7 +173,19 @@ while True:  # game loop
             if tile == '2':
                 display.blit(Carpet_Floor, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile == '3':
+                if computerCount//50 == 0:
+                    Computer = Computer1
+                elif computerCount//50  == 1:
+                    Computer = Computer2
+                elif computerCount //50 ==2:
+                    Computer = Computer3
+                elif computerCount//50  == 3:
+                    Computer = Computer4
                 display.blit(Computer, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+
+                computerCount += 1
+                if computerCount +1 >= 200:
+                    computerCount = 0
             if tile == '4':
                 display.blit(CeilingLight, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile == '5':
