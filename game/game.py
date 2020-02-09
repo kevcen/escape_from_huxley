@@ -3,6 +3,7 @@ import pygame
 from pygame.locals import *
 from Menu import Menu
 from Pause import Pause
+from options import music, sfx
 
 haskellEnabled = False
 
@@ -567,7 +568,6 @@ while True:  # game loop
         tony_rect = pygame.Rect(tony.x, tony.y, tony.width, tony.height)
         tonyhits = collision_test(bullet_rect, [tony_rect])
         if tonyhits and tony.visible:
-
             hitSound.play()
             tony.hit(bullet.damage)
             toRemove.append(bullet)
@@ -610,7 +610,7 @@ while True:  # game loop
             sys.exit()
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
-                Pause(display, pygame)
+                Pause(display, pygame, [hitSound, bulletSound])
                 moving_right = False
                 moving_left = False
                 wasRight = False

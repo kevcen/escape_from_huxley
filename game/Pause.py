@@ -2,7 +2,7 @@ from button import button
 from options import options
 
 
-def Pause(display, pg):
+def Pause(display, pg, sounds):
     """Pause function."""
     resume1 = pg.image.load("images/presume1.png")
     resume2 = pg.image.load("images/presume2.png")
@@ -46,7 +46,7 @@ def Pause(display, pg):
                     if resumeButton.isOver(pos):
                         resume = True
                     if optionsButton.isOver(pos):
-                        options(display, pg)
+                        options(display, pg, sounds)
                         display.blit(background, (0, 0))
                         optionsButton.image = options1
                     if quitButton.isOver(pos):
