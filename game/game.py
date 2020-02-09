@@ -39,6 +39,8 @@ class enemy(object):
 
         self.tenThousands = pygame.image.load('images/java_10k.png')
         self.shootCount = 0
+        self.alive = True
+        self.count = 0
         # self.walkRight = [pygame.image.load('images/boss_rightStep1.png'), pygame.image.load('images/boss_rightStep2.png')]
         # self.walkLeft = [pygame.image.load('images/boss_leftWalk1.png'),pygame.image.load('images/boss_leftWalk2.png')]
 
@@ -56,17 +58,42 @@ class enemy(object):
             #     win.blit(self.walkLeft[self.walkCount // 3] , (self.x- count[0], self.y- count[1]))
             #     self.walkCount += 1
             #self.hitbox = (self.x + 17, self.y + 2, 31, 57)
-
-            win.blit(pygame.image.load('images/tony.png'), (self.x - scroll[0], self.y - scroll[1]))
-            pygame.draw.rect(win, (255, 0 ,0), (self.x - scroll[0], self.y - 20 - scroll[1], 64, 5))
-            pygame.draw.rect(win, (0, 255, 0), (self.x - scroll[0], self.y - 20 - scroll[1], 6.4 * (self.health), 5))
-            if self.shootCount > 0:
-                self.shootCount += 1
-            if self.shootCount >= 20:
-                self.shootCount = 0
-            if self.shootCount == 0:
-                self.shoot(win)
-                self.shootCount = 1
+            if self.alive:
+                win.blit(pygame.image.load('images/tony.png'), (self.x - scroll[0], self.y - scroll[1]))
+                pygame.draw.rect(win, (255, 0 ,0), (self.x - scroll[0], self.y - 20 - scroll[1], 64, 5))
+                pygame.draw.rect(win, (0, 255, 0), (self.x - scroll[0], self.y - 20 - scroll[1], 6.4 * (self.health), 5))
+                if self.shootCount > 0:
+                    self.shootCount += 1
+                if self.shootCount >= 20:
+                    self.shootCount = 0
+                if self.shootCount == 0:
+                    self.shoot(win)
+                    self.shootCount = 1
+            else:
+                if self.count > 200:
+                    self.visible = False
+                else:
+                    self.count += 1
+                    if self.count//20 == 0:
+                        win.blit(pygame.image.load('images/TonyWither1.png'), (self.x - scroll[0], self.y - scroll[1]))
+                    elif self.count//20 == 1:
+                        win.blit(pygame.image.load('images/TonyWither2.png'), (self.x - scroll[0], self.y - scroll[1]))
+                    elif self.count//20 == 2:
+                        win.blit(pygame.image.load('images/TonyWither3.png'), (self.x - scroll[0], self.y - scroll[1]))
+                    elif self.count//20 == 3:
+                        win.blit(pygame.image.load('images/TonyWither4.png'), (self.x - scroll[0], self.y - scroll[1]))
+                    elif self.count//20 == 4:
+                        win.blit(pygame.image.load('images/TonyWither5.png'), (self.x - scroll[0], self.y - scroll[1]))
+                    elif self.count//20 == 5:
+                        win.blit(pygame.image.load('images/TonyWither6.png'), (self.x - scroll[0], self.y - scroll[1]))
+                    elif self.count//20 == 6:
+                        win.blit(pygame.image.load('images/TonyWither7.png'), (self.x - scroll[0], self.y - scroll[1]))
+                    elif self.count//20 == 7:
+                        win.blit(pygame.image.load('images/TonyWither8.png'), (self.x - scroll[0], self.y - scroll[1]))
+                    elif self.count//20 == 8:
+                        win.blit(pygame.image.load('images/TonyWither9.png'), (self.x - scroll[0], self.y - scroll[1]))
+                    elif self.count//20 == 9:
+                        win.blit(pygame.image.load('images/TonyWither10.png'), (self.x - scroll[0], self.y - scroll[1]))
         #pygame.draw.rect(win, (255,0,0), self.hitbox, 2)
 
     # def move(self):
@@ -87,7 +114,10 @@ class enemy(object):
         if self.health > 0:
             self.health -= damage
         else:
-            self.visible = False
+            self.die()
+
+    def die(self):
+        self.alive = False
 
     def shoot(self, win):
         enemyBullets.append(projectile(self.x, self.y, 1, self.tenThousands, 1))
@@ -188,9 +218,11 @@ phoneBoy1 = pygame.transform.scale(phoneBoy1, (TILE_SIZE*2, TILE_SIZE*2))
 phoneBoy2 = pygame.image.load('images/phoneBoy2.png')
 phoneBoy2 = pygame.transform.scale(phoneBoy2, (TILE_SIZE*2, TILE_SIZE*2))
 blackboard_clean = pygame.image.load('images/blackboard_clean.png')
-blackboard_clean = pygame.transform.scale(blackboard_clean, (TILE_SIZE*2, TILE_SIZE))
+blackboard_clean = pygame.transform.scale(blackboard_clean, (TILE_SIZE*3, TILE_SIZE*2))
 blackboard_drawn = pygame.image.load('images/blackboard_drawn.png')
-blackboard_drawn = pygame.transform.scale(blackboard_drawn, (TILE_SIZE*2, TILE_SIZE))
+blackboard_drawn = pygame.transform.scale(blackboard_drawn, (TILE_SIZE*3, TILE_SIZE*2))
+Konstantinos = pygame.image.load('images/Konstantinos.png')
+Konstantinos = pygame.transform.scale(Konstantinos, (TILE_SIZE*2, TILE_SIZE*2))
 
 
 
@@ -277,7 +309,7 @@ while True:  # game loop
 
     tile_rects = []
     y = 0
-    if player_rect.x >= 3000 - 630 and player_rect.y >= 860-100 and not enterredBossRoom:
+    if player_rect.x >= 3000 - 630 and player_rect.y >= 860 and not enterredBossRoom:
         enterredBossRoom = True
         tony.visible = True
         game_map = game_map2
@@ -335,6 +367,8 @@ while True:  # game loop
                 display.blit(blackboard_clean, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile == 'h':
                 display.blit(blackboard_drawn, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == 'k':
+                display.blit(Konstantinos, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile == 'i':
                 if phoneBoyCount//100 == 0:
                     phoneBoy = phoneBoy1
@@ -347,7 +381,7 @@ while True:  # game loop
                     phoneBoyCount = 0
             if tile == '?':
                 display.blit(Mystical, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
-            if tile != '0' and tile != 'g' and tile != 'h' and tile != 'i':
+            if tile != '0' and tile != 'g' and tile != 'h' and tile != 'i' and tile != 'k':
                 tile_rects.append(pygame.Rect(x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE))
             x += 1
 
