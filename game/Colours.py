@@ -13,6 +13,7 @@ class col(Enum):
     GREEN = (0, 255, 0)
     DARKGREEN = (0, 128, 0)
     BLUE = (0, 0, 255)
+    DARKBLUE = (0, 0, 128)
 
     # background colour
     BACKGROUND = (100, 100, 255)
