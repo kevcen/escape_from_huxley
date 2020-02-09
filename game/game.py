@@ -10,11 +10,11 @@ class projectile(object):
         self.facing = facing
         self.vel = 8*facing
         self.haskellCount = 0
-        self.haskellShots = [pygame.image.load('images/java_10k.png'),pygame.image.load('images/java_abstract.png'),pygame.image.load('images/java_final.png')]
+        self.haskellShots = [pygame.image.load('images/java_this.png'),pygame.image.load('images/java_abstract.png'),pygame.image.load('images/java_final.png'),pygame.image.load('images/java_hash.png')]
 
     def draw(self, win):
         self.haskellCount += 1
-        if self.haskellCount + 1 >= 30:
+        if self.haskellCount + 1 >= 40:
             self.haskellCount = 0
         self.x += self.vel
 
