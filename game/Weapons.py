@@ -1,6 +1,7 @@
 import pygame as pg
 from enum import Enum
 
+
 class weapon_type(Enum):
     HASKELL = 1
     SQL = 2
