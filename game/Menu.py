@@ -44,6 +44,23 @@ def Menu(display, pg):
             if event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     if startButton.isOver(pos):
+                        slide1 = pg.image.load('images/slide1.png')
+                        slide2 = pg.image.load('images/slide2.png')
+                        slide3 = pg.image.load('images/slide3.png')
+                        slide4 = pg.image.load('images/slide4.png')
+                        display.blit(slide1, (0,0))
+                        pg.display.update()
+                        pg.time.delay(2500)
+
+                        display.blit(slide2, (0,0))
+                        pg.display.update()
+                        pg.time.delay(2500)
+                        display.blit(slide3, (0,0))
+                        pg.display.update()
+                        pg.time.delay(2500)
+                        display.blit(slide4, (0,0))
+                        pg.display.update()
+                        pg.time.delay(3000)
                         play = True
                     if quitButton.isOver(pos):
                         quit()
