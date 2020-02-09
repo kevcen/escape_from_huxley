@@ -283,6 +283,8 @@ DoorClosed = pygame.image.load('images/GlassDoorClosed.png')
 DoorClosed = pygame.transform.scale(DoorClosed, (TILE_SIZE*2, TILE_SIZE*2))
 DoorOpened = pygame.image.load('images/GlassDoorOpened.png')
 DoorOpened = pygame.transform.scale(DoorOpened, (TILE_SIZE*2, TILE_SIZE*2))
+JavaLogo = pygame.image.load('images/javalogo.png')
+JavaLogo = pygame.transform.scale(JavaLogo, (TILE_SIZE*4, TILE_SIZE*4))
 
 
 player_img = pygame.image.load('images/player.png').convert()
