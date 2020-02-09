@@ -271,11 +271,13 @@ blackboard_drawn = pygame.transform.scale(blackboard_drawn, (TILE_SIZE*3, TILE_S
 Konstantinos = pygame.image.load('images/Konstantinos.png')
 Konstantinos = pygame.transform.scale(Konstantinos, (TILE_SIZE*2, TILE_SIZE*2))
 ICHack = pygame.image.load('images/ICHack.png')
-ICHack = pygame.transform.scale(ICHack, (TILE_SIZE*2, TILE_SIZE))
+ICHack = pygame.transform.scale(ICHack, (TILE_SIZE*4, TILE_SIZE*2))
 ICCrest = pygame.image.load('images/ImperialCrest.png')
 ICCrest = pygame.transform.scale(ICCrest, (TILE_SIZE, TILE_SIZE))
 haskellLogo = pygame.image.load('images/haskellLogo.png')
 haskellLogo = pygame.transform.scale(haskellLogo, (TILE_SIZE, TILE_SIZE))
+Labs = pygame.image.load('images/Labs.png')
+Labs = pygame.transform.scale(Labs, (TILE_SIZE, TILE_SIZE))
 
 
 player_img = pygame.image.load('images/player.png').convert()
@@ -450,6 +452,8 @@ while True:  # game loop
                 display.blit(ICCrest, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile == 's':
                 display.blit(haskellLogo, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
+            if tile == 't':
+                display.blit(Labs, (x*TILE_SIZE-scroll[0], y*TILE_SIZE-scroll[1]))
             if tile == 'i':
                 if phoneBoyCount//100 == 0:
                     phoneBoy = phoneBoy1
