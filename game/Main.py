@@ -3,9 +3,8 @@ import pygame as pg
 from Colours import col
 from Player import Player
 from Tile import Tile
-from Weapons import *
+from Weapons import Weapon
 from Projectile import Projectile
-from Enemies import Enemies
 
 # initialise pygame
 pg.init()
@@ -42,15 +41,12 @@ SCROLL = [0, 0]
 # Code for bullets
 bullets = []
 # Define weapon, [radius,color,vel,damage]
-haskell_gun = Weapon("Haskell", weapon_type.HASKELL, 8, 1)
+pistol = Weapon("Pistol", 20, col.BLACK.value, 6, 1)
 # maybe change how often you can shoot, but this requires more code
-sql_gun = None #Weapon("Big gun", 4, col.RED.value, 3, 3)
+big_gun = Weapon("Big gun", 4, col.RED.value, 3, 3)
 
 # create the player object
-plyr = Player(100, 150, 50, 50, haskell_gun)
-
-# create the enemy object
-enemy = Enemies(200, 150, 50, 70, 400)
+plyr = Player(70, 70, 50, 50, pistol)
 
 # create list to contain all sprites
 sprites = []
@@ -82,16 +78,21 @@ for row in mapData:
 def draw_sprites():
     """Draw all sprites."""
     display.fill(col.BACKGROUND.value)
+    #--- bullets v
     for bullet in bullets:
         bullet.draw(display)
+
     # Displays current weaon used
     weapon_text = big_font.render("Weapon: " + plyr.weapon.name, 1, col.BLACK.value)
     switch_text = small_font.render("Press q to switch to next weapon", 1, col.BLACK.value)
+
     display.blit(weapon_text, (10, 10))
     display.blit(switch_text, (10, 30))
-    plyr.fall(DISPLAY_SIZE[0], 3)
+    #----- bullets ^
     plyr.draw(display)
     draw_tiles()
+    plyr.fall(DISPLAY_SIZE[0], 3)
+
     for sprite in sprites:
         sprite.draw(display)
 
@@ -128,14 +129,12 @@ def check_keys():
     if keys[pg.K_SPACE]:
         if bullet_lag == 0:
             bullet_lag += 1
-            if plyr.left:
-                facing = -1
-            else:
-                facing = 1
+            facing = 1
 
             if len(bullets) < 5:  # This will make sure we cannot exceed 5 bullets on the screen at once
                 bullets.append(
-                    Projectile(round(plyr.x + plyr.width // 2), round(plyr.y + plyr.height // 2), plyr.weapon.type, plyr.weapon.vel, plyr.weapon.damage, facing))
+                    Projectile(round(plyr.x + plyr.width // 2), round(plyr.y + plyr.height // 2), plyr.weapon.radius, plyr.weapon.color,
+                               plyr.weapon.vel, plyr.weapon.damage, facing))
 
     if keys[pg.K_q]:
         if weapons_lag == 0:
@@ -165,66 +164,178 @@ def draw_tiles():
             x += 1
         y += 1
 
-    check_floor(tiles)
-    check_top(tiles)
-    check_right(tiles)
-    check_left(tiles)
+
+    #plyr1 = pg.Rect(plyr.hitbox[0], plyr.hitbox[1], plyr.hitbox[2], plyr.hitbox[3])
+    plyr1 = pg.Rect(plyr.x, plyr.y, plyr.width, plyr.height)
+    belowCollisions = []
+    aboveCollisions = []
+    rightCollisions = []
+    leftCollisions = []
+    plyr.floor = False
+    plyr.y += 1
+    for tile in tiles:
+        tile1 = pg.Rect(tile.x, tile.y, tile.width, tile.height)
+        if plyr1.colliderect(tile1):
+            #vertical collisions
+            if plyr.upwards:
+                aboveCollisions.append(tile)
+            elif plyr.falling:
+                belowCollisions.append(tile)
+
+            #horizontal collisions
+            if plyr.right:
+                rightCollisions.append(tile)
+            elif plyr.left:
+                leftCollisions.append(tile)
+    if len(belowCollisions) != 0 and len( rightCollisions) !=0 and len(leftCollisions) !=0:
+        tile = belowCollisions[0]
+        plyr.y = tile.y - plyr.height
+        plyr.floor = True
+        plyr.rightCol = False
+        plyr.leftCol = False
+        plyr.topCol = False
+    elif len(aboveCollisions) !=0 and len(rightCollisions) !=0 and len(leftCollisions) !=0:
+        tile = aboveCollisions[0]
+        plyr.y = tile.y + tile.height
+        plyr.floor = False
+        plyr.rightCol = False
+        plyr.leftCol = False
+        plyr.topCol = True
+    elif len(rightCollisions) !=0:
+        tile = rightCollisions[0]
+        plyr.x = tile.x - plyr.width
+        plyr.rightCol = True
+        plyr.leftCol = False
+    elif len(leftCollisions) !=0:
+        tile = leftCollisions[0]
+        plyr.x = tile.x + tile.width
+        plyr.rightCol = False
+        plyr.leftCol = True
+
+
+
+
+    # rCollisionTile = check_right(tiles)
+    #
+    #
+    # lCollisionTile = check_left(tiles)
+    #
+    # tCollisionTile = check_top(tiles)
+    #
+    #fCollisionTile = check_floor(tiles)
+    # print(plyr.x, plyr.y)
+    #
+    # if rCollisionTile is None or lCollisionTile is None:
+    #     print(plyr.x, plyr.y)
+    #     boostleft(rCollisionTile)
+    #     print(plyr.x, plyr.y)
+    #     boostRight(lCollisionTile)
+    #
+    # print(plyr.x, plyr.y)
+    #boostUp(fCollisionTile)
+    # print(plyr.x, plyr.y)
+    # #boostDown(tCollisionTile)
+
+
+
+
     pg.display.update()
+
+
+
+# def boostLeft(tile):
+#     ##boostleft
+#     if tile is not None:
+#         plyr.x = tile.x - plyr.width
+# def boostRight(tile):
+#     ##boostRight
+#     if tile is not None:
+#         plyr.x = tile.x + tile.width
+# def boostUp(tile):
+#     print(str(plyr.y))
+#     if tile is not None:
+#         plyr.y = tile.y - plyr.height
+#         print(str(plyr.y))
+# def boostDown(tile):
+#     if tile is not None:
+#         plyr.y = tile.y + tile.height
+
+
 
 
 def check_floor(tiles):
     """Check if the player is standing on the floor."""
-    floor = False
+    collision = False
+    collidingTile = None
     for tile in tiles:
-        if plyr.y + plyr.height >= tile.y and plyr.y + plyr.height <= tile.y + tile.height:
-            if ((plyr.x >= tile.x and plyr.x <= tile.x + tile.width) or
-                    (plyr.x + plyr.width >= tile.x and plyr.x + plyr.width <= tile.x + tile.width)):
-                floor = True
-                plyr.y = tile.y - plyr.height
+        rightBoundary = plyr.hitbox[0] + plyr.hitbox[2]
+        bottomBoundary = plyr.hitbox[1] + plyr.hitbox[3]
+        leftBoundary = plyr.hitbox[0]
+        if bottomBoundary >= tile.y and bottomBoundary < tile.y + tile.height and ((leftBoundary > tile.x and leftBoundary < tile.x + tile.width) or (rightBoundary > tile.x and rightBoundary < tile.x + tile.width)):
+            collision = True
+            collidingTile = tile
 
-    plyr.setFloor(floor)
+
+    plyr.setFloor(collision)
+
+    return tile
 
 
 def check_top(tiles):
     """Check if top of player is hitting tile."""
     collision = False
+    collidingTile = None
     for tile in tiles:
-        if plyr.y >= tile.y and plyr.y <= tile.y + tile.height:
-            if ((plyr.x >= tile.x and plyr.x <= tile.x + tile.width) or
-                    (plyr.x + plyr.width + 7 >= tile.x and plyr.x + plyr.width + 7 <= tile.x + tile.width)):
-                collision = True
+        rightBoundary = plyr.hitbox[0] + plyr.hitbox[2]
+        topBoundary = plyr.hitbox[1]
+        leftBoundary = plyr.hitbox[0]
+        if topBoundary <= tile.y + tile.height and topBoundary > tile.y and ((leftBoundary > tile.x and leftBoundary < tile.x + tile.width) or (rightBoundary > tile.x and rightBoundary < tile.x + tile.width)):
+            collision = True
+            collidingTile = tile
+
 
     plyr.setTopCol(collision)
+    return tile
 
 
 def check_right(tiles):
     """Check if right of player is hitting tile."""
     collision = False
+    collidingTile = None
     for tile in tiles:
-        if plyr.x + plyr.width >= tile.x and plyr.x + plyr.width <= tile.x + tile.width:
-            if ((plyr.y >= tile.y  and plyr.y <= tile.y + tile.height) or
-                    (plyr.y + plyr.height-7 >= tile.y and plyr.y + plyr.height-7 <= tile.y + tile.height)):
-                collision = True
+        rightBoundary = plyr.hitbox[0] + plyr.hitbox[2]
+        topBoundary = plyr.hitbox[1]
+        bottomBoundary = plyr.hitbox[1] + plyr.hitbox[3]
+        if rightBoundary >= tile.x and rightBoundary < tile.x + tile.width and ((bottomBoundary > tile.y and bottomBoundary < tile.y + tile.height) or (topBoundary > tile.y and topBoundary < tile.y + tile.height)):
+            collision = True
+            collidingTile = tile
+
 
     plyr.setRightCol(collision)
+    return tile
 
 
 def check_left(tiles):
     """Check if left of player is hitting tile."""
     collision = False
+    collidingTile = None
     for tile in tiles:
-        if plyr.x >= tile.x and plyr.x <= tile.x + tile.width:
-            if ((plyr.y >= tile.y and plyr.y <= tile.y + tile.height) or
-                    (plyr.y + plyr.height >= tile.y and plyr.y + plyr.height<= tile.y + tile.height)):
-                collision = True
+        leftBoundary = plyr.hitbox[0]
+        topBoundary = plyr.hitbox[1]
+        bottomBoundary = plyr.hitbox[1] + plyr.hitbox[3]
+        if leftBoundary <= tile.x + tile.width and leftBoundary > tile.x and ((bottomBoundary > tile.y and bottomBoundary < tile.y + tile.height) or (topBoundary > tile.y and topBoundary < tile.y + tile.height)):
+            collision = True
+            collidingTile = tile
+
 
     plyr.setLeftCol(collision)
+    return tile
 
 
 def move_bullets():
     global bullets
     for bullet in bullets:
-        if bullet.x < 700 and bullet.x > 0:
+        if bullet.x < 500 and bullet.x > 0:
             bullet.x += bullet.vel  # Moves the bullet by its vel
         else:
             bullets.pop(bullets.index(bullet))
