@@ -11,8 +11,6 @@ Game in Python (pygame) for IC HACK 2020
 * Pygame modules: https://www.pygame.org/wiki/GettingStarted
 
 ### Running
-Simply run **game.py** in the game folder.
-
-e.g. with `python3 game.py`
+Simply run **game.py** in the game folder (e.g. with `python3 game.py`)
 
 **Enjoy! 💃🏻💃🏻🌪**
