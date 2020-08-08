@@ -215,10 +215,10 @@ def load_map(path):
     return game_map
 
 
-game_map = load_map('game/Map')
-game_map2 = load_map('game/Map2')
-game_map3 = load_map('game/Map3')
-game_map4 = load_map('game/Map4')
+game_map = load_map('Map')
+game_map2 = load_map('Map2')
+game_map3 = load_map('Map3')
+game_map4 = load_map('Map4')
 
 Carpet_Floor = pygame.image.load('images/huxley_top.png')
 Carpet_Floor = pygame.transform.scale(Carpet_Floor, (TILE_SIZE, TILE_SIZE))
